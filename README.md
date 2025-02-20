@@ -1,5 +1,5 @@
 # GARBSHIT: Garb's Self-Indulgent Joker Pack
-![Garb's Soul (Legendary Joker)](https://imgur.com/a/5P2zA3J)
+![Garb's Soul (Legendary Joker)](https://imgur.com/AvxjWXq)
 Hi! I'm Garb, I make Jokers!
 
 Every Joker and art in this mod is made by me unless stated otherwise
