@@ -1247,7 +1247,7 @@ SMODS.Joker {
 					G.E_MANAGER:add_event(Event({
 						func = function()
 							v:juice_up()
-							v:set_edition(poll_edition("Abadeus", nil, true, true))
+							v:set_edition(poll_edition("Abadeus", nil, true, true), true, true)
 							return true
 						end
 					}))
