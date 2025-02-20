@@ -7,3 +7,6 @@ I make these Jokers for myself but i figure people might enjoy them, so they're 
 
 There are currently 25 Jokers in this mod, more will be on the way :]
 Check the repository every once in a while for updates
+
+## Special Thanks
+Special thanks to Localthunk for making Balatro and to the Balatro discord (especially the people over on #modding-dev) for helping me whenever I had any issues
