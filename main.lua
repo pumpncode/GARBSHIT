@@ -32,6 +32,13 @@ SMODS.current_mod.config_tab = function()
   }  
 end
 
+SMODS.Atlas({
+	key = "modicon",
+	path = "garb_icon.png",
+	px = 32,
+	py = 32,
+})
+
 SMODS.Atlas{
     key = 'GarbJokers', --atlas key
     path = 'Jokers.png', --atlas' path in (yourMod)/assets/1x or (yourMod)/assets/2x
@@ -1059,7 +1066,8 @@ SMODS.Joker {
   loc_txt = {
     name = 'Gender Equality',
     text = {
-	  "All {C:attention}Queens{} are considered as {C:attention}Kings{}"
+	  "All {C:attention}Queens{} are treated like", 
+    "they were {C:attention}Kings{}"
     }
   },
   config = { extra = { chips = 0, chip_gain = 10 } },
