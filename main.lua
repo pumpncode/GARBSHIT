@@ -1392,7 +1392,7 @@ SMODS.Joker {
             end
     end
 	
-    if context.end_of_round or context.before and G.GAME.current_round.hands_played > 0 then
+    if context.end_of_round or context.after and G.GAME.current_round.hands_played > 0 then
             for k, v in pairs(G.GAME.probabilities) do 
                 G.GAME.probabilities[k] = 1
             end
