@@ -873,7 +873,7 @@ SMODS.Joker {
     }
   },
   -- Extra is empty, because it only happens once. If you wanted to copy multiple cards, you'd need to restructure the code and add a for loop or something.
-  config = { extra = {odds = 10} },
+  config = { extra = {odds = 8} },
   rarity = 3,
   atlas = 'GarbJokers',
   pos = { x = 1, y = 5 },
