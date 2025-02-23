@@ -1215,7 +1215,7 @@ SMODS.Joker {
     "{C:inactive}(Currently {X:mult,C:white} X#1# {} Mult)"
     }
   },
-  config = { extra = { Xmult = 1, odds = 4, Xmult_gain = 0.5 } },
+  config = { extra = { Xmult = 1, odds = 4, Xmult_gain = 0.75 } },
   loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.Xmult, G.GAME.probabilities.normal, card.ability.extra.odds, card.ability.extra.Xmult_gain } }
   end,
