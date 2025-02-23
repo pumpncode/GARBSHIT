@@ -1203,6 +1203,70 @@ loc_vars = function(self, info_queue, card)
   end
 }
 
+SMODS.Joker {
+  key = 'angel',
+  loc_txt = {
+    name = 'The Angel of Salt',
+    text = {
+    "{C:green}#2# in #3#{} chance to destroy",
+    "each scored {C:attention}Stone{} card",
+    "This Joker gains {X:mult,C:white} X#4# {} Mult",
+    "for card {C:attention}destroyed{} this way",
+    "{C:inactive}(Currently {X:mult,C:white} X#1# {} Mult)"
+    }
+  },
+  config = { extra = { Xmult = 1, odds = 4, Xmult_gain = 0.5 } },
+  loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.Xmult, G.GAME.probabilities.normal, card.ability.extra.odds, card.ability.extra.Xmult_gain } }
+  end,
+  rarity = 3,
+  atlas = 'GarbJokers',
+  pos = { x = 2, y = 7 },
+  cost = 7,
+
+    unlocked = true, --where it is unlocked or not: if true, 
+    discovered = true, --whether or not it starts discovered
+    blueprint_compat = true, --can it be blueprinted/brainstormed/other
+    eternal_compat = true, --can it be eternal
+    perishable_compat = true, --can it be perishable
+  
+  calculate = function(self, card, context)
+    if context.individual and context.cardarea == G.play and not context.blueprint then
+    local _card = context.other_card
+                        if _card.ability.name == 'Stone Card' and pseudorandom('Salt') < G.GAME.probabilities.normal/card.ability.extra.odds then
+                          _card.destroyme = true
+                          G.E_MANAGER:add_event(Event({
+                            func = function()
+                              _card:start_dissolve(nil, _first_dissolve)
+                              return true
+                            end
+                          }))
+                          card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_gain
+                        return {
+                          message = "Absorbed!",
+                          card = card,
+                        }
+                      end
+    end
+
+    if context.destroying_card and context.destroying_card.destroyme then
+      return{
+          remove = true,
+      }
+  end
+
+
+    if context.joker_main then
+      return {
+        Xmult_mod = card.ability.extra.Xmult,
+        message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } },
+        card = card
+      }
+    end
+
+  end
+}
+
  -- LEGENDARIES
  
  
@@ -1392,7 +1456,7 @@ SMODS.Joker {
             end
     end
 	
-    if context.end_of_round or context.after and G.GAME.current_round.hands_played > 0 then
+    if context.end_of_round or context.after then
             for k, v in pairs(G.GAME.probabilities) do 
                 G.GAME.probabilities[k] = 1
             end
@@ -1522,6 +1586,7 @@ SMODS.Joker {
               if ut.config.center.key == "c_hanged_man" then
                 for i = 1, #G.hand.cards do
                     local _card = G.hand.cards[i]
+                    _card.destroyme = true
                     _card:start_dissolve(nil, _first_dissolve)
                 end
               end
@@ -1634,6 +1699,12 @@ SMODS.Joker {
                   end}))
               end
           end
+
+          if context.destroying_card and context.destroying_card.destroyme then
+            return{
+                remove = true,
+            }
+        end
   end
 }
 assert(SMODS.load_file('unleashed_tarots.lua'))()
