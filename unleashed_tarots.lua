@@ -12,11 +12,11 @@ SMODS.Consumable:take_ownership("c_fool", {
         }}
       }
       if not (not fool_c or fool_c.name == 'The Fool' or fool_c == nil) then
-      if next(find_joker("j_garb_scopacane")) then
-      info_queue[#info_queue+1] = {set = "Other", key = "mega_fool", specific_vars = {last_tarot_planet}} 
-      end
       -- info_queue[#info_queue+1] = {set = "Tarot", key = G.GAME.last_tarot_planet, specific_vars = { }} 
       info_queue[#info_queue+1] = G.P_CENTERS[G.GAME.last_tarot_planet]
+      end  
+      if next(find_joker("j_garb_scopacane")) then
+        info_queue[#info_queue+1] = {set = "Other", key = "mega_fool", specific_vars = {last_tarot_planet}} 
       end  
       return { vars = {last_tarot_planet}, main_end = main_end }
     end
