@@ -1363,7 +1363,7 @@ SMODS.Joker {
     name = 'Sara :3',
     text = {
       "On {C:attention}first hand{} of round,",
-	  "add a permanent copy of",
+	    "add a permanent copy of",
       "all scored {C:attention}Glass Cards{} to deck",
       "and draw them to {C:attention}hand",
     }
@@ -1392,12 +1392,14 @@ SMODS.Joker {
   calculate = function(self, card, context)
 
     if context.individual and context.cardarea == G.play and G.GAME.current_round.hands_played == 0 then
-                        for i = 1, #context.scoring_hand do
-						local card = context.other_card
+						            local card = context.other_card
+                        if card == context.scoring_hand[no_retrigger] then return false end
+                        
                         if card.ability.name == 'Glass Card' then
-                            G.playing_card = (G.playing_card and G.playing_card + i) or i
+                            G.playing_card = (G.playing_card and G.playing_card + 1) or 1
                             local _card = copy_card(context.other_card, nil, nil, G.playing_card)
                             _card:add_to_deck()
+
                             G.deck.config.card_limit = G.deck.config.card_limit + 1
                             table.insert(G.playing_cards, _card)
                             G.hand:emplace(_card)
@@ -1409,13 +1411,17 @@ SMODS.Joker {
                                     return true
                                 end
                             })) 
+
+                            for i = 1, #context.scoring_hand do
+                            if card == context.scoring_hand[i] then no_retrigger = i end
+                            end
+
                             return {
                                 message = localize('k_copied_ex'),
                                 colour = G.C.CHIPS,
                                 card = card,
                                 playing_cards_created = {true}
                             }
-						end
       end
     end
   end
@@ -1709,6 +1715,71 @@ SMODS.Joker {
 }
 assert(SMODS.load_file('unleashed_tarots.lua'))()
 
+SMODS.Joker {
+  key = 'eleo',
+  loc_txt = {
+    name = 'Eleoblade',
+    text = {
+    "This Joker gains {X:mult,C:white} X#2# {} Mult",
+    "every time a {C:attention}Steel{} or {C:attention}Gold{} card's",
+    "effect is triggered",
+    "{C:inactive}(Currently {X:mult,C:white} X#1# {} {C:inactive}Mult)"
+    }
+  },
+  -- Extra is empty, because it only happens once. If you wanted to copy multiple cards, you'd need to restructure the code and add a for loop or something.
+  config = { extra = {Xmult = 1, Xmult_gain = 0.25} },
+  rarity = 4,
+  atlas = 'GarbJokers',
+  pos = { x = 3, y = 7 },
+  
+  -- soul_pos sets the soul sprite, only used in vanilla for legenedaries and Hologram.
+  soul_pos = { x = 0, y = 8 },
+  cost = 20,
+
+  loc_vars = function(self, info_queue, card)
+    info_queue[#info_queue+1] = G.P_CENTERS.m_steel
+    info_queue[#info_queue+1] = G.P_CENTERS.m_gold
+    return { vars = { card.ability.extra.Xmult, card.ability.extra.Xmult_gain} }
+  end,
+
+    unlocked = true, --where it is unlocked or not: if true, 
+    discovered = true, --whether or not it starts discovered
+    blueprint_compat = false, --can it be blueprinted/brainstormed/other
+    eternal_compat = true, --can it be eternal
+    perishable_compat = false, --can it be perishable
+	
+   calculate = function(self, card, context)
+   if context.individual and not context.end_of_round and context.cardarea == G.hand and not context.blueprint then
+      local _card = context.other_card
+      if _card.config.center == G.P_CENTERS.m_steel and not _card.debuff then
+        card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_gain
+        return {
+          message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } },
+          card = card
+        }
+      end
+   end
+
+   if not context.individual and context.end_of_round and context.cardarea == G.hand and not context.blueprint then
+    local _card = context.other_card
+    if _card.config.center == G.P_CENTERS.m_gold and not _card.debuff then
+      card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_gain
+      card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_xmult', vars = {card.ability.extra.Xmult}}})
+      return {
+        card = card
+      }
+    end
+ end
+      
+      if context.joker_main and card.ability.extra.Xmult > 1 then
+        return {
+          Xmult_mod = card.ability.extra.Xmult,
+          message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } },
+          card = card
+        }
+      end
+   end
+}
 ----------------------------------------------
 ------------MOD CODE END----------------------
     
