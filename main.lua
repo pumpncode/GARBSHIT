@@ -575,7 +575,7 @@ SMODS.Joker {
                   Xmult_mod = card.ability.extra.Xmult,
 									message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } },
 									card = card
-                                }
+                }
     end
   end
 }
@@ -1009,6 +1009,43 @@ SMODS.Joker {
       return {
         mult_mod = card.ability.extra.mult,
         message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
+      }
+    end
+  end
+}
+
+SMODS.Joker {
+  key = 'missile',
+  loc_txt = {
+    name = 'Magic Missile',
+    text = {
+      "{X:mult,C:white} X#1# {} Mult if {C:attention}poker hand{}",
+      "is a {C:attention}High Card{}"
+    }
+  },
+  -- Extra is empty, because it only happens once. If you wanted to copy multiple cards, you'd need to restructure the code and add a for loop or something.
+  config = { extra = {Xmult = 2} },
+  rarity = 2,
+  atlas = 'GarbJokers',
+  pos = { x = 1, y = 8 },
+  
+    unlocked = true, --where it is unlocked or not: if true, 
+    discovered = true, --whether or not it starts discovered
+    blueprint_compat = false, --can it be blueprinted/brainstormed/other
+    eternal_compat = true, --can it be eternal
+    perishable_compat = true, --can it be perishable
+	cost = 4,
+	loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.Xmult } }
+  end,
+	
+   calculate = function(self, card, context)
+   	
+	if context.joker_main and context.scoring_name == "High Card" then
+      -- Tells the joker what to do. In this case, it pulls the value of mult from the config, and tells the joker to use that variable as the "mult_mod".
+      return {
+        Xmult_mod = card.ability.extra.Xmult,
+        message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } }
       }
     end
   end
@@ -1764,12 +1801,28 @@ SMODS.Joker {
     local _card = context.other_card
     if _card.config.center == G.P_CENTERS.m_gold and not _card.debuff then
       card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_gain
+      for i = 1, #G.hand.cards do
+        if _card == G.hand.cards[i] then no_retrigger = i end
+      end      
       card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_xmult', vars = {card.ability.extra.Xmult}}})
       return {
         card = card
       }
     end
  end
+
+ if context.individual and context.end_of_round and context.cardarea == G.hand and not context.blueprint then
+  local _card = context.other_card
+  if _card.config.center == G.P_CENTERS.m_gold and not _card.debuff then
+      if _card == G.hand.cards[no_retrigger] then 
+        card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_gain
+        card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_xmult', vars = {card.ability.extra.Xmult}}})    
+      end
+    return {
+      card = card
+    }
+  end
+end
       
       if context.joker_main and card.ability.extra.Xmult > 1 then
         return {
