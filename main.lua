@@ -453,7 +453,7 @@ SMODS.Joker {
     name = "Essence of Devil's Deal",
     text = {
 	  "When {C:attention}Blind{} is selected,",
-      "{C:red}destroy{} all {C:red}debuffed{} cards"
+    "{C:red}destroy{} all {C:red}debuffed{} cards"
     }
   },
 
@@ -799,7 +799,7 @@ SMODS.Joker {
   loc_txt = {
     name = 'Midas Bomb',
     text = {
-      "Sell this card to",
+    "Sell this card to",
 	  "{C:red}destroy{} all {C:attention}Jokers{} and",
 	  "earn {C:money}7x the sell value{} of all",
 	  "{C:attention}Jokers{} destroyed this way"
@@ -982,7 +982,7 @@ SMODS.Joker {
   
     unlocked = true, --where it is unlocked or not: if true, 
     discovered = true, --whether or not it starts discovered
-    blueprint_compat = false, --can it be blueprinted/brainstormed/other
+    blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
 	cost = 2,
@@ -992,7 +992,7 @@ SMODS.Joker {
 	
    calculate = function(self, card, context)
    
-    if context.individual and context.cardarea == G.play then
+    if context.individual and context.cardarea == G.play and not context.blueprint then
 
 		G.E_MANAGER:add_event(Event({
 			func = function()
@@ -1030,7 +1030,7 @@ SMODS.Joker {
   
     unlocked = true, --where it is unlocked or not: if true, 
     discovered = true, --whether or not it starts discovered
-    blueprint_compat = false, --can it be blueprinted/brainstormed/other
+    blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
 	cost = 4,
@@ -1068,7 +1068,7 @@ SMODS.Joker {
   
     unlocked = true, --where it is unlocked or not: if true, 
     discovered = true, --whether or not it starts discovered
-    blueprint_compat = false, --can it be blueprinted/brainstormed/other
+    blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
 	cost = 1,
@@ -1842,7 +1842,7 @@ SMODS.Joker {
 
     unlocked = true, --where it is unlocked or not: if true, 
     discovered = true, --whether or not it starts discovered
-    blueprint_compat = false, --can it be blueprinted/brainstormed/other
+    blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = false, --can it be perishable
 	
