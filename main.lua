@@ -1315,14 +1315,14 @@ SMODS.Joker {
     }
   },
   -- Extra is empty, because it only happens once. If you wanted to copy multiple cards, you'd need to restructure the code and add a for loop or something.
-  config = { extra = {mult = 0, mult_gain = 3} },
+  config = { extra = {mult = 0, mult_gain = 2} },
   rarity = 2,
   atlas = 'GarbJokers',
-  pos = { x = 1, y = 0 },
+  pos = { x = 2, y = 8 },
   
     unlocked = true, --where it is unlocked or not: if true, 
     discovered = true, --whether or not it starts discovered
-    blueprint_compat = false, --can it be blueprinted/brainstormed/other
+    blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
 	cost = 2,
@@ -1331,7 +1331,7 @@ SMODS.Joker {
   end,
 	
   calculate = function(self, card, context)
-   if context.discard then
+   if context.discard and not context.blueprint then
     if #context.full_hand == 1 and context.full_hand[1]:is_face() then
       context.full_hand[1]:start_dissolve(nil, false)
       play_sound('slice1', 0.96+math.random()*0.08)
@@ -1343,6 +1343,16 @@ SMODS.Joker {
       }
     end
    end
+
+   if context.selling_card and context.card.config.center_key == "j_baron" and not context.blueprint then
+    play_sound('slice1', 0.96+math.random()*0.08)
+    card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
+    return {
+      message = 'Upgraded!',
+      card = card
+    }
+  end
+ 
 
    if context.joker_main then
     return {
