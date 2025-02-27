@@ -101,6 +101,23 @@ SMODS.Atlas{
 	volume = 0.5
 	}
 
+  
+  SMODS.Sound {
+    key = "jimboss_defeat",
+    path = {
+        ["default"] = "jimboss_defeat.ogg"
+    },
+	volume = 0.5
+	}
+
+  SMODS.Sound {
+    key = "jimboss_hit",
+    path = {
+        ["default"] = "jimboss_hit.wav"
+    },
+	volume = 0.5
+	}
+
   SMODS.Sound {
     key = "music_fukkireta",
     path = {
@@ -720,10 +737,10 @@ SMODS.Joker {
         }
     end
 	
-		if context.end_of_round and G.GAME.chips / G.GAME.blind.chips < 2 then 
+		if context.end_of_round and G.GAME.chips / G.GAME.blind.chips < 2 and context.cardarea == G.jokers then 
 			local deletable_jokers = {}
 			local _first_dissolve = nil
-			play_sound('garb_surge', 1, 0.08)
+			play_sound('garb_surge', 1, 0.6)
 			for k, v in pairs(G.jokers.cards) do
 				if not v.ability.eternal then deletable_jokers[#deletable_jokers + 1] = v end
 			end
@@ -1278,10 +1295,14 @@ SMODS.Joker {
                             end
                           }))
                           card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_gain
+                        if card.ability.extra.Xmult > 1 then
                         return {
                           message = "Absorbed!",
                           card = card,
                         }
+                      else
+                        return false
+                      end
                       end
     end
 
@@ -1364,6 +1385,60 @@ SMODS.Joker {
   end
 }
 
+SMODS.Joker {
+  key = 'jimboss',
+  loc_txt = {
+    name = 'Jimboss',
+    text = {
+    "{X:chips,C:white} HP: {C:attention} #1# {}/{C:attention} #3#{}",
+    "{C:money}+#2#${} when {C:attention}defeated{}",
+	  "{C:inactive}(HP and reward also",
+    "{C:inactive}increase when defeated)"
+    }
+  },
+  -- Extra is empty, because it only happens once. If you wanted to copy multiple cards, you'd need to restructure the code and add a for loop or something.
+  config = { extra = {HP = 1000, money = 5, maxHP = 1000} },
+  rarity = 3,
+  atlas = 'GarbJokers',
+  pos = { x = 3, y = 8 },
+  
+    unlocked = true, --where it is unlocked or not: if true, 
+    discovered = true, --whether or not it starts discovered
+    blueprint_compat = true, --can it be blueprinted/brainstormed/other
+    eternal_compat = true, --can it be eternal
+    perishable_compat = true, --can it be perishable
+	cost = 2,
+	loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.HP, card.ability.extra.money, card.ability.extra.maxHP} }
+  end,
+	
+   calculate = function(self, card, context)
+	
+	if context.end_of_round and context.cardarea == G.jokers then
+      play_sound('garb_jimboss_hit', 1.3 + math.random()*0.1, 0.8)
+      card.ability.extra.HP = card.ability.extra.HP - G.GAME.chips
+      if card.ability.extra.HP <= 0 then
+        play_sound('coin1')
+        play_sound('garb_jimboss_defeat', 0.9 + math.random()*0.1, 0.8)
+        card.ability.extra.maxHP = card.ability.extra.maxHP * 10
+        -- ease_dollars(card.ability.extra.money, true)    
+        card.ability.extra.money = card.ability.extra.money + 10
+        card.ability.extra.HP = card.ability.extra.maxHP
+        return {
+          message = "Defeated!",
+          dollars = card.ability.extra.money,
+          colour = G.C.MONEY
+          card = card
+        }
+      end    
+      return {
+        message = "Damage!",
+        card = card
+      }
+  end
+
+  end
+}
 
  -- LEGENDARIES
  
