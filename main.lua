@@ -1426,8 +1426,8 @@ SMODS.Joker {
         card.ability.extra.HP = card.ability.extra.maxHP
         return {
           message = "Defeated!",
-          dollars = card.ability.extra.money,
-          colour = G.C.MONEY
+          dollars = card.ability.extra.money-10,
+          colour = G.C.MONEY,
           card = card
         }
       end    
