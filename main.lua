@@ -712,7 +712,7 @@ SMODS.Joker {
     }
   },
   -- Extra is empty, because it only happens once. If you wanted to copy multiple cards, you'd need to restructure the code and add a for loop or something.
-  config = { extra = {Xmult = 10} },
+  config = { extra = {Xmult = 8} },
   rarity = 3,
   atlas = 'GarbJokers',
   pos = { x = 1, y = 4 },
@@ -1397,7 +1397,7 @@ SMODS.Joker {
     }
   },
   -- Extra is empty, because it only happens once. If you wanted to copy multiple cards, you'd need to restructure the code and add a for loop or something.
-  config = { extra = {HP = 1000, money = 5, maxHP = 1000} },
+  config = { extra = {HP = 1000, money = 5, maxHP = 1000, scale = 10} },
   rarity = 3,
   atlas = 'GarbJokers',
   pos = { x = 3, y = 8 },
@@ -1420,13 +1420,13 @@ SMODS.Joker {
       if card.ability.extra.HP <= 0 then
         play_sound('coin1')
         play_sound('garb_jimboss_defeat', 0.9 + math.random()*0.1, 0.8)
-        card.ability.extra.maxHP = card.ability.extra.maxHP * 10
+        card.ability.extra.maxHP = card.ability.extra.maxHP * card.ability.extra.scale
         -- ease_dollars(card.ability.extra.money, true)    
-        card.ability.extra.money = card.ability.extra.money + 10
+        card.ability.extra.money = card.ability.extra.money + card.ability.extra.scale/2
         card.ability.extra.HP = card.ability.extra.maxHP
         return {
           message = "Defeated!",
-          dollars = card.ability.extra.money-10,
+          dollars = card.ability.extra.money-card.ability.extra.scale/2,
           colour = G.C.MONEY,
           card = card
         }
