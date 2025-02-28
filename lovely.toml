@@ -1,0 +1,51 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 9999999
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "function Card:add_to_deck(from_debuff)"
+position = "after"
+payload = '''
+
+    local suit_jokers = {"j_greedy_joker", "j_lusty_joker", "j_wrathful_joker", "j_gluttenous_joker"}
+    local have_jokers = {}
+    for i = 1, #suit_jokers do
+        if self.config.center.key == suit_jokers[i] then
+            for m = 1, #suit_jokers do
+                if m ~= i then
+                    if next(SMODS.find_card(suit_jokers[m])) then have_jokers[m] = suit_jokers[i] else have_jokers = {} end
+                end  
+            end
+        end
+        if #have_jokers == 3 then
+            check_for_unlock({ type = "colorful_jonk" })
+        end
+    end
+    '''
+match_indent = false
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "if self.ability.name == 'Black Hole' then"
+position = "after"
+payload = '''check_for_unlock({ type = "black_hole" })'''
+match_indent = true
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "for i = 1, self.ability.extra.destroy do destroyed_cards[#destroyed_cards+1] = temp_hand[i] end"
+position = "after"
+payload = '''
+            local stones = {}
+            for i = 1, #destroyed_cards do if destroyed_cards[i].ability.name == 'Stone Card' then stones[#stones+1] = destroyed_cards[i] end end
+            if #stones == 5 then check_for_unlock({ type = "salt" }) end
+'''
+match_indent = true
+overwrite = false

@@ -10,6 +10,7 @@
 
 local config = SMODS.current_mod.config
 
+assert(SMODS.load_file("achievements.lua"))()
 
 SMODS.current_mod.config_tab = function()
   garb_nodes = {{n=G.UIT.R, config={align = "cm"}, nodes={
@@ -151,8 +152,8 @@ SMODS.Joker {
   pos = { x = 0, y = 0 },
   cost = 3,
 
-    unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    unlocked = true, 
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
@@ -202,8 +203,8 @@ SMODS.Joker {
   pos = { x = 3, y = 0 },
   cost = 7,
   
-    unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    unlocked = true, 
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
@@ -254,8 +255,8 @@ SMODS.Joker {
   -- Cost of card in shop.
   cost = 7,
   
-    unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    unlocked = true, 
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = false, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
@@ -293,8 +294,8 @@ SMODS.Joker {
     }
   },
   
-    unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    unlocked = true, 
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
@@ -333,6 +334,11 @@ SMODS.Joker {
 	  "{C:hearts}Heart{} card, and a {C:spades}Spade{} card,",
 	  "all scoring cards become",
 	  "{C:dark_edition}Polychrome{} after scoring"
+    },
+    unlock = {
+      "Have the {E:1,C:diamonds}Greedy{}, {E:1,C:hearts}Lusty{},",
+      "{E:1,C:spades}Wrathful{} and {E:1,C:clubs}Gluttonous{}",
+      "Jokers at the same time"
     }
   },
   config = { extra = {} },
@@ -340,8 +346,8 @@ SMODS.Joker {
   atlas = 'GarbJokers',
   pos = { x = 2, y = 3 },
   
-    unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    unlocked = false, 
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = false, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
@@ -351,6 +357,12 @@ SMODS.Joker {
     return { vars = { } }
   end,
 	
+  check_for_unlock = function(self, args)
+    if args.type == "colorful_jonk" then
+      return true
+    end
+  end,
+
    calculate = function(self, card, context)
    
     if context.after then
@@ -412,8 +424,8 @@ SMODS.Joker {
     }
   },
   
-    unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    unlocked = true, 
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
@@ -430,6 +442,7 @@ SMODS.Joker {
    calculate = function(self, card, context)
 
     if context.game_over then
+      check_for_unlock({ type = "devils_deal" })
                     G.E_MANAGER:add_event(Event({
 						func = function() 
 							local front = pseudorandom_element(G.P_CARDS, pseudoseed('devil'))
@@ -450,7 +463,11 @@ SMODS.Joker {
                             G.hand_text_area.blind_chips:juice_up()
                             G.hand_text_area.game_chips:juice_up()
                             play_sound('tarot1')
+                            if SMODS.shatters(card) then
+                              card:shatter()
+                            else  
                             card:start_dissolve()
+                            end
                             return true
                         end
 					})) 
@@ -471,6 +488,9 @@ SMODS.Joker {
     text = {
 	  "When {C:attention}Blind{} is selected,",
     "{C:red}destroy{} all {C:red}debuffed{} cards"
+    },
+    unlock = {
+      "Get saved by {E:1,C:attention}Devil's Deal{}"
     }
   },
 
@@ -479,8 +499,9 @@ SMODS.Joker {
   atlas = 'GarbJokers',
   pos = { x = 0, y = 2 },
   
-    unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    unlocked = false, 
+    unlock_condition = {type = 'devils_deal'},
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = false, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
@@ -488,9 +509,14 @@ SMODS.Joker {
 	loc_vars = function(self, info_queue, card)
     return { vars = { } }
   end,
-	
+
+  check_for_unlock = function(self, args)
+    if args.type == "devils_deal" then
+      return true
+    end
+  end,
+
    calculate = function(self, card, context)
-   
     if context.blind or context.first_hand_drawn then
 		local card = context.other_card
             for k, v in pairs(G.playing_cards) do
@@ -524,8 +550,8 @@ SMODS.Joker {
     info_queue[#info_queue+1] = G.P_CENTERS.m_steel
     return { vars = { card.ability.extra.chips, card.ability.extra.chip_gain } }
   end,
-  unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    unlocked = true, 
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
@@ -573,8 +599,8 @@ SMODS.Joker {
   atlas = 'GarbJokers',
   pos = { x = 3, y = 4 },
   
-    unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    unlocked = true, 
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
@@ -612,8 +638,8 @@ SMODS.Joker {
   atlas = 'GarbJokers',
   pos = { x = 0, y = 5 },
   
-    unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    unlocked = true, 
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = false, --can it be eternal
     perishable_compat = true, --can it be perishable
@@ -678,8 +704,8 @@ SMODS.Joker {
   atlas = 'GarbJokers',
   pos = { x = 3, y = 5 },
   
-    unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    unlocked = true, 
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
@@ -717,8 +743,8 @@ SMODS.Joker {
   atlas = 'GarbJokers',
   pos = { x = 1, y = 4 },
   
-    unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    unlocked = true, 
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
@@ -777,8 +803,8 @@ SMODS.Joker {
   atlas = 'GarbJokers',
   pos = { x = 3, y = 2 },
   
-    unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    unlocked = true, 
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = false, --can it be eternal
     perishable_compat = true, --can it be perishable
@@ -827,8 +853,8 @@ SMODS.Joker {
   atlas = 'GarbJokers',
   pos = { x = 1, y = 2 },
   
-    unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    unlocked = true, 
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = false, --can it be blueprinted/brainstormed/other
     eternal_compat = false, --can it be eternal
     perishable_compat = true, --can it be perishable
@@ -886,6 +912,10 @@ SMODS.Joker {
       "When a {C:planet}Planet{} card is used,",
 	  "{C:green}#3# in #2#{} chance to",
 	  "upgrade every {C:attention}poker hand{}"
+    },
+    unlock = {
+      "Find and use the {E:1,C:spectral}Black Hole{}",
+      "{E:1,C:spectral}Spectral{} Card"
     }
   },
   -- Extra is empty, because it only happens once. If you wanted to copy multiple cards, you'd need to restructure the code and add a for loop or something.
@@ -894,8 +924,8 @@ SMODS.Joker {
   atlas = 'GarbJokers',
   pos = { x = 1, y = 5 },
   
-    unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    unlocked = false, 
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
@@ -904,6 +934,12 @@ SMODS.Joker {
     return { vars = { card.ability.extra.Xmult,card.ability.extra.odds, G.GAME.probabilities.normal} }
   end,
 	
+  check_for_unlock = function(self, args)
+    if args.type == "black_hole" then
+      return true
+    end
+  end,
+
    calculate = function(self, card, context)
     if context.using_consumeable and context.consumeable.ability.set == 'Planet' and pseudorandom('BlackHole') < G.GAME.probabilities.normal/card.ability.extra.odds then
         update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('k_all_hands'),chips = '...', mult = '...', level=''})
@@ -949,8 +985,8 @@ SMODS.Joker {
   atlas = 'GarbJokers',
   pos = { x = 2, y = 5 },
   
-    unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    unlocked = true, 
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
@@ -997,8 +1033,8 @@ SMODS.Joker {
   atlas = 'GarbJokers',
   pos = { x = 0, y = 6 },
   
-    unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    unlocked = true, 
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
@@ -1045,8 +1081,8 @@ SMODS.Joker {
   atlas = 'GarbJokers',
   pos = { x = 1, y = 8 },
   
-    unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    unlocked = true, 
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
@@ -1083,8 +1119,8 @@ SMODS.Joker {
   atlas = 'GarbJokers',
   pos = { x = 2, y = 0 },
   
-    unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    unlocked = true, 
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
@@ -1132,8 +1168,8 @@ SMODS.Joker {
   pos = { x = 1, y = 6 },
   cost = 5,
 
-    unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    unlocked = true, 
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
@@ -1150,7 +1186,6 @@ function Card:get_id()
   return ret
 end
 
-if next(SMODS.find_mod("voc_deckall")) or next(SMODS.find_mod("vocalatro")) then
   SMODS.Joker {
     key = 'teto',
     loc_txt = {
@@ -1159,6 +1194,11 @@ if next(SMODS.find_mod("voc_deckall")) or next(SMODS.find_mod("vocalatro")) then
       "All scored {C:hearts}Kings of Hearts{}",
       "give {X:mult,C:white} X#1# {} Mult",
       "{s:0.8}i fucking love kasane teto{}"
+      },
+      unlock = {
+        "Download and enable the",
+        "{E:1,C:attention}Vocaloid Card Set{}",
+        "or {E:1,C:attention}Vocalatro{} mods"
       }
     },
     config = { extra = { Xmult = 2 } },
@@ -1169,8 +1209,15 @@ if next(SMODS.find_mod("voc_deckall")) or next(SMODS.find_mod("vocalatro")) then
     atlas = 'GarbJokers',
     pos = { x = 0, y = 7 },
     cost = 7,
-      unlocked = true, --where it is unlocked or not: if true, 
-      discovered = true, --whether or not it starts discovered
+
+    check_for_unlock = function(self, args)
+      if next(SMODS.find_mod("voc_deckall")) or next(SMODS.find_mod("vocalatro")) then
+        return true
+      end
+    end,
+  
+      unlocked = false, 
+      discovered = false, --whether or not it starts discovered
       blueprint_compat = true, --can it be blueprinted/brainstormed/other
       eternal_compat = true, --can it be eternal
       perishable_compat = true, --can it be perishable
@@ -1187,7 +1234,6 @@ if next(SMODS.find_mod("voc_deckall")) or next(SMODS.find_mod("vocalatro")) then
       end
     end
   }
-end
 
 
 SMODS.Joker {
@@ -1211,8 +1257,8 @@ SMODS.Joker {
   pos = { x = 1, y = 7 },
   cost = 7,
 
-    unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    unlocked = true, 
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
@@ -1266,6 +1312,10 @@ SMODS.Joker {
     "This Joker gains {X:mult,C:white} X#4# {} Mult",
     "for card {C:attention}destroyed{} this way",
     "{C:inactive}(Currently {X:mult,C:white} X#1# {} Mult)"
+    },
+    unlock = {
+      "Destroy 5 {E:1,C:attention}Stone{} Cards",
+      "using {E:1,C:spectral}Immolate{}"
     }
   },
   config = { extra = { Xmult = 1, odds = 4, Xmult_gain = 0.75 } },
@@ -1277,11 +1327,17 @@ SMODS.Joker {
   pos = { x = 2, y = 7 },
   cost = 7,
 
-    unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    unlocked = false, 
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
+
+    check_for_unlock = function(self, args)
+      if args.type == "salt" then
+        return true
+      end
+    end,
   
   calculate = function(self, card, context)
     if context.individual and context.cardarea == G.play and not context.blueprint then
@@ -1290,7 +1346,11 @@ SMODS.Joker {
                           _card.destroyme = true
                           G.E_MANAGER:add_event(Event({
                             func = function()
+                              if SMODS.shatters(card) then
+                                _card:shatter()
+                              else    
                               _card:start_dissolve(nil, _first_dissolve)
+                              end
                               return true
                             end
                           }))
@@ -1341,8 +1401,8 @@ SMODS.Joker {
   atlas = 'GarbJokers',
   pos = { x = 2, y = 8 },
   
-    unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    unlocked = true, 
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
@@ -1368,6 +1428,7 @@ SMODS.Joker {
    if context.selling_card and context.card.config.center_key == "j_baron" and not context.blueprint then
     play_sound('slice1', 0.96+math.random()*0.08)
     card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
+    check_for_unlock({ type = "regicide" })
     return {
       message = 'Upgraded!',
       card = card
@@ -1392,6 +1453,7 @@ SMODS.Joker {
     text = {
     "{X:chips,C:white} HP: {C:attention} #1# {}/{C:attention} #3#{}",
     "{C:money}+#2#${} when {C:attention}defeated{}",
+    "{s:0.8}(Chips Scored = DMG)",
 	  "{C:inactive}(HP and reward also",
     "{C:inactive}increase when defeated)"
     }
@@ -1402,8 +1464,8 @@ SMODS.Joker {
   atlas = 'GarbJokers',
   pos = { x = 3, y = 8 },
   
-    unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    unlocked = true, 
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
@@ -1451,10 +1513,13 @@ SMODS.Joker {
 	  "If current Blind is a {C:attention}Boss Blind{},",
 	  "add a random {C:attention}Enhancement{},",
 	  "{C:attention} Seal{} or {C:attention}Edition{} to each scored card"
+    },
+    unlock = {
+      "{E:1,s:1.3}?????"
     }
   },
-    unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    unlocked = false, 
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
@@ -1469,6 +1534,10 @@ SMODS.Joker {
   cost = 20,
   -- SMODS specific function, gives the returned value in dollars at the end of round, double checks that it's greater than 0 before returning.
   
+  add_to_deck = function(self, card)
+    check_for_unlock({ type = "discover_abadeus" })
+  end,
+
     calculate = function(self, card, context)
 
     if context.joker_main and G.GAME.blind.boss then
@@ -1539,6 +1608,9 @@ SMODS.Joker {
 	    "add a permanent copy of",
       "all scored {C:attention}Glass Cards{} to deck",
       "and draw them to {C:attention}hand",
+    },
+    unlock = {
+      "{E:1,s:1.3}?????"
     }
   },
   -- Extra is empty, because it only happens once. If you wanted to copy multiple cards, you'd need to restructure the code and add a for loop or something.
@@ -1556,12 +1628,16 @@ SMODS.Joker {
     return { vars = {  } }
   end,
   
-    unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    unlocked = false, 
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = false, --can it be perishable
 	
+	  add_to_deck = function(self, card)
+      check_for_unlock({ type = "discover_sara" })
+    end,
+
   calculate = function(self, card, context)
 
     if context.individual and context.cardarea == G.play and G.GAME.current_round.hands_played == 0 then
@@ -1602,13 +1678,16 @@ SMODS.Joker {
 
 
 SMODS.Joker {
-  key = 'garb',
+  key = 'garb777',
   loc_txt = {
     name = 'Garb',
     text = {
     "On {C:attention}first hand{} of round,",
 	  "all listed probabilities are",
 	  "{C:green}guaranteed"
+    },
+    unlock = {
+      "{E:1,s:1.3}?????"
     }
   },
   -- Extra is empty, because it only happens once. If you wanted to copy multiple cards, you'd need to restructure the code and add a for loop or something.
@@ -1621,12 +1700,16 @@ SMODS.Joker {
   soul_pos = { x = 1, y = 1 },
   cost = 20,
   
-    unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    unlocked = false, 
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = false, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = false, --can it be perishable
-	
+
+	  add_to_deck = function(self, card)
+      check_for_unlock({ type = "discover_garb" })
+    end,
+
    calculate = function(self, card, context)
    
     if context.first_hand_drawn and G.GAME.current_round.hands_played == 0 then
@@ -1660,6 +1743,9 @@ SMODS.Joker {
 	  "the {C:dark_edition}True Arcana{} power of a",
 	  "random {C:tarot}Tarot{} in consumable area",
 	  "{C:inactive}(Unleashed {}{C:tarot}Tarots{}{C:inactive} are consumed){}"
+    },
+    unlock = {
+      "{E:1,s:1.3}?????"
     }
   },
   -- Extra is empty, because it only happens once. If you wanted to copy multiple cards, you'd need to restructure the code and add a for loop or something.
@@ -1672,12 +1758,17 @@ SMODS.Joker {
   soul_pos = { x = 3, y = 6 },
   cost = 20,
   
-    unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    unlocked = false, 
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = false, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = false, --can it be perishable
 	
+	  add_to_deck = function(self, card)
+      check_for_unlock({ type = "discover_scopacane" })
+    end,
+
+
    calculate = function(self, card, context)
    
     local tarots = {}
@@ -1766,7 +1857,11 @@ SMODS.Joker {
                 for i = 1, #G.hand.cards do
                     local _card = G.hand.cards[i]
                     _card.destroyme = true
+                    if SMODS.shatters(card) then
+                      _card:shatter()
+                    else
                     _card:start_dissolve(nil, _first_dissolve)
+                    end
                 end
               end
 
@@ -1897,6 +1992,9 @@ SMODS.Joker {
     "every time a {C:attention}Steel{} or {C:attention}Gold{} card's",
     "effect is triggered",
     "{C:inactive}(Currently {X:mult,C:white} X#1# {} {C:inactive}Mult)"
+    },
+    unlock = {
+      "{E:1,s:1.3}?????"
     }
   },
   -- Extra is empty, because it only happens once. If you wanted to copy multiple cards, you'd need to restructure the code and add a for loop or something.
@@ -1915,12 +2013,18 @@ SMODS.Joker {
     return { vars = { card.ability.extra.Xmult, card.ability.extra.Xmult_gain} }
   end,
 
-    unlocked = true, --where it is unlocked or not: if true, 
-    discovered = true, --whether or not it starts discovered
+    unlocked = false, 
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = false, --can it be perishable
 	
+    
+	  add_to_deck = function(self, card)
+      check_for_unlock({ type = "discover_eleo" })
+    end,
+
+
    calculate = function(self, card, context)
    if context.individual and not context.end_of_round and context.cardarea == G.hand and not context.blueprint then
       local _card = context.other_card

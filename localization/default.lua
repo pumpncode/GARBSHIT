@@ -102,7 +102,20 @@ return {
                     "convert the {C:attention}2 leftmost{} cards",
                     "into the {C:attention}rightmost{} card"
                 }
-                },   
+                },        
          }
+    },
+    
+    misc = {
+        achievement_names = {
+            ach_garb_regicide = "Regicide!",
+            ach_garb_devils_deal = "The Devil's Deal",
+
+        },
+        achievement_descriptions = {
+            ach_garb_regicide = "Guillotine the Baron",
+            ach_garb_devils_deal = "Get saved by Devil's Deal",
+        }
+        
     }
 }
