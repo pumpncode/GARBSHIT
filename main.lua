@@ -1336,7 +1336,7 @@ SMODS.Joker {
     }
   },
   -- Extra is empty, because it only happens once. If you wanted to copy multiple cards, you'd need to restructure the code and add a for loop or something.
-  config = { extra = {mult = 0, mult_gain = 2} },
+  config = { extra = {mult = 0, mult_gain = 3} },
   rarity = 2,
   atlas = 'GarbJokers',
   pos = { x = 2, y = 8 },
@@ -1900,7 +1900,7 @@ SMODS.Joker {
     }
   },
   -- Extra is empty, because it only happens once. If you wanted to copy multiple cards, you'd need to restructure the code and add a for loop or something.
-  config = { extra = {Xmult = 1, Xmult_gain = 0.25} },
+  config = { extra = {Xmult = 1, Xmult_gain = 0.2} },
   rarity = 4,
   atlas = 'GarbJokers',
   pos = { x = 3, y = 7 },
