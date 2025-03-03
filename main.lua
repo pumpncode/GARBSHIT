@@ -5,6 +5,8 @@
 --- BADGE_COLOUR: 7E5A7D
 --- MOD_DESCRIPTION: Garb's silly collection of good and bad jokers.
 --- PREFIX: garb
+--- DEPENDENCIES: [Steamodded>=1.0.0~ALPHA-1418a]
+
 ----------------------------------------------
 ------------MOD CODE -------------------------
 
@@ -1315,7 +1317,7 @@ SMODS.Joker {
     },
     unlock = {
       "Destroy 5 {E:1,C:attention}Stone{} Cards",
-      "using {E:1,C:spectral}Immolate{}"
+      "at once using {E:1,C:spectral}Immolate{}"
     }
   },
   config = { extra = { Xmult = 1, odds = 4, Xmult_gain = 0.75 } },
