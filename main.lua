@@ -1831,6 +1831,7 @@ SMODS.Joker {
                       table.insert(eli, v)
                   end
                 end  
+                if #eli ~= 0 then
                 local chosen = pseudorandom('Scopacane', 1, #eli)
                 alter = eli[chosen]
                   if pseudorandom('Scoparuota') < G.GAME.probabilities.normal/2 then
@@ -1842,6 +1843,7 @@ SMODS.Joker {
                     colour = G.C.PURPLE
                     }
                   end
+                else return { message = "Nope!", colour = G.C.PURPLE } end
               end
 
               if ut.config.center.key == "c_temperance" then
