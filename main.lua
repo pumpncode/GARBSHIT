@@ -916,8 +916,7 @@ SMODS.Joker {
 	  "upgrade every {C:attention}poker hand{}"
     },
     unlock = {
-      "Find and use the {E:1,C:spectral}Black Hole{}",
-      "{E:1,C:spectral}Spectral{} Card"
+      "Find and use the {E:1,C:spectral}Black Hole{} Card"
     }
   },
   -- Extra is empty, because it only happens once. If you wanted to copy multiple cards, you'd need to restructure the code and add a for loop or something.
@@ -931,7 +930,7 @@ SMODS.Joker {
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
-	cost = 10,
+	cost = 8,
 	loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.Xmult,card.ability.extra.odds, G.GAME.probabilities.normal} }
   end,
@@ -1126,7 +1125,7 @@ SMODS.Joker {
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
-	cost = 1,
+	cost = 5,
 	loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.Xmult,card.ability.extra.odds, G.GAME.probabilities.normal} }
   end,
@@ -1408,7 +1407,7 @@ SMODS.Joker {
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
-	cost = 2,
+	cost = 4,
 	loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.mult, card.ability.extra.mult_gain } }
   end,
@@ -1471,7 +1470,7 @@ SMODS.Joker {
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
-	cost = 2,
+	cost = 9,
 	loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.HP, card.ability.extra.money, card.ability.extra.maxHP} }
   end,
