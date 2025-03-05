@@ -9,6 +9,15 @@ return {
                     "to avoid potential crashes"
                 }
             },
+            quadrant_hands = {
+                name = "Quadrant Hand",
+                text = {
+                    "{C:attention}#1#{} levels up", 
+                    "when using {C:planet}Jupiter{}",
+                    "{C:mult}+3{} Mult and",
+                    "{C:chips}+40{} chips"
+                }
+            },
             mega_fool = {
                 name = "True Arcana",
                 text = {

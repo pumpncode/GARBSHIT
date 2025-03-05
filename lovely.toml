@@ -40,6 +40,21 @@ overwrite = false
 [[patches]]
 [patches.pattern]
 target = "card.lua"
+pattern = "if _hand then"
+position = "before"
+payload = '''
+local quadrant_hands = {"garb_blush", "garb_caliginous", "garb_ashen", "garb_pale"}
+for i = 1, #quadrant_hands do
+    if _hand == quadrant_hands[i] then _hand = "Flush" end
+end
+'''
+match_indent = true
+overwrite = false
+
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
 pattern = "for i = 1, self.ability.extra.destroy do destroyed_cards[#destroyed_cards+1] = temp_hand[i] end"
 position = "after"
 payload = '''
@@ -49,3 +64,4 @@ payload = '''
 '''
 match_indent = true
 overwrite = false
+
