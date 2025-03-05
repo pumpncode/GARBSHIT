@@ -133,7 +133,10 @@ SMODS.Atlas{
     end
     
 	}
-  
+
+
+-- JOKERS
+
 SMODS.Joker {
   key = 'corrupted',
   loc_txt = {
@@ -752,11 +755,20 @@ SMODS.Joker {
     perishable_compat = true, --can it be perishable
 	cost = 10,
 	loc_vars = function(self, info_queue, card)
+    if SMODS.find_mod("Talisman") then
+      info_queue[#info_queue+1] = {set = "Other", key = "talisman_warning", specific_vars = {}} 
+    end
     return { vars = { card.ability.extra.Xmult } }
   end,
 	
+   add_to_deck  = function(self, card, context)
+    if SMODS.find_mod("Talisman") then
+      card:start_dissolve(nil, false)
+      return true
+    end
+   end,
+
    calculate = function(self, card, context)
-   	
     if context.joker_main then
 		return {
             Xmult_mod = card.ability.extra.Xmult,
@@ -1472,9 +1484,19 @@ SMODS.Joker {
     perishable_compat = true, --can it be perishable
 	cost = 9,
 	loc_vars = function(self, info_queue, card)
+    if SMODS.find_mod("Talisman") then
+      info_queue[#info_queue+1] = {set = "Other", key = "talisman_warning", specific_vars = {}} 
+    end
     return { vars = { card.ability.extra.HP, card.ability.extra.money, card.ability.extra.maxHP} }
   end,
 	
+   add_to_deck = function(self, card, context)
+   if SMODS.find_mod("Talisman") then
+    card:start_dissolve(nil, false)
+    return true
+   end
+  end,
+
    calculate = function(self, card, context)
 	
 	if context.end_of_round and context.cardarea == G.jokers then

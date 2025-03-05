@@ -1,6 +1,14 @@
 return {
     descriptions = {
         Other = {
+            talisman_warning = {
+                name = "WARNING!",
+                text = {
+                    "This Joker is {C:red}incompatible{} with the {C:attention}Talisman{} mod!",
+                    "When bought, it will instantly {C:red}destroy{} itself",
+                    "to avoid potential crashes"
+                }
+            },
             mega_fool = {
                 name = "True Arcana",
                 text = {
