@@ -134,42 +134,6 @@ SMODS.Atlas{
     
 	}
 
--- POKER HANDS
-
-SMODS.PokerHand {
-  key = 'blush',
-  chips = 110,
-  mult = 9,
-  l_chips = 40,
-  l_mult = 4,
-  example = {
-      { 'S_A',    true },
-      { 'S_5',    true },
-      { 'S_4',    true },
-      { 'S_J',    true },
-      { 'S_3',    true },
-  },
-  loc_txt = {
-      ['en-us'] = {
-          name = 'Blush Flush',
-          description = {
-            "5 cards that share the {C:hearts}heart{} suit"
-          }
-      }
-  },
-  evaluate = function(parts, hand)
-      if next(parts._flush) and next(parts._straight) then
-          local _strush = SMODS.merge_lists(parts._flush, parts._straight)
-          local royal = true
-          for j = 1, #_strush do
-              local rank = SMODS.Ranks[_strush[j].base.value]
-              royal = royal and (rank.key == 'Ace' or rank.key == '10' or rank.face)
-          end
-          if royal then return {_strush} end
-      end
-  end,
-}
-
 -- JOKERS
 
 SMODS.Joker {
