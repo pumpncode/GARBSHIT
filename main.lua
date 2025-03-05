@@ -1697,7 +1697,7 @@ SMODS.Joker {
 
   rarity = 2,
   atlas = 'GarbJokers',
-  pos = { x = 1, y = 0 },
+  pos = { x = 0, y = 9 },
   cost = 5,
 
     unlocked = true, 

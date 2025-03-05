@@ -51,6 +51,21 @@ end
 match_indent = true
 overwrite = false
 
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "local card = create_card(card_type,G.consumeables, nil, nil, nil, nil, _planet, 'blusl')"
+position = "before"
+payload = '''
+local quadrant_hands = {"garb_blush", "garb_caliginous", "garb_ashen", "garb_pale"}
+for i = 1, #quadrant_hands do
+    if G.GAME.last_hand_played == quadrant_hands[i] then _planet = "c_jupiter" end
+end
+'''
+match_indent = true
+overwrite = false
+
+
 
 [[patches]]
 [patches.pattern]
