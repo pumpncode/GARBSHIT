@@ -1748,7 +1748,7 @@ SMODS.Joker {
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
 }
-
+--[[
 SMODS.Joker {
   key = 'kismesis',
   loc_txt = {
@@ -1830,7 +1830,8 @@ SMODS.Joker {
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
 	}
-
+]]
+  
  -- LEGENDARIES
  
  
