@@ -308,7 +308,8 @@ SMODS.Consumable{
     }
   },
   atlas = 'GarbConsumables', pos = { x = 0, y = 0 },
-  hidden = {soul_set = 'Tarot'},
+  hidden = true, 
+  soul_set = 'Tarot', 
   soul_pos = { x = 1, y = 0 },
 
   can_use = function(self, card)
