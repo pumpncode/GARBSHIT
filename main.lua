@@ -10,6 +10,8 @@
 ----------------------------------------------
 ------------MOD CODE -------------------------
 
+-- META STUFF
+
 local config = SMODS.current_mod.config
 
 assert(SMODS.load_file("achievements.lua"))()
@@ -138,8 +140,7 @@ SMODS.Atlas{
     select_music_track = function()
       return next(SMODS.find_card("j_garb_teto")) and config.fukkireta
     end
-    
-	}
+}
 
 -- POKER HANDS
 
@@ -297,6 +298,7 @@ function Card:use_consumeable(area, copier)
 end
 
 -- CONSUMABLES
+
 SMODS.Consumable{
   key = 'aeon',
   set = 'Spectral',
@@ -328,6 +330,7 @@ SMODS.Consumable{
     return true
   end
 }
+
 -- JOKERS
 
 SMODS.Joker {
