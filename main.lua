@@ -365,6 +365,7 @@ loc_vars = function(self, info_queue, card)
   
   calculate = function(self, card, context)
     if context.joker_main then
+      if card.ability.extra.chips >= 100 then check_for_unlock({ type = "corrupted" }) end
       return {
         chip_mod = card.ability.extra.chips,
         message = localize { type = 'variable', key = 'a_chips', vars = { card.ability.extra.chips } }
@@ -374,6 +375,7 @@ loc_vars = function(self, info_queue, card)
     if context.after and not context.blueprint then
 		card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_gain
 		card.ability.extra.chip_gain = pseudorandom('104420', -20, 20)
+    if card.ability.extra.chips <= 0 then card.ability.extra.chips = 0 end
       return {
         message = 'Upgraded?',
         card = card
@@ -820,7 +822,8 @@ SMODS.Joker {
 									card = card
                 }
     end
-  end
+    
+    end
 }
 
 SMODS.Joker {

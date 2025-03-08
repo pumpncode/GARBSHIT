@@ -126,12 +126,23 @@ return {
     misc = {
         achievement_names = {
             ach_garb_regicide = "Regicide!",
-            ach_garb_devils_deal = "The Devil's Deal",
-
+            ach_garb_corr_upgrade = "Upgraded!",
+            ach_garb_neverpunished = "Never punished",
+            ach_garb_criticalfail = "Critical Fail",
+            ach_garb_surged = "SURGED!",
+            ach_garb_rocking = "You Got Me Rocking",
+            ach_garb_snowedin = "Snowed In",
+            ach_garb_jimboss = "BALATRO MUST DIE",
         },
         achievement_descriptions = {
             ach_garb_regicide = "Guillotine the Baron",
-            ach_garb_devils_deal = "Get saved by Devil's Deal",
+            ach_garb_corr_upgrade = "Have Corrupted Joker give 100 Chips or more",
+            ach_garb_neverpunished = "While using Sara, play 5 Glass cards on any hand that isn't the first and have none of them break",
+            ach_garb_criticalfail = "While using Critical Roll, play 5 Lucky cards and have none of them trigger",
+            ach_garb_surged = "Have your Jokers destroyed by THE SURGE",
+            ach_garb_rocking = "Create 25 Stone cards in the same run using Rolling Stone",
+            ach_garb_snowedin = "Have Snowball give more than 5000 Chips at once",
+            ach_garb_jimboss = "Defeat Jimboss 5 times in the same run",
         }
         
     }
