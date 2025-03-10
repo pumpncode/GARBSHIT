@@ -1,5 +1,17 @@
 return {
     descriptions = {
+        Enhanced = {
+			m_garb_infected = {
+				name = "Infected Card",
+				text = {
+                    "{C:mult}+#1#{} Mult",
+					"{C:green}#2# in #3#{} chance to turn adjacent cards",
+                    "held in hand into {C:attention}Infected{} cards",
+					"{C:red}Self-destructs{} after {C:attention}#4#{} rounds",
+				},
+			},
+        },
+
         Other = {
             talisman_warning = {
                 name = "WARNING!",

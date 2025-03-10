@@ -3,7 +3,7 @@
 --- MOD_ID: GARBPACK
 --- MOD_AUTHOR: [garb]
 --- BADGE_COLOUR: 7E5A7D
---- MOD_DESCRIPTION: Garb's silly collection of good and bad jokers.
+--- MOD_DESCRIPTION: Garb's silly collection of good and bad thingamajigs.
 --- PREFIX: garb
 --- DEPENDENCIES: [Steamodded>=1.0.0~ALPHA-1418a]
 
@@ -55,6 +55,13 @@ SMODS.Atlas{
   key = 'GarbConsumables', --atlas key
   path = 'Consumables.png', --atlas' path in (yourMod)/assets/1x or (yourMod)/assets/2x
   px = 65, --width of one card
+  py = 95 -- height of one card
+}
+
+SMODS.Atlas{
+  key = 'GarbEnhancements', --atlas key
+  path = 'Enhancements.png', --atlas' path in (yourMod)/assets/1x or (yourMod)/assets/2x
+  px = 71, --width of one card
   py = 95 -- height of one card
 }
 
@@ -328,6 +335,68 @@ SMODS.Consumable{
       return true end }))
     delay(0.6)
     return true
+  end
+}
+
+-- ENHANCEMENTS
+
+SMODS.Enhancement {
+	key = "infected",
+	atlas = "GarbEnhancements",
+	pos = {x = 0, y = 0},
+	
+    replace_base_card = false,
+    no_suit = false,
+    no_rank = false,
+    always_scores = false,
+	
+	config = {extra = { mult = 10, odds = 4, rounds = 4, mult_gain = 2}},
+	
+	loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.extra.mult, G.GAME.probabilities.normal, card.ability.extra.odds, card.ability.extra.rounds }}
+    end,
+	
+	calculate = function(self, card, context)
+		if context.cardarea == G.play and context.main_scoring then
+			if not card.debuff then
+				return {
+					mult_mod = card.ability.extra.mult,
+          message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
+				}
+			end
+		end
+    
+    if context.cardarea == G.hand and context.main_scoring then
+      for i = 1, #G.hand.cards do
+        if G.hand.cards[i] == card then 
+          if G.hand.cards[i-1] and pseudorandom('Virus') < G.GAME.probabilities.normal/card.ability.extra.odds then 
+            G.hand.cards[i-1]:set_ability(G.P_CENTERS["m_garb_infected"]) 
+            G.hand.cards[i-1]:juice_up()
+          end
+          if G.hand.cards[i+1] and pseudorandom('Virus') < G.GAME.probabilities.normal/card.ability.extra.odds then 
+            G.hand.cards[i+1]:set_ability(G.P_CENTERS["m_garb_infected"]) 
+            G.hand.cards[i+1]:juice_up()
+          end
+        end
+      end
+    end
+
+    if context.end_of_round then
+      for i = 1, #G.playing_cards do
+        if G.playing_cards[i].config.center == G.P_CENTERS.m_garb_infected then 
+          G.playing_cards[i].ability.extra.rounds = G.playing_cards[i].ability.extra.rounds - 1
+        end
+      end
+
+      if card.ability.extra.rounds == 0 then 
+        card:start_dissolve(nil, false) 
+        card.destroyme = true
+      end
+
+      return true
+    end
+    
+    if context.destroying_card and context.destroying_card.destroyme then return {remove = true} end
   end
 }
 
