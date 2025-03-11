@@ -48,6 +48,14 @@ SMODS.Atlas({
 	py = 32,
 })
 
+SMODS.Atlas({
+	key = "balatro",
+	path = "Logo.png",
+	px = 333,
+	py = 216,
+  prefix_config = { key = false }
+})
+
 SMODS.Atlas{
     key = 'GarbJokers', --atlas key
     path = 'Jokers.png', --atlas' path in (yourMod)/assets/1x or (yourMod)/assets/2x
@@ -2553,6 +2561,44 @@ end
       end
    end
 }
+
+-- TITLE SCREEN
+--[[
+function add_card_to_title(use_key)
+	local newcard = SMODS.create_card({
+		set = "Joker",
+		area = G.title_top,
+		key = use_key,
+		no_edition = true
+	})
+	-- recenter the title
+	newcard:start_materialize({ G.C.WHITE, G.C.SECONDARY_SET.Personality }, true, 2.5)
+	G.title_top:emplace(newcard)
+	-- make the card look the same way as the title screen Ace of Spades
+	newcard.T.scale = 1.32
+  newcard.no_ui = true
+end 
+]]--
+
+local main_menu_ref = Game.main_menu
+Game.main_menu = function(change_context)
+	local ret = main_menu_ref(change_context)
+	-- add_card_to_title("j_garb_garb777")
+	-- G.title_top.T.w = G.title_top.T.w * 1.7675 * 1.2
+	-- G.title_top.T.x = G.title_top.T.x - 0.8 * 1.8
+	G.SPLASH_BACK:define_draw_steps({ {
+		shader = 'splash',
+		send = {
+			{ name = 'time',       ref_table = G.TIMERS, ref_value = 'REAL_SHADER' },
+			{ name = 'vort_speed', val = 0.4 },
+			{ name = 'colour_1',   ref_table = G.C,      ref_value = 'GARB_T1' },
+			{ name = 'colour_2',   ref_table = G.C,      ref_value = 'GARB_T2' },
+		}
+	} }) 
+
+	return ret
+end
+
 ----------------------------------------------
 ------------MOD CODE END----------------------
     
