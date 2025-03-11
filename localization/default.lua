@@ -4,10 +4,10 @@ return {
 			m_garb_infected = {
 				name = "Infected Card",
 				text = {
-                    "{C:mult}+#1#{} Mult",
-					"{C:green}#2# in #3#{} chance to turn adjacent cards",
-                    "held in hand into {C:attention}Infected{} cards",
-					"{C:red}Self-destructs{} after {C:attention}#4#{} rounds",
+					"{C:green}#1# in #2#{} chance to turn",
+                    "adjacent cards into {C:attention}Infected{} cards",
+                    "when held in hand",
+					"{C:red}Self-destructs{} after {C:attention}#3#{} rounds",
 				},
 			},
         },

@@ -16,6 +16,10 @@ local config = SMODS.current_mod.config
 
 assert(SMODS.load_file("achievements.lua"))()
 
+SMODS.current_mod.optional_features = function()
+  return { cardareas = { discard = true, deck = true } }
+end
+
 SMODS.current_mod.config_tab = function()
   garb_nodes = {{n=G.UIT.R, config={align = "cm"}, nodes={
     {n=G.UIT.O, config={object = DynaText({string = "Options:", colours = {G.C.WHITE}, shadow = true, scale = 0.4})}},
@@ -133,6 +137,14 @@ SMODS.Atlas{
     key = "jimboss_hit",
     path = {
         ["default"] = "jimboss_hit.wav"
+    },
+	volume = 0.5
+	}
+
+  SMODS.Sound {
+    key = "infect",
+    path = {
+        ["default"] = "infect.ogg"
     },
 	volume = 0.5
 	}
@@ -306,6 +318,70 @@ end
 
 -- CONSUMABLES
 
+local function conversionTarot(hand, newcenter)
+	--Animation ported from basegame Tarot
+  --Hi Unstable devs I love you I ported this code over from your mod, hope you don't mind
+	
+	for i=1, #hand do
+		local percent = 1.15 - (i-0.999)/(#hand-0.998)*0.3
+		G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() hand[i]:flip();play_sound('card1', percent);hand[i]:juice_up(0.3, 0.3);return true end }))
+	end
+	delay(0.2)
+	
+	--Handle the conversion
+	for i=1, #hand do
+    G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
+				hand[i]:set_ability(G.P_CENTERS[newcenter])
+				return true end }))
+	end
+	
+	for i=1, #hand do
+		local percent = 0.85 + (i-0.999)/(#hand-0.998)*0.3
+    G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() hand[i]:flip();play_sound('tarot2', percent, 0.6);hand[i]:juice_up(0.3, 0.3);return true end }))
+	end
+	G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2,func = function() G.hand:unhighlight_all(); return true end }))
+	delay(0.5)
+end
+
+
+SMODS.Consumable{
+  key = 'hunger',
+  set = 'Tarot',
+  loc_txt = {
+    name = 'Hunger',
+    text = {
+      "Enhances {C:attention}#1#",
+      "selected cards to",
+      "{C:attention}#2#s"
+    }
+  },
+
+  atlas = 'GarbConsumables', pos = { x = 2, y = 0 },
+
+	config = {extra = { max_highlighted = 2, enhancement = "Infected card" }},
+	
+	loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = G.P_CENTERS.m_garb_infected
+        return { vars = { card.ability.extra.max_highlighted, card.ability.extra.enhancement }}
+    end,
+
+  can_use = function(self, card)
+    if #G.hand.highlighted > 0 and #G.hand.highlighted < card.ability.extra.max_highlighted + 1 then return true else return false end
+  end,
+
+  
+
+	use = function(self, card)
+		G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+            play_sound('tarot1')
+			card:juice_up(0.3, 0.5)
+            return true end }))
+			conversionTarot(G.hand.highlighted, 'm_garb_infected')    
+  return true
+  end
+}
+
+
 SMODS.Consumable{
   key = 'aeon',
   set = 'Spectral',
@@ -350,50 +426,45 @@ SMODS.Enhancement {
     no_rank = false,
     always_scores = false,
 	
-	config = {extra = { mult = 10, odds = 4, rounds = 4, mult_gain = 2}},
+	config = {extra = { odds = 4, rounds = 4, mult_gain = 2}},
 	
 	loc_vars = function(self, info_queue, card)
-        return { vars = { card.ability.extra.mult, G.GAME.probabilities.normal, card.ability.extra.odds, card.ability.extra.rounds }}
+        return { vars = { G.GAME.probabilities.normal, card.ability.extra.odds, card.ability.extra.rounds }}
     end,
 	
-	calculate = function(self, card, context)
-		if context.cardarea == G.play and context.main_scoring then
-			if not card.debuff then
-				return {
-					mult_mod = card.ability.extra.mult,
-          message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
-				}
-			end
-		end
-    
+	calculate = function(self, card, context)    
     if context.cardarea == G.hand and context.main_scoring then
       for i = 1, #G.hand.cards do
         if G.hand.cards[i] == card then 
           if G.hand.cards[i-1] and pseudorandom('Virus') < G.GAME.probabilities.normal/card.ability.extra.odds then 
             G.hand.cards[i-1]:set_ability(G.P_CENTERS["m_garb_infected"]) 
-            G.hand.cards[i-1]:juice_up()
+            play_sound('garb_infect', 0.9 + math.random()*0.1, 0.8)
+            G.hand.cards[i-1]:juice_up(0.3, 0.4)
           end
           if G.hand.cards[i+1] and pseudorandom('Virus') < G.GAME.probabilities.normal/card.ability.extra.odds then 
             G.hand.cards[i+1]:set_ability(G.P_CENTERS["m_garb_infected"]) 
-            G.hand.cards[i+1]:juice_up()
+            play_sound('garb_infect', 0.9 + math.random()*0.1, 0.8)
+            G.hand.cards[i+1]:juice_up(0.3, 0.4)
           end
         end
       end
     end
 
     if context.end_of_round then
-      for i = 1, #G.playing_cards do
-        if G.playing_cards[i].config.center == G.P_CENTERS.m_garb_infected then 
-          G.playing_cards[i].ability.extra.rounds = G.playing_cards[i].ability.extra.rounds - 1
+      if not card.triggered then
+        card.ability.extra.rounds = card.ability.extra.rounds - 1
+        if card.ability.extra.rounds == 0 then
+          card.destroyme = true
+          card_eval_status_text(G.deck, 'extra', nil, nil, nil, { message = "Destroyed!" })
+          card:start_dissolve(nil, _first_dissolve)
+				  _first_dissolve = true
         end
       end
+      card.triggered = true
+    end
 
-      if card.ability.extra.rounds == 0 then 
-        card:start_dissolve(nil, false) 
-        card.destroyme = true
-      end
-
-      return true
+    if context.blind then
+      card.triggered = false
     end
     
     if context.destroying_card and context.destroying_card.destroyme then return {remove = true} end
