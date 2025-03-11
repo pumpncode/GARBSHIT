@@ -435,17 +435,20 @@ SMODS.Enhancement {
 	calculate = function(self, card, context)    
     if context.cardarea == G.hand and context.main_scoring then
       for i = 1, #G.hand.cards do
-        if G.hand.cards[i] == card then 
-          if G.hand.cards[i-1] and pseudorandom('Virus') < G.GAME.probabilities.normal/card.ability.extra.odds then 
+        if G.hand.cards[i] == card then
+          if G.hand.cards[i-1] and pseudorandom('Virus') < G.GAME.probabilities.normal/card.ability.extra.odds and card.justinfected ~= true then 
             G.hand.cards[i-1]:set_ability(G.P_CENTERS["m_garb_infected"]) 
             play_sound('garb_infect', 0.9 + math.random()*0.1, 0.8)
             G.hand.cards[i-1]:juice_up(0.3, 0.4)
           end
-          if G.hand.cards[i+1] and pseudorandom('Virus') < G.GAME.probabilities.normal/card.ability.extra.odds then 
+
+          if G.hand.cards[i+1] and pseudorandom('Virus') < G.GAME.probabilities.normal/card.ability.extra.odds and card.justinfected ~= true then 
             G.hand.cards[i+1]:set_ability(G.P_CENTERS["m_garb_infected"]) 
             play_sound('garb_infect', 0.9 + math.random()*0.1, 0.8)
             G.hand.cards[i+1]:juice_up(0.3, 0.4)
+            G.hand.cards[i+1].justinfected = true
           end
+          card.justinfected = false
         end
       end
     end
