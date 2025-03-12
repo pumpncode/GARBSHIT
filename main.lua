@@ -109,7 +109,6 @@ end
 
   -- TITLE SCREEN
 if config.title then
-
   SMODS.Atlas({
     key = "balatro",
     path = "Logo.png",
@@ -133,7 +132,6 @@ if config.title then
   newcard.no_ui = true
 end 
 
-
 local main_menu_ref = Game.main_menu
 Game.main_menu = function(change_context)
     local ret = main_menu_ref(change_context)
@@ -149,7 +147,6 @@ Game.main_menu = function(change_context)
             { name = 'colour_2',   ref_table = G.C,      ref_value = 'GARB_T1' },
         }
     } }) 
-
     return ret
 end
 end
@@ -159,7 +156,7 @@ assert(SMODS.load_file("scripts/meta.lua"))()
 assert(SMODS.load_file("scripts/pokerhands.lua"))()
 assert(SMODS.load_file("scripts/consumables.lua"))()
 assert(SMODS.load_file("scripts/enhancements.lua"))()
-assert(SMODS.load_file('scripts/unleashed_tarots.lua'))()
 assert(SMODS.load_file('scripts/jokers.lua'))()
+assert(SMODS.load_file('scripts/unleashed_tarots.lua'))()
 assert(SMODS.load_file('scripts/decks.lua'))()
 
