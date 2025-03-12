@@ -131,3 +131,5 @@ assert(SMODS.load_file("scripts/consumables.lua"))()
 assert(SMODS.load_file("scripts/enhancements.lua"))()
 assert(SMODS.load_file('scripts/unleashed_tarots.lua'))()
 assert(SMODS.load_file('scripts/jokers.lua'))()
+assert(SMODS.load_file('scripts/decks.lua'))()
+

@@ -20,11 +20,28 @@ times = 1
 
 [[patches]]
 [patches.pattern]
+target = "functions/common_events.lua"
+pattern = "_pool[#_pool + 1] = v.key"
+position = "before"
+payload = '''
+if G.GAME.selected_back and G.GAME.selected_back.effect.center.key == "b_garb_garbdeck" then
+    if string.sub(v.key, 1, 6) == 'j_garb' then
+        for i=1, 2 do
+            _pool[#_pool + 1] = v.key
+            _pool_size = _pool_size + 1
+        end
+    end
+end
+'''
+match_indent = true
+
+
+[[patches]]
+[patches.pattern]
 target = "card.lua"
 pattern = "function Card:add_to_deck(from_debuff)"
 position = "after"
 payload = '''
-
     local suit_jokers = {"j_greedy_joker", "j_lusty_joker", "j_wrathful_joker", "j_gluttenous_joker"}
     local have_jokers = {}
     for i = 1, #suit_jokers do

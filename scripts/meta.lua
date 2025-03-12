@@ -32,6 +32,13 @@ SMODS.Atlas{
 },
 
 SMODS.Atlas{
+    key = 'GarbDecks', --atlas key
+    path = 'Decks.png', --atlas' path in (yourMod)/assets/1x or (yourMod)/assets/2x
+    px = 71, --width of one card
+    py = 95 -- height of one card
+  },
+
+SMODS.Atlas{
   key = 'GarbEnhancements', --atlas key
   path = 'Enhancements.png', --atlas' path in (yourMod)/assets/1x or (yourMod)/assets/2x
   px = 71, --width of one card

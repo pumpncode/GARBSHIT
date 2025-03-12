@@ -132,9 +132,21 @@ return {
                     "into the {C:attention}rightmost{} card"
                 }
                 },        
-         }
-    },
+        },
+
+    Back = {
+            b_garb_garbdeck = {
+                name = "Tangerine Deck",
+                text = {
+                    "{C:attention}GARBSHIT{} Jokers appear",
+                    "{C:attention}3x{} more often",
+                    "Start run with {C:attention}#1#{}",
+                },
+            },
+        },
     
+    },
+
     misc = {
         achievement_names = {
             ach_garb_regicide = "Regicide!",
