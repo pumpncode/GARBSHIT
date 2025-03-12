@@ -9,14 +9,6 @@ SMODS.Atlas({
 	py = 32,
 }),
 
-SMODS.Atlas({
-	key = "balatro",
-	path = "Logo.png",
-	px = 333,
-	py = 216,
-  prefix_config = { key = false }
-}),
-
 SMODS.Atlas{
     key = 'GarbJokers', --atlas key
     path = 'Jokers.png', --atlas' path in (yourMod)/assets/1x or (yourMod)/assets/2x

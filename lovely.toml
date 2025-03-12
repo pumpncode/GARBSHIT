@@ -117,13 +117,17 @@ target = "game.lua"
 pattern = "local replace_card = Card(self.title_top.T.x, self.title_top.T.y, 1.2*G.CARD_W*SC_scale, 1.2*G.CARD_H*SC_scale, G.P_CARDS.S_A, G.P_CENTERS.c_base)"
 position = "at"
 payload = '''
-	local replace_card = SMODS.create_card({
+if config.title then
+	replace_card = SMODS.create_card({
 		set = "Joker",
 		area = G.title_top,
 		key = "j_garb_garb777",
 		no_edition = true
 	})
     replace_card.T.scale = 1.32
+else
+	replace_card = Card(self.title_top.T.x, self.title_top.T.y, 1.2*G.CARD_W*SC_scale, 1.2*G.CARD_H*SC_scale, G.P_CARDS.S_A, G.P_CENTERS.c_base)
+end
 '''
 match_indent = true
 overwrite = true
@@ -135,7 +139,11 @@ pattern = "SC = Card(G.ROOM.T.w/2 - SC_scale*G.CARD_W/2, 10. + G.ROOM.T.h/2 - SC
 
 position = "at"
 payload = '''
+if config.title then
 SC = Card(G.ROOM.T.w/2 - SC_scale*G.CARD_W/2, 10. + G.ROOM.T.h/2 - SC_scale*G.CARD_H/2, SC_scale*G.CARD_W, SC_scale*G.CARD_H, G.P_CARDS.empty, G.P_CENTERS['j_garb_SURGE'])
+else
+SC = Card(G.ROOM.T.w/2 - SC_scale*G.CARD_W/2, 10. + G.ROOM.T.h/2 - SC_scale*G.CARD_H/2, SC_scale*G.CARD_W, SC_scale*G.CARD_H, G.P_CARDS.empty, G.P_CENTERS['j_joker'])
+end
 '''
 match_indent = true
 overwrite = true

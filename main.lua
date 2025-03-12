@@ -20,8 +20,9 @@ SMODS.current_mod.config_tab = function()
   garb_nodes = {{n=G.UIT.R, config={align = "cm"}, nodes={
     {n=G.UIT.O, config={object = DynaText({string = "Options:", colours = {G.C.WHITE}, shadow = true, scale = 0.4})}},
   }},create_toggle({label = "Teto Joker Music (Fukkireta)", ref_table = config, ref_value = "fukkireta",
+  }),create_toggle({label = "Custom Title Screen (Requires Restart)", ref_table = config, ref_value = "title",
 })
-  }
+}
   return {
     n = G.UIT.ROOT,
     config = {
@@ -88,7 +89,16 @@ end
 
 
   -- TITLE SCREEN
-  
+if config.title then
+
+  SMODS.Atlas({
+    key = "balatro",
+    path = "Logo.png",
+    px = 333,
+    py = 216,
+    prefix_config = { key = false }
+  })
+
   function add_card_to_title(use_key)
     local newcard = SMODS.create_card({
         set = "Joker",
@@ -122,6 +132,7 @@ Game.main_menu = function(change_context)
     } }) 
 
     return ret
+end
 end
 
 assert(SMODS.load_file("scripts/achievements.lua"))()
