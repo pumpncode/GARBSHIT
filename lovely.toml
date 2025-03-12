@@ -12,8 +12,8 @@ RENTAL = HEX('b18f43'),
 '''
 position = "after"
 payload = '''
-GARB_T1 = HEX("B670D8"),
-GARB_T2 = HEX("FF87DB"),
+GARB_T1 = HEX("FF87DB"),
+GARB_T2 = HEX("B670D8"),
 '''
 match_indent = true
 times = 1
