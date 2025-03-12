@@ -11,16 +11,35 @@
 ------------MOD CODE -------------------------
 
 config = SMODS.current_mod.config
+garb_enabled = copy_table(config)
+
 
 SMODS.current_mod.optional_features = function()
   return { cardareas = { discard = true, deck = true } }
+end
+
+local function config_matching()
+	for k, v in pairs(garb_enabled) do
+		if v ~= config[k] then
+			return false
+		end
+	end
+	return true
+end
+
+function G.FUNCS.garb_restart()
+	if config_matching() then
+		SMODS.full_restart = 0
+	else
+		SMODS.full_restart = 1
+	end
 end
 
 SMODS.current_mod.config_tab = function()
   garb_nodes = {{n=G.UIT.R, config={align = "cm"}, nodes={
     {n=G.UIT.O, config={object = DynaText({string = "Options:", colours = {G.C.WHITE}, shadow = true, scale = 0.4})}},
   }},create_toggle({label = "Teto Joker Music (Fukkireta)", ref_table = config, ref_value = "fukkireta",
-  }),create_toggle({label = "Custom Title Screen (Requires Restart)", ref_table = config, ref_value = "title",
+  }),create_toggle({label = "Custom Title Screen (Requires Restart)", ref_table = config, ref_value = "title", callback = G.FUNCS.garb_restart,
 })
 }
   return {
