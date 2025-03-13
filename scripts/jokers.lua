@@ -1099,10 +1099,10 @@ SMODS.Joker {
       calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play then
           if context.other_card:get_id() == 13 and context.other_card:is_suit("Hearts") then
-            return {
+              return {
               Xmult_mod = card.ability.extra.Xmult,
               message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } },
-              card = context.other_card
+              message_card = context.other_card,
             }
           end
         end
@@ -1385,6 +1385,7 @@ SMODS.Joker {
     end
   },
   
+  --[[
   SMODS.Joker {
     key = 'matesprit',
     loc_txt = {
@@ -1412,7 +1413,7 @@ SMODS.Joker {
       eternal_compat = true, --can it be eternal
       perishable_compat = true, --can it be perishable
   },
-  --[[
+
   SMODS.Joker {
     key = 'kismesis',
     loc_txt = {
@@ -1503,7 +1504,7 @@ SMODS.Joker {
       text = {
         "When {C:attention}Blind{} is selected,",
         "{C:attention}archives{} all {C:attention}Enhanced{} cards",
-        "and gains {X:mult,C:white} X#1# {} Mult for each",
+        "{X:mult,C:white} X#1# {} Mult for each card {C:attention}archived",
         "{s:0.8,C:inactive}(All archived cards are returned",
         "{s:0.8,C:inactive}to deck after hand is played)",
         "{C:inactive}(Currently: {X:mult,C:white} X#2# {}{C:inactive} Mult)"
@@ -1515,7 +1516,7 @@ SMODS.Joker {
     end,
     rarity = 3,
     atlas = 'GarbJokers',
-    pos = { x = 1, y = 0 },
+    pos = { x = 1, y = 9 },
     cost = 8,
   
       unlocked = true, 
@@ -1548,8 +1549,8 @@ SMODS.Joker {
         }
     end
 
-    if context.after then      
-      for i = 1, #archived do
+    if context.post_joker then
+        for i = 1, #archived do
         local _card = copy_card(archived[i], nil, nil, G.playing_card)
         _card:add_to_deck()
         G.deck.config.card_limit = G.deck.config.card_limit + 1
@@ -1561,6 +1562,7 @@ SMODS.Joker {
       end
       if returned then
         card_eval_status_text(card, 'extra', nil, nil, nil, {message = "Returned!"})
+        archived = {}
       end
     end
 
@@ -2139,8 +2141,98 @@ SMODS.Joker {
           }
         end
      end
-  }
+  },
   
+-- TITLE JOKERS
+
+SMODS.Joker {
+    key = 'garbTITLE',
+    loc_txt = {
+      name = 'GARB FROM THE HIT GAME GARBSHIT BALATRO',
+      text = {
+        "{c:red}HOLY SHIIIIIT{}"
+      }
+    },
+    config = { extra = {  } },
+    loc_vars = function(self, info_queue, card)
+      return { vars = {  } }
+    end,
+
+    in_pool = function(self)
+      return false
+  end,
+
+    rarity = 1,
+    atlas = 'GarbJokers',
+    pos = { x = 0, y = 1 },
+    soul_pos = {x = 1, y = 1},
+    cost = 5,
+      no_collection = true,
+      unlocked = true, 
+      discovered = true, --whether or not it starts discovered
+      blueprint_compat = true, --can it be blueprinted/brainstormed/other
+      eternal_compat = true, --can it be eternal
+      perishable_compat = true, --can it be perishable
+      },
+
+SMODS.Joker {
+        key = 'ratboyTITLE',
+        loc_txt = {
+          name = 'ratboy FROM THE HIT GAME GARBSHIT BALATRO',
+          text = {
+            "{c:red}HOLY SHIIIIIT{}"
+          }
+        },
+        config = { extra = {  } },
+        loc_vars = function(self, info_queue, card)
+          return { vars = {  } }
+        end,
+      
+        in_pool = function(self)
+          return false
+      end,
+
+        rarity = 1,
+        atlas = 'GarbJokers',
+        pos = { x = 0, y = 6 },
+        cost = 5,
+          no_collection = true,
+          unlocked = true, 
+          discovered = true, --whether or not it starts discovered
+          blueprint_compat = true, --can it be blueprinted/brainstormed/other
+          eternal_compat = true, --can it be eternal
+          perishable_compat = true, --can it be perishable
+          },
+    
+SMODS.Joker {
+            key = 'surgeTITLE',
+            loc_txt = {
+              name = 'surge FROM THE HIT GAME GARBSHIT BALATRO',
+              text = {
+                "{c:red}HOLY SHIIIIIT{}"
+              }
+            },
+            config = { extra = {  } },
+            loc_vars = function(self, info_queue, card)
+              return { vars = {  } }
+            end,
+          
+            in_pool = function(self)
+              return false
+          end,
+
+            rarity = 1,
+            atlas = 'GarbJokers',
+            pos = { x = 1, y = 4 },
+            cost = 5,
+              no_collection = true,
+              unlocked = true, 
+              discovered = true, --whether or not it starts discovered
+              blueprint_compat = true, --can it be blueprinted/brainstormed/other
+              eternal_compat = true, --can it be eternal
+              perishable_compat = true, --can it be perishable
+              },
+    
   ----------------------------------------------
   ------------MOD CODE END----------------------
 }

@@ -121,7 +121,7 @@ if config.title then
 	replace_card = SMODS.create_card({
 		set = "Joker",
 		area = G.title_top,
-		key = "j_garb_garb777",
+		key = "j_garb_garbTITLE",
 		no_edition = true
 	})
     replace_card.T.scale = 1.32
@@ -140,7 +140,7 @@ pattern = "SC = Card(G.ROOM.T.w/2 - SC_scale*G.CARD_W/2, 10. + G.ROOM.T.h/2 - SC
 position = "at"
 payload = '''
 if config.title then
-SC = Card(G.ROOM.T.w/2 - SC_scale*G.CARD_W/2, 10. + G.ROOM.T.h/2 - SC_scale*G.CARD_H/2, SC_scale*G.CARD_W, SC_scale*G.CARD_H, G.P_CARDS.empty, G.P_CENTERS['j_garb_SURGE'])
+SC = Card(G.ROOM.T.w/2 - SC_scale*G.CARD_W/2, 10. + G.ROOM.T.h/2 - SC_scale*G.CARD_H/2, SC_scale*G.CARD_W, SC_scale*G.CARD_H, G.P_CARDS.empty, G.P_CENTERS['j_garb_surgeTITLE'])
 else
 SC = Card(G.ROOM.T.w/2 - SC_scale*G.CARD_W/2, 10. + G.ROOM.T.h/2 - SC_scale*G.CARD_H/2, SC_scale*G.CARD_W, SC_scale*G.CARD_H, G.P_CARDS.empty, G.P_CENTERS['j_joker'])
 end
