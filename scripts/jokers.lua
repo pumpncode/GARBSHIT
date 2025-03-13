@@ -1496,8 +1496,78 @@ SMODS.Joker {
       },
   ]]
     
+  SMODS.Joker {
+    key = 'archive',
+    loc_txt = {
+      name = 'The Archives',
+      text = {
+        "When {C:attention}Blind{} is selected,",
+        "{C:attention}archives{} all {C:attention}Enhanced{} cards",
+        "and gains {X:mult,C:white} X#1# {} Mult for each",
+        "{s:0.8,C:inactive}(All archived cards are returned",
+        "{s:0.8,C:inactive}to deck after hand is played)",
+        "{C:inactive}(Currently: {X:mult,C:white} X#2# {}{C:inactive} Mult)"
+      }
+    },
+    config = { extra = { Xmult = 1, Xmult_gain = 0.25 } },
+    loc_vars = function(self, info_queue, card)
+      return { vars = { card.ability.extra.Xmult_gain, card.ability.extra.Xmult } }
+    end,
+    rarity = 3,
+    atlas = 'GarbJokers',
+    pos = { x = 1, y = 0 },
+    cost = 8,
+  
+      unlocked = true, 
+      discovered = false, --whether or not it starts discovered
+      blueprint_compat = true, --can it be blueprinted/brainstormed/other
+      eternal_compat = true, --can it be eternal
+      perishable_compat = true, --can it be perishable
+        
+    calculate = function(self, card, context)
+    if context.blind then
+        archived = {}
+            for k, v in pairs(G.playing_cards) do
+                if v.ability.set == 'Enhanced' then
+                    archived[#archived+1] = v
+                    v:start_dissolve(nil, _first_dissolve)
+                    _first_dissolve = true
+                    card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_gain
+                end
+            end
+        if #archived > 0 then
+          card_eval_status_text(card, 'extra', nil, nil, nil, {message = "Archived!"})
+        end
+    end
+
+    if context.joker_main then
+      return {
+          Xmult_mod = card.ability.extra.Xmult,
+          message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } },
+          card = card
+        }
+    end
+
+    if context.after then      
+      for i = 1, #archived do
+        local _card = copy_card(archived[i], nil, nil, G.playing_card)
+        _card:add_to_deck()
+        G.deck.config.card_limit = G.deck.config.card_limit + 1
+        table.insert(G.playing_cards, _card)
+        G.deck:emplace(_card)
+        _card.states.visible = nil
+        returned = true
+        card.ability.extra.Xmult = 1
+      end
+      if returned then
+        card_eval_status_text(card, 'extra', nil, nil, nil, {message = "Returned!"})
+      end
+    end
+
+  end
+},
+
    -- LEGENDARIES
-   
    
   SMODS.Joker {
     key = 'abadeus',
