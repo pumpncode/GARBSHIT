@@ -1,5 +1,17 @@
 return {
     descriptions = {
+        Enhanced = {
+			m_garb_infected = {
+				name = "Infected Card",
+				text = {
+					"{C:green}#1# in #2#{} chance to turn",
+                    "adjacent cards into {C:attention}Infected{} cards",
+                    "when held in hand",
+					"{C:red}Self-destructs{} after {C:attention}#3#{} rounds",
+				},
+			},
+        },
+
         Other = {
             talisman_warning = {
                 name = "WARNING!",
@@ -7,6 +19,15 @@ return {
                     "This Joker is {C:red}incompatible{} with the {C:attention}Talisman{} mod!",
                     "When bought, it will instantly {C:red}destroy{} itself",
                     "to avoid potential crashes"
+                }
+            },
+            quadrant_hands = {
+                name = "Quadrant Hand",
+                text = {
+                    "{C:attention}#1#{} levels up", 
+                    "when using {C:planet}Jupiter{}",
+                    "{C:mult}+3{} Mult and",
+                    "{C:chips}+40{} chips"
                 }
             },
             mega_fool = {
@@ -111,18 +132,41 @@ return {
                     "into the {C:attention}rightmost{} card"
                 }
                 },        
-         }
-    },
+        },
+
+    Back = {
+            b_garb_garbdeck = {
+                name = "Tangerine Deck",
+                text = {
+                    "{C:attention}GARBSHIT{} Jokers appear",
+                    "{C:attention}3x{} more often",
+                    "Start run with {C:attention}#1#{}",
+                },
+            },
+        },
     
+    },
+
     misc = {
         achievement_names = {
             ach_garb_regicide = "Regicide!",
-            ach_garb_devils_deal = "The Devil's Deal",
-
+            ach_garb_corr_upgrade = "Upgraded!",
+            ach_garb_neverpunished = "Never punished",
+            ach_garb_criticalfail = "Critical Fail",
+            ach_garb_surged = "SURGED!",
+            ach_garb_rocking = "You Got Me Rocking",
+            ach_garb_snowedin = "Snowed In",
+            ach_garb_jimboss = "BALATRO MUST DIE",
         },
         achievement_descriptions = {
             ach_garb_regicide = "Guillotine the Baron",
-            ach_garb_devils_deal = "Get saved by Devil's Deal",
+            ach_garb_corr_upgrade = "Have Corrupted Joker give 100 Chips or more",
+            ach_garb_neverpunished = "While using Sara, play 5 Glass cards on any hand that isn't the first and have none of them break",
+            ach_garb_criticalfail = "While using Critical Roll, play 5 Lucky cards and have none of them trigger",
+            ach_garb_surged = "Have your Jokers destroyed by THE SURGE",
+            ach_garb_rocking = "Create 25 Stone cards in the same run using Rolling Stone",
+            ach_garb_snowedin = "Have Snowball give more than 5000 Chips at once",
+            ach_garb_jimboss = "Defeat Jimboss 5 times in the same run",
         }
         
     }

@@ -3,13 +3,45 @@ version = "1.0.0"
 dump_lua = true
 priority = 9999999
 
+
+[[patches]]
+[patches.pattern]
+target = "globals.lua"
+pattern = '''
+RENTAL = HEX('b18f43'),
+'''
+position = "after"
+payload = '''
+GARB_T1 = HEX("FF87DB"),
+GARB_T2 = HEX("B670D8"),
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "_pool[#_pool + 1] = v.key"
+position = "before"
+payload = '''
+if G.GAME.selected_back and G.GAME.selected_back.effect.center.key == "b_garb_garbdeck" then
+    if string.sub(v.key, 1, 6) == 'j_garb' then
+        for i=1, 2 do
+            _pool[#_pool + 1] = v.key
+            _pool_size = _pool_size + 1
+        end
+    end
+end
+'''
+match_indent = true
+
+
 [[patches]]
 [patches.pattern]
 target = "card.lua"
 pattern = "function Card:add_to_deck(from_debuff)"
 position = "after"
 payload = '''
-
     local suit_jokers = {"j_greedy_joker", "j_lusty_joker", "j_wrathful_joker", "j_gluttenous_joker"}
     local have_jokers = {}
     for i = 1, #suit_jokers do
@@ -40,6 +72,34 @@ overwrite = false
 [[patches]]
 [patches.pattern]
 target = "card.lua"
+pattern = "if _hand then"
+position = "before"
+payload = '''
+local quadrant_hands = {"garb_blush", "garb_caliginous", "garb_ashen", "garb_pale"}
+for i = 1, #quadrant_hands do
+    if _hand == quadrant_hands[i] then _hand = "Flush" end
+end
+'''
+match_indent = true
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "local card = create_card(card_type,G.consumeables, nil, nil, nil, nil, _planet, 'blusl')"
+position = "before"
+payload = '''
+local quadrant_hands = {"garb_blush", "garb_caliginous", "garb_ashen", "garb_pale"}
+for i = 1, #quadrant_hands do
+    if G.GAME.last_hand_played == quadrant_hands[i] then _planet = "c_jupiter" end
+end
+'''
+match_indent = true
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
 pattern = "for i = 1, self.ability.extra.destroy do destroyed_cards[#destroyed_cards+1] = temp_hand[i] end"
 position = "after"
 payload = '''
@@ -49,3 +109,41 @@ payload = '''
 '''
 match_indent = true
 overwrite = false
+
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "local replace_card = Card(self.title_top.T.x, self.title_top.T.y, 1.2*G.CARD_W*SC_scale, 1.2*G.CARD_H*SC_scale, G.P_CARDS.S_A, G.P_CENTERS.c_base)"
+position = "at"
+payload = '''
+if config.title then
+	replace_card = SMODS.create_card({
+		set = "Joker",
+		area = G.title_top,
+		key = "j_garb_garbTITLE",
+		no_edition = true
+	})
+    replace_card.T.scale = 1.32
+else
+	replace_card = Card(self.title_top.T.x, self.title_top.T.y, 1.2*G.CARD_W*SC_scale, 1.2*G.CARD_H*SC_scale, G.P_CARDS.S_A, G.P_CENTERS.c_base)
+end
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "SC = Card(G.ROOM.T.w/2 - SC_scale*G.CARD_W/2, 10. + G.ROOM.T.h/2 - SC_scale*G.CARD_H/2, SC_scale*G.CARD_W, SC_scale*G.CARD_H, G.P_CARDS.empty, G.P_CENTERS['j_joker'])"
+
+position = "at"
+payload = '''
+if config.title then
+SC = Card(G.ROOM.T.w/2 - SC_scale*G.CARD_W/2, 10. + G.ROOM.T.h/2 - SC_scale*G.CARD_H/2, SC_scale*G.CARD_W, SC_scale*G.CARD_H, G.P_CARDS.empty, G.P_CENTERS['j_garb_surgeTITLE'])
+else
+SC = Card(G.ROOM.T.w/2 - SC_scale*G.CARD_W/2, 10. + G.ROOM.T.h/2 - SC_scale*G.CARD_H/2, SC_scale*G.CARD_W, SC_scale*G.CARD_H, G.P_CARDS.empty, G.P_CENTERS['j_joker'])
+end
+'''
+match_indent = true
+overwrite = true
