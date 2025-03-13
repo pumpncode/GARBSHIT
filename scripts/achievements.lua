@@ -17,7 +17,7 @@ SMODS.Achievement({
 		end
 	end
 }),
-
+--[[
 SMODS.Achievement({
 	key = "criticalfail",
 	bypass_all_unlocked = true,
@@ -77,7 +77,7 @@ SMODS.Achievement({
 		end
 	end
 }),
-
+--]]
 
 SMODS.Achievement({
 	key = "regicide",
@@ -93,7 +93,7 @@ SMODS.Achievement({
 		end
 	end
 }),
-
+--[[
 SMODS.Achievement({
 	key = "neverpunished",
 	bypass_all_unlocked = true,
@@ -109,3 +109,4 @@ SMODS.Achievement({
 	end
 }),
 }
+]]--
