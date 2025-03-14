@@ -108,7 +108,7 @@ end
 
 
   -- TITLE SCREEN
-if config.title then
+if config.title and not next(SMODS.find_mod("Cryptid")) then
   SMODS.Atlas({
     key = "balatro",
     path = "Logo.png",
