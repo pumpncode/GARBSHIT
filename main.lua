@@ -13,6 +13,9 @@
 config = SMODS.current_mod.config
 garb_enabled = copy_table(config)
 
+to_big = to_big or function(x, y)
+  return x
+end
 
 SMODS.current_mod.optional_features = function()
   return { cardareas = { discard = true, deck = true } }
