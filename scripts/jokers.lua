@@ -1517,6 +1517,7 @@ SMODS.Joker {
     rarity = 3,
     atlas = 'GarbJokers',
     pos = { x = 1, y = 9 },
+    soul_pos = { x = 2, y = 9 },
     cost = 8,
   
       unlocked = true, 
@@ -1526,7 +1527,7 @@ SMODS.Joker {
       perishable_compat = true, --can it be perishable
         
     calculate = function(self, card, context)
-    if context.blind then
+    if context.blind and not context.blueprint then
         archived = {}
             for k, v in pairs(G.playing_cards) do
                 if v.ability.set == 'Enhanced' then
@@ -1542,11 +1543,13 @@ SMODS.Joker {
     end
 
     if context.joker_main then
+      if card.ability.extra.Xmult > 1 then
       return {
           Xmult_mod = card.ability.extra.Xmult,
           message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } },
           card = card
         }
+      end
     end
 
     if context.post_joker then
@@ -1563,6 +1566,7 @@ SMODS.Joker {
       if returned then
         card_eval_status_text(card, 'extra', nil, nil, nil, {message = "Returned!"})
         archived = {}
+        returned = false
       end
     end
 
