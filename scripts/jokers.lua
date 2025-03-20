@@ -1620,7 +1620,7 @@ SMODS.Joker {
     end,
 
     update = function(self, card)
-      if clock and SMODS.find_card("j_garb_trumpets") and G.GAME.blind.in_blind then
+      if clock and SMODS.find_card("j_garb_trumpets") and G.GAME.blind.in_blind and not G.SETTINGS.paused then
         if (clock + (card.ability.extra.seconds - 1) < G.TIMERS.REAL) then
           clock = G.TIMERS.REAL
           create_champion_event()
