@@ -123,7 +123,7 @@ SMODS.Joker {
     -- Which atlas key to pull from.
     atlas = 'GarbJokers',
     -- This card's position on the atlas, starting at {x=0,y=0} for the very top left.
-    pos = { x = 1, y = 3 },
+    pos = { x = 6, y = 1 },
     -- Cost of card in shop.
     cost = 7,
     
@@ -175,7 +175,7 @@ SMODS.Joker {
     config = { extra = { money = 4 } },
     rarity = 2,
     atlas = 'GarbJokers',
-    pos = { x = 0, y = 3 },
+    pos = { x = 5, y = 1 },
     cost = 6,
     loc_vars = function(self, info_queue, card)
       info_queue[#info_queue+1] = G.P_CENTERS.m_lucky
@@ -216,7 +216,7 @@ SMODS.Joker {
     config = { extra = {} },
     rarity = 3,
     atlas = 'GarbJokers',
-    pos = { x = 2, y = 3 },
+    pos = { x = 0, y = 2 },
     
       unlocked = false, 
       discovered = false, --whether or not it starts discovered
@@ -305,7 +305,7 @@ SMODS.Joker {
     config = { extra = { duds = 66 } },
     rarity = 1,
     atlas = 'GarbJokers',
-    pos = { x = 2, y = 2 },
+    pos = { x = 3, y = 1 },
     cost = 3,
     loc_vars = function(self, info_queue, card)
       return { vars = { card.ability.extra.duds } }
@@ -369,7 +369,7 @@ SMODS.Joker {
     config = { extra = {} },
     rarity = 2,
     atlas = 'GarbJokers',
-    pos = { x = 0, y = 2 },
+    pos = { x = 1, y = 1 },
     
       unlocked = false, 
       unlock_condition = {type = 'devils_deal'},
@@ -416,7 +416,7 @@ SMODS.Joker {
     config = { extra = { chips = 0, chip_gain = 25 } },
     rarity = 1,
     atlas = 'GarbJokers',
-    pos = { x = 2, y = 4 },
+    pos = { x = 4, y = 2 },
     cost = 3,
     loc_vars = function(self, info_queue, card)
       info_queue[#info_queue+1] = G.P_CENTERS.m_steel
@@ -469,7 +469,7 @@ SMODS.Joker {
     config = { extra = {Xmult = 4} },
     rarity = 3,
     atlas = 'GarbJokers',
-    pos = { x = 3, y = 4 },
+    pos = { x = 5, y = 2 },
     
       unlocked = true, 
       discovered = false, --whether or not it starts discovered
@@ -509,7 +509,7 @@ SMODS.Joker {
     config = { extra = {Xmult = 1.5} },
     rarity = 2,
     atlas = 'GarbJokers',
-    pos = { x = 0, y = 5 },
+    pos = { x = 6, y = 2 },
     
       unlocked = true, 
       discovered = false, --whether or not it starts discovered
@@ -575,7 +575,7 @@ SMODS.Joker {
     config = { extra = {odds = 15} },
     rarity = 3,
     atlas = 'GarbJokers',
-    pos = { x = 3, y = 5 },
+    pos = { x = 2, y = 3 },
     
       unlocked = true, 
       discovered = false, --whether or not it starts discovered
@@ -614,7 +614,7 @@ SMODS.Joker {
     config = { extra = {Xmult = 8} },
     rarity = 3,
     atlas = 'GarbJokers',
-    pos = { x = 1, y = 4 },
+    pos = { x = 3, y = 2 },
     
       unlocked = true, 
       discovered = false, --whether or not it starts discovered
@@ -673,7 +673,7 @@ SMODS.Joker {
     config = { extra = {money = 77, value = 6} },
     rarity = 1,
     atlas = 'GarbJokers',
-    pos = { x = 3, y = 2 },
+    pos = { x = 4, y = 1 },
     
       unlocked = true, 
       discovered = false, --whether or not it starts discovered
@@ -723,7 +723,7 @@ SMODS.Joker {
     config = { extra = {value = 0} },
     rarity = 3,
     atlas = 'GarbJokers',
-    pos = { x = 1, y = 2 },
+    pos = { x = 2, y = 1 },
     
       unlocked = true, 
       discovered = false, --whether or not it starts discovered
@@ -793,7 +793,7 @@ SMODS.Joker {
     config = { extra = {odds = 8} },
     rarity = 3,
     atlas = 'GarbJokers',
-    pos = { x = 1, y = 5 },
+    pos = { x = 0, y = 3 },
     
       unlocked = false, 
       discovered = false, --whether or not it starts discovered
@@ -854,7 +854,7 @@ SMODS.Joker {
     config = { extra = {Xmult = 8, odds = 8} },
     rarity = 2,
     atlas = 'GarbJokers',
-    pos = { x = 2, y = 5 },
+    pos = { x = 1, y = 3 },
     
       unlocked = true, 
       discovered = false, --whether or not it starts discovered
@@ -902,7 +902,7 @@ SMODS.Joker {
     config = { extra = {mult = 4} },
     rarity = 1,
     atlas = 'GarbJokers',
-    pos = { x = 0, y = 6 },
+    pos = { x = 3, y = 3 },
     
       unlocked = true, 
       discovered = false, --whether or not it starts discovered
@@ -950,7 +950,7 @@ SMODS.Joker {
     config = { extra = {Xmult = 2} },
     rarity = 2,
     atlas = 'GarbJokers',
-    pos = { x = 1, y = 8 },
+    pos = { x = 5, y = 4 },
     
       unlocked = true, 
       discovered = false, --whether or not it starts discovered
@@ -1036,7 +1036,7 @@ SMODS.Joker {
     end,
     rarity = 2,
     atlas = 'GarbJokers',
-    pos = { x = 1, y = 6 },
+    pos = { x = 4, y = 3 },
     cost = 5,
   
       unlocked = true, 
@@ -1071,7 +1071,7 @@ SMODS.Joker {
       end,
       rarity = 3,
       atlas = 'GarbJokers',
-      pos = { x = 0, y = 7 },
+      pos = { x = 0, y = 4 },
       cost = 7,
   
       check_for_unlock = function(self, args)
@@ -1117,7 +1117,7 @@ SMODS.Joker {
     end,
     rarity = 3,
     atlas = 'GarbJokers',
-    pos = { x = 1, y = 7 },
+    pos = { x = 1, y = 4 },
     cost = 7,
   
       unlocked = true, 
@@ -1187,7 +1187,7 @@ SMODS.Joker {
     end,
     rarity = 3,
     atlas = 'GarbJokers',
-    pos = { x = 2, y = 7 },
+    pos = { x = 2, y = 4 },
     cost = 7,
   
       unlocked = false, 
@@ -1262,7 +1262,7 @@ SMODS.Joker {
     config = { extra = {mult = 0, mult_gain = 3} },
     rarity = 2,
     atlas = 'GarbJokers',
-    pos = { x = 2, y = 8 },
+    pos = { x = 6, y = 4 },
     
       unlocked = true, 
       discovered = false, --whether or not it starts discovered
@@ -1325,7 +1325,7 @@ SMODS.Joker {
     config = { extra = {HP = 1000, money = 5, maxHP = 1000, scale = 10} },
     rarity = 3,
     atlas = 'GarbJokers',
-    pos = { x = 3, y = 8 },
+    pos = { x = 0, y = 5 },
     
       unlocked = true, 
       discovered = false, --whether or not it starts discovered
@@ -1496,8 +1496,8 @@ SMODS.Joker {
     end,
     rarity = 3,
     atlas = 'GarbJokers',
-    pos = { x = 1, y = 9 },
-    soul_pos = { x = 2, y = 9 },
+    pos = { x = 2, y = 5 },
+    soul_pos = { x = 3, y = 5 },
     cost = 8,
   
       unlocked = true, 
@@ -1577,10 +1577,10 @@ SMODS.Joker {
     config = { extra = {swag = 1} },
     rarity = 4,
     atlas = 'GarbJokers',
-    pos = { x = 3, y = 3 },
+    pos = { x = 1, y = 2 },
     
     -- soul_pos sets the soul sprite, only used in vanilla for legenedaries and Hologram.
-    soul_pos = { x = 0, y = 4 },
+    soul_pos = { x = 2, y = 2 },
     cost = 20,
     -- SMODS specific function, gives the returned value in dollars at the end of round, double checks that it's greater than 0 before returning.
     
@@ -1667,10 +1667,10 @@ SMODS.Joker {
     config = { extra = {} },
     rarity = 4,
     atlas = 'GarbJokers',
-    pos = { x = 2, y = 1 },
+    pos = { x = 6, y = 0 },
     
     -- soul_pos sets the soul sprite, only used in vanilla for legenedaries and Hologram.
-    soul_pos = { x = 3, y = 1 },
+    soul_pos = { x = 0, y = 1 },
     cost = 20,
   
     loc_vars = function(self, info_queue, card)
@@ -1745,10 +1745,10 @@ SMODS.Joker {
     config = { extra = {} },
     rarity = 4,
     atlas = 'GarbJokers',
-    pos = { x = 0, y = 1 },
+    pos = { x = 4, y = 0 },
     
     -- soul_pos sets the soul sprite, only used in vanilla for legenedaries and Hologram.
-    soul_pos = { x = 1, y = 1 },
+    soul_pos = { x = 5, y = 0 },
     cost = 20,
     
       unlocked = false, 
@@ -1803,10 +1803,10 @@ SMODS.Joker {
     config = { extra = {} },
     rarity = 4,
     atlas = 'GarbJokers',
-    pos = { x = 2, y = 6 },
+    pos = { x = 5, y = 3 },
     
     -- soul_pos sets the soul sprite, only used in vanilla for legenedaries and Hologram.
-    soul_pos = { x = 3, y = 6 },
+    soul_pos = { x = 6, y = 3 },
     cost = 20,
     
       unlocked = false, 
@@ -2053,10 +2053,10 @@ SMODS.Joker {
     config = { extra = {Xmult = 1, Xmult_gain = 0.2} },
     rarity = 4,
     atlas = 'GarbJokers',
-    pos = { x = 3, y = 7 },
+    pos = { x = 3, y = 4 },
     
     -- soul_pos sets the soul sprite, only used in vanilla for legenedaries and Hologram.
-    soul_pos = { x = 0, y = 8 },
+    soul_pos = { x = 4, y = 4 },
     cost = 20,
   
     loc_vars = function(self, info_queue, card)
@@ -2127,6 +2127,61 @@ SMODS.Joker {
      end
   },
   
+  SMODS.Joker {
+    key = 'alain',
+    loc_txt = {
+      name = 'Alain',
+      text = {
+        "When hand is played,",
+        "creates a {C:dark_edition}Negative{} {C:planet}Planet{} card",
+        "for played {C:attention}poker hand{}",
+      },
+      unlock = {
+        "{E:1,s:1.3}?????"
+      }
+    },
+    config = { extra = {} },
+    rarity = 4,
+    atlas = 'GarbJokers',
+    pos = { x = 0, y = 6 },
+    soul_pos = { x = 1, y = 6 },
+    cost = 20,
+
+    unlocked = false, 
+    discovered = false, --whether or not it starts discovered
+    blueprint_compat = true, --can it be blueprinted/brainstormed/other
+    eternal_compat = true, --can it be eternal
+    perishable_compat = true, --can it be perishable
+
+    add_to_deck = function(self, card)
+      check_for_unlock({ type = "discover_alain" })
+    end,
+
+    calculate = function(self, card, context)
+      if context.after then
+        G.E_MANAGER:add_event(Event({
+          func = function()
+            for k, v in pairs(G.P_CENTER_POOLS.Planet) do
+              if v.config.hand_type == context.scoring_name then
+                _planet = v.key
+              end
+            end
+            local _card = SMODS.create_card{key = _planet or "c_jupiter", no_edition = true}
+            _card:set_edition('e_negative', true)
+            _card:add_to_deck()
+            G.consumeables:emplace(_card)
+            return true
+          end
+        }))
+        return {
+          message = localize('k_plus_planet'),
+            colour = G.C.PLANET,
+            card = card or context.blueprint_card
+          }
+    end
+  end
+},
+  
 -- TITLE JOKERS
 
 SMODS.Joker {
@@ -2148,8 +2203,8 @@ SMODS.Joker {
 
     rarity = 1,
     atlas = 'GarbJokers',
-    pos = { x = 0, y = 1 },
-    soul_pos = {x = 1, y = 1},
+    pos = { x = 4, y = 0 },
+    soul_pos = {x = 5, y = 0},
     cost = 5,
       no_collection = true,
       unlocked = true, 
@@ -2178,7 +2233,7 @@ SMODS.Joker {
 
         rarity = 1,
         atlas = 'GarbJokers',
-        pos = { x = 0, y = 6 },
+        pos = { x = 3, y = 3 },
         cost = 5,
           no_collection = true,
           unlocked = true, 
@@ -2207,7 +2262,7 @@ SMODS.Joker {
 
             rarity = 1,
             atlas = 'GarbJokers',
-            pos = { x = 1, y = 4 },
+            pos = { x = 3, y = 2 },
             cost = 5,
               no_collection = true,
               unlocked = true, 
