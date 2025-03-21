@@ -1147,15 +1147,15 @@ SMODS.Joker {
         local _card = context.other_card
               for i=1, #context.scoring_hand do
                   if context.scoring_hand[i] == _card then
-                      if context.scoring_hand[no_retrigger] == _card then
+                      if context.scoring_hand[s_no_retrigger] == _card then
                         card.ability.extra.chips = card.ability.extra.chips*2
                         card.ability.extra.last_scored = card.ability.extra.chips
                         return {
-                          message = localize { type = 'variable', key = 'a_chips', vars = { card.ability.extra.chips/2 } },
+                          message = localize { type = 'variable', key = 'a_chips', vars = { card.ability.extra.chips } },
                           card = card
                         }
                       end
-                      no_retrigger = i
+                      s_no_retrigger = i
                   end
                 end
             return nil
@@ -1661,6 +1661,115 @@ SMODS.Joker {
     end
   },
 
+  SMODS.Joker {
+    key = 'roffle',
+    loc_txt = {
+      name = 'Roffle',
+      text = {
+        "{X:mult,C:white} X#1# {} Mult if",
+        "first played {C:attention}face{} card",
+        "is {C:attention}retriggered"
+      }
+    },
+    config = { extra = { Xmult = 3 } },
+    loc_vars = function(self, info_queue, card)
+      return { vars = { card.ability.extra.Xmult } }
+    end,
+  
+    rarity = 2,
+    atlas = 'GarbJokers',
+    pos = { x = 6, y = 5 },
+    cost = 6,
+
+      unlocked = true, 
+      discovered = false, --whether or not it starts discovered
+      blueprint_compat = true, --can it be blueprinted/brainstormed/other
+      eternal_compat = true, --can it be eternal
+      perishable_compat = true, --can it be perishable
+
+    calculate = function(self,card,context)
+      if context.individual and context.cardarea == G.play then
+        for i = 1, #context.scoring_hand do
+          if context.scoring_hand[i] == context.other_card and faces[1] == context.other_card and no_retrigger == i then roffle_mult = true end
+          if context.scoring_hand[i] == context.other_card then no_retrigger = i end
+        end
+      end
+
+      if context.before then
+        faces = {}
+        roffle_mult = false
+        for i = 1, #context.scoring_hand do
+          local _card = context.scoring_hand[i]
+          if _card:is_face() then 
+            faces[#faces+1] = _card
+          end
+        end
+      end
+
+      if context.joker_main then
+        no_retrigger = -1
+        if roffle_mult == true then
+            return {
+              Xmult_mod = card.ability.extra.Xmult,
+              message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } },
+              card = card
+            }
+        end
+      end
+
+    end
+  },
+
+  SMODS.Joker {
+    key = 'mercante',
+    loc_txt = {
+      name = 'Mercante in Fiera',
+      text = {
+        "Earn {C:money}$#1#{} if",
+        "{C:attention}#2#{} of {V:1}#3#{} hasn't",
+        "been drawn this round",
+        "{s:0.8}Card changes every round"
+      }
+    },
+    config = { extra = { dollars = 6 } },
+    loc_vars = function(self, info_queue, card)
+      return { vars = { card.ability.extra.dollars, localize(G.GAME.current_round.idol_card.rank, 'ranks'), localize(G.GAME.current_round.idol_card.suit, 'suits_plural'), colours = {G.C.SUITS[G.GAME.current_round.idol_card.suit]} } }
+    end,
+  
+    rarity = 1,
+    atlas = 'GarbJokers',
+    pos = { x = 4, y = 5 },
+    cost = 5,
+
+      unlocked = true, 
+      discovered = false, --whether or not it starts discovered
+      blueprint_compat = true, --can it be blueprinted/brainstormed/other
+      eternal_compat = true, --can it be eternal
+      perishable_compat = true, --can it be perishable
+
+    calculate = function(self,card,context)
+      if context.first_hand_drawn then
+        failed = false
+      end
+
+      if context.hand_drawn or context.discard then
+        for i = 1, #G.hand.cards do
+          if G.hand.cards[i]:get_id() == G.GAME.current_round.idol_card.id and 
+          G.hand.cards[i]:is_suit(G.GAME.current_round.idol_card.suit) then
+            failed = true
+          end
+        end
+      end
+    end,
+
+    calc_dollar_bonus = function(self, card)
+      local bonus = card.ability.extra.dollars
+      if not failed then return bonus end
+    end
+  
+  },
+
+
    -- LEGENDARIES
    
   SMODS.Joker {
@@ -1682,7 +1791,7 @@ SMODS.Joker {
       eternal_compat = true, --can it be eternal
       perishable_compat = true, --can it be perishable
   
-    config = { extra = {swag = 1} },
+    config = { extra = {swag = true} },
     rarity = 4,
     atlas = 'GarbJokers',
     pos = { x = 1, y = 2 },
@@ -1756,7 +1865,7 @@ SMODS.Joker {
     end
     
   },
-  
+
   SMODS.Joker {
     key = 'sara',
     loc_txt = {

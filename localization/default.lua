@@ -10,6 +10,12 @@ return {
 					"{C:red}Self-destructs{} after {C:attention}#3#{} rounds",
 				},
 			},
+            m_garb_pure = {
+				name = "Pure Card",
+				text = {
+					"Can't be debuffed"
+				},
+			},
         },
 
         Other = {
