@@ -2,6 +2,31 @@ return {
 
 -- META STUFF
 
+SMODS.ConsumableType{
+    key = 'Stamp',
+    primary_colour = HEX("F7656F"),
+    secondary_colour = HEX("F7656F"),
+    loc_txt = {
+        name = 'Stamp', -- used on card type badges
+        collection = 'Stamp Cards', -- label for the button to access the collection
+        undiscovered = { -- description for undiscovered cards in the collection
+            name = 'Not Discovered',
+            text = {
+                "Purchase or use",
+                "this card in an",
+                "unseeded run to",
+                "learn what it does"
+            }       
+        },
+    }
+},
+
+SMODS.UndiscoveredSprite{
+    key = 'Stamp',
+    atlas = 'Stamps',
+    pos = { x = 0, y = 0 }
+},
+
 SMODS.Atlas({
 	key = "modicon",
 	path = "garb_icon.png",
@@ -15,6 +40,13 @@ SMODS.Atlas{
     px = 71, --width of one card
     py = 95 -- height of one card
 },
+
+SMODS.Atlas{
+    key = 'Stamps', --atlas key
+    path = 'Stamps.png', --atlas' path in (yourMod)/assets/1x or (yourMod)/assets/2x
+    px = 65, --width of one card
+    py = 95 -- height of one card
+  },
 
 SMODS.Atlas{
   key = 'GarbConsumables', --atlas key
