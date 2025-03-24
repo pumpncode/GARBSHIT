@@ -1490,7 +1490,7 @@ SMODS.Joker {
         "{C:inactive}(Currently: {X:mult,C:white} X#2# {}{C:inactive} Mult)"
       }
     },
-    config = { extra = { Xmult = 1, Xmult_gain = 0.25 } },
+    config = { extra = { Xmult = 1, Xmult_gain = 0.2 } },
     loc_vars = function(self, info_queue, card)
       return { vars = { card.ability.extra.Xmult_gain, card.ability.extra.Xmult } }
     end,
@@ -1564,7 +1564,7 @@ SMODS.Joker {
       "{C:inactive}(Currently {X:mult,C:white} X#1# {} {C:inactive}Mult)"
     }
   },
-  config = { extra = { difficulty = 1.05, Xmult = 1, Xmult_gain = 0.2, seconds = 2 } },
+  config = { extra = { difficulty = 1.05, Xmult = 1, Xmult_gain = 0.25, seconds = 2 } },
   loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.Xmult, card.ability.extra.Xmult_gain, card.ability.extra.seconds, (card.ability.extra.difficulty-1)*100 } }
   end,
@@ -1634,7 +1634,7 @@ SMODS.Joker {
         clock = nil
       end
 
-      if context.after and not context.blueprint and not context.debuffed_hand then
+      if context.post_joker and not context.blueprint and not context.debuffed_hand then
         card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_gain
         return {
           message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } },
@@ -2349,8 +2349,8 @@ SMODS.Joker {
     loc_txt = {
       name = 'Alain',
       text = {
-        "When hand is played,",
-        "creates a {C:dark_edition}Negative{} {C:planet}Planet{} card",
+        "When hand is played, creates a",
+        "{C:dark_edition}Negative{} {C:planet}Planet{} card",
         "for played {C:attention}poker hand{}",
       },
       unlock = {
@@ -2375,7 +2375,7 @@ SMODS.Joker {
     end,
 
     calculate = function(self, card, context)
-      if context.after then
+      if context.after and not context.debuffed_hand then
         G.E_MANAGER:add_event(Event({
           func = function()
             for k, v in pairs(G.P_CENTER_POOLS.Planet) do

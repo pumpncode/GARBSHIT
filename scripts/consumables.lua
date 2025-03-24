@@ -171,6 +171,41 @@ SMODS.Consumable{
 
 },
 
+SMODS.Consumable{
+  key = 'souvenir',
+  set = 'Stamp',
+  loc_txt = {
+    name = 'Souvenir',
+    text = {
+      "Exchange selected",
+      "{C:attention}Uncommon{} Joker",
+      "for a {C:attention}Voucher Tag{}"
+    }
+  },
+
+  atlas = 'Stamps', pos = { x = 4, y = 0 },
+
+    config = {extra = { }},
+    
+    loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue+1] = {set = "Tag", key = "tag_voucher", specific_vars = {}}
+        return { vars = {  }}
+    end,
+
+    can_use = function(self, card)
+      if (#G.jokers.highlighted == 1) and (G.jokers.highlighted[1].config.center.rarity == 2 or G.jokers.highlighted[1].config.center.rarity == 0.9) and not (G.jokers.highlighted[1].ability.eternal) then return true else return false end
+    end,
+  
+    use = function(self, card, area, copier)
+      play_sound('timpani')
+      _card = G.jokers.highlighted[1]
+      _card:start_dissolve(nil, false)
+      add_tag(Tag('tag_voucher'))
+      delay(0.6)
+    end
+
+},
+
 --[[
 SMODS.Consumable{
   key = 'souvenir',
@@ -267,7 +302,6 @@ SMODS.Consumable{
       text = {
         "Creates a {E:1,C:dark_edition}Negative{} copy",
       "of selected {C:attention}Joker{}",
-      "{C:red}-1{} hand size"
       }
     },
     atlas = 'GarbConsumables', pos = { x = 0, y = 0 },
@@ -282,7 +316,6 @@ SMODS.Consumable{
     use = function(self, card, area, copier)
       G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
         play_sound('timpani')
-        G.hand:change_size(-1)
         local new_card = SMODS.create_card{key = G.jokers.highlighted[1].config.center_key, edition = "e_negative"}
         new_card:add_to_deck()
         G.jokers:emplace(new_card)
