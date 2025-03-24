@@ -173,7 +173,9 @@ return {
             ach_garb_rocking = "Create 25 Stone cards in the same run using Rolling Stone",
             ach_garb_snowedin = "Have Snowball give more than 5000 Chips at once",
             ach_garb_jimboss = "Defeat Jimboss 5 times in the same run",
+        },
+        dictionary = {
+            ph_mr_bones = "Saved by Joker effect",
         }
-        
     }
 }
