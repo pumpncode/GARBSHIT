@@ -1520,6 +1520,8 @@ SMODS.Joker {
         if #archived > 0 then
           card_eval_status_text(card, 'extra', nil, nil, nil, {message = "Archived!"})
         end
+        local eval = function() return #archived > 0 end
+        juice_card_until(card, eval, true)
     end
 
     if context.joker_main then
