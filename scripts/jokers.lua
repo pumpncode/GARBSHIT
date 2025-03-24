@@ -1756,6 +1756,13 @@ SMODS.Joker {
         for i = 1, #G.hand.cards do
           if G.hand.cards[i]:get_id() == G.GAME.current_round.idol_card.id and 
           G.hand.cards[i]:is_suit(G.GAME.current_round.idol_card.suit) then
+            if not failed then 
+              card_eval_status_text(card, 'extra', nil, nil, nil, {message = "Unlucky!"})
+              for i = 1, 4 do
+              play_sound('cancel', 0.7 + 0.05*i, 0.7)
+              delay(0.4/i)
+              end
+            end
             failed = true
           end
         end
