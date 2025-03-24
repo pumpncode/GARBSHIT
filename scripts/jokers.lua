@@ -1748,8 +1748,11 @@ SMODS.Joker {
       perishable_compat = true, --can it be perishable
 
     calculate = function(self,card,context)
+
       if context.first_hand_drawn then
         failed = false
+        local eval = function() return not failed end
+        juice_card_until(card, eval, true)
       end
 
       if context.hand_drawn or context.discard then
