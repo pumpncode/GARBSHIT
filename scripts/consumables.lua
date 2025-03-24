@@ -316,7 +316,8 @@ SMODS.Consumable{
     use = function(self, card, area, copier)
       G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
         play_sound('timpani')
-        local new_card = SMODS.create_card{key = G.jokers.highlighted[1].config.center_key, edition = "e_negative"}
+        local new_card = copy_card(G.jokers.highlighted[1], nil, nil, nil, true)
+        new_card:set_edition('e_negative', true)
         new_card:add_to_deck()
         G.jokers:emplace(new_card)
         card:juice_up(0.3, 0.5)
