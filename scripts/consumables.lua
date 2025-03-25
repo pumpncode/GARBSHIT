@@ -1,5 +1,25 @@
 return {
     
+  SMODS.ConsumableType{
+    key = 'Stamp',
+    primary_colour = HEX("73A557"),
+    secondary_colour = HEX("73A557"),
+    loc_txt = {
+        name = 'Stamp', -- used on card type badges
+        collection = 'Stamp Cards', -- label for the button to access the collection
+        undiscovered = { -- description for undiscovered cards in the collection
+            name = 'Not Discovered',
+            text = {
+                "Purchase or use",
+                "this card in an",
+                "unseeded run to",
+                "learn what it does"
+            }       
+        },
+    },
+    default = "c_garb_fruit"
+},
+
 -- STAMPS
 
 SMODS.Consumable{
@@ -202,6 +222,43 @@ SMODS.Consumable{
       _card:start_dissolve(nil, false)
       add_tag(Tag('tag_voucher'))
       delay(0.6)
+    end
+
+},
+
+SMODS.Consumable{
+  key = 'mushroom',
+  set = 'Stamp',
+  loc_txt = {
+    name = 'Mushroom',
+    text = {
+      "Exchange selected Joker",
+      "to add {C:dark_edition}Foil{}, {C:dark_edition}Holographic{}, or",
+      "{C:dark_edition}Polychrome{} edition",
+      "to a random {C:attention}Joker"
+    }
+  },
+
+  atlas = 'Stamps', pos = { x = 0, y = 1 },
+
+    config = {extra = { }},
+    
+    loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue+1] = {set = "Tag", key = "tag_voucher", specific_vars = {}}
+        return { vars = {  }}
+    end,
+
+    can_use = function(self, card)
+      if (#G.jokers.highlighted == 1) and not (G.jokers.highlighted[1].ability.eternal) then return true else return false end
+    end,
+  
+    use = function(self, card, area, copier)
+      play_sound('timpani')
+      _card = G.jokers.highlighted[1]
+      -- FINISH THE MUSHROOM
+      _card:start_dissolve(nil, false)
+      delay(0.6)
+      return true
     end
 
 },

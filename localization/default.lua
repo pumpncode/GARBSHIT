@@ -19,6 +19,41 @@ return {
         },
 
         Other = {
+
+            p_garb_stamp_booster = {
+                name = "Postal Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of",
+                    "up to {C:attention}#2# Stamps{}",
+                },
+            },       
+
+            p_garb_stamp_booster_2 = {
+                name = "Postal Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of",
+                    "up to {C:attention}#2# Stamps{}",
+                },
+            },
+
+            p_garb_stamp_booster_j = {
+                name = "Jumbo Postal Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of",
+                    "up to {C:attention}#2# Stamps{}",
+                },
+            },
+
+            p_garb_stamp_booster_m = {
+                name = "Mega Postal Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of",
+                    "up to {C:attention}#2# Stamps{}",
+                },
+            },            
+            
+            
+     
             talisman_warning = {
                 name = "WARNING!",
                 text = {
@@ -175,6 +210,7 @@ return {
             ach_garb_jimboss = "Defeat Jimboss 5 times in the same run",
         },
         dictionary = {
+            stamp_booster = "Postal Pack",
             ph_mr_bones = "Saved by Joker effect",
         }
     }

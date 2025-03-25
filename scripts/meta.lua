@@ -2,25 +2,6 @@ return {
 
 -- META STUFF
 
-SMODS.ConsumableType{
-    key = 'Stamp',
-    primary_colour = HEX("F7656F"),
-    secondary_colour = HEX("F7656F"),
-    loc_txt = {
-        name = 'Stamp', -- used on card type badges
-        collection = 'Stamp Cards', -- label for the button to access the collection
-        undiscovered = { -- description for undiscovered cards in the collection
-            name = 'Not Discovered',
-            text = {
-                "Purchase or use",
-                "this card in an",
-                "unseeded run to",
-                "learn what it does"
-            }       
-        },
-    }
-},
-
 SMODS.UndiscoveredSprite{
     key = 'Stamp',
     atlas = 'Stamps',
@@ -34,9 +15,24 @@ SMODS.Atlas({
 	py = 32,
 }),
 
+SMODS.Atlas({
+	key = "GarbTags",
+	path = "tags.png",
+	px = 32,
+	py = 32,
+}),
+
+
 SMODS.Atlas{
     key = 'GarbJokers', --atlas key
     path = 'Jokers.png', --atlas' path in (yourMod)/assets/1x or (yourMod)/assets/2x
+    px = 71, --width of one card
+    py = 95 -- height of one card
+},
+
+SMODS.Atlas{
+    key = 'GarbBoosters', --atlas key
+    path = 'Boosters.png', --atlas' path in (yourMod)/assets/1x or (yourMod)/assets/2x
     px = 71, --width of one card
     py = 95 -- height of one card
 },
@@ -148,6 +144,21 @@ SMODS.Atlas{
     },
 	volume = 0.5
 	},
+
+    SMODS.Sound {
+        key = "music_stamps",
+        path = {
+            ["default"] = "music_stamps.ogg"
+        },
+        sync = true,
+        pitch = 1,
+        select_music_track = function()
+          return G.pack_cards
+          and G.pack_cards.cards
+          and G.pack_cards.cards[1]
+          and G.pack_cards.cards[1].ability.set == "Stamp"
+        end
+    },
 
   SMODS.Sound {
     key = "music_fukkireta",
