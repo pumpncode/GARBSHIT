@@ -1512,6 +1512,7 @@ SMODS.Joker {
             for k, v in pairs(G.playing_cards) do
                 if v.ability.set == 'Enhanced' then
                     archived[#archived+1] = v
+                    v.destroyme = true
                     v:start_dissolve(nil, _first_dissolve)
                     _first_dissolve = true
                     card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_gain
@@ -1520,7 +1521,7 @@ SMODS.Joker {
         if #archived > 0 then
           card_eval_status_text(card, 'extra', nil, nil, nil, {message = "Archived!"})
         end
-        local eval = function() return #archived > 0 end
+        local eval = function() return #archived > 0 or false end
         juice_card_until(card, eval, true)
     end
 
@@ -1551,6 +1552,12 @@ SMODS.Joker {
         returned = false
       end
     end
+
+    if context.destroying_card and context.destroying_card.destroyme then
+      return{
+          remove = true,
+      }
+  end
 
   end
 },
