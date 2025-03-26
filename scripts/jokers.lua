@@ -466,7 +466,7 @@ SMODS.Joker {
       }
     },
   
-    config = { extra = {Xmult = 4} },
+    config = { extra = {Xmult = 3} },
     rarity = 3,
     atlas = 'GarbJokers',
     pos = { x = 5, y = 2 },
@@ -1761,7 +1761,6 @@ SMODS.Joker {
       if context.first_hand_drawn then
         failed = false
         local eval = function() return not failed end
-        juice_card_until(card, eval, true)
       end
 
       if context.hand_drawn or context.discard then
