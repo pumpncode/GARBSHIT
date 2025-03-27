@@ -186,17 +186,18 @@ return {
                 text = {
                     "{C:attention}GARBSHIT{} Jokers appear",
                     "{C:attention}3x{} more often",
-                    "Start run with {C:attention}#1#{}",
+                    "Start run with {C:attention,T:v_overstock_norm}#1#{}",
                 },
             },
             b_garb_albert = {
                 name = "Albert's Deck",
                 text = {
-                    "Start with a {E:1,C:legendary}Legendary{} Joker",
+                    "Start run with a",
+                    "{E:1,C:legendary}Legendary{} Joker",
                     "{C:red}X#1#{} base Blind size",
                 },
                 unlock = {
-                    "Use a {C:stamp}Vintage Stamp{} on",
+                    "Use a {C:stamp,T:c_garb_vintage}Vintage Stamp{} on",
                     "a {E:1,C:legendary}Legendary{} Joker"
                 }
             },

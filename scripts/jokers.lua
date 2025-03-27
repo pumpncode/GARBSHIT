@@ -1434,7 +1434,7 @@ end
       name = 'Backtrack',
       text = {
         "Visit the {C:attention}Shop{}",
-        "after blind is" ,
+        "after a blind is" ,
         "{C:attention}skipped{}",
       }
     },
