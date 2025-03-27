@@ -3,7 +3,48 @@ version = "1.0.0"
 dump_lua = true
 priority = 99999999
 
+# Backtrack
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''
+G.GAME.skips = (G.GAME.skips or 0) + 1
+'''
+position = "after"
+payload = '''
+if next(SMODS.find_card("j_garb_backtrack")) then
+        G.E_MANAGER:add_event(Event({
+          trigger = 'before', delay = 0.2,
+          func = function()
+            G.blind_prompt_box.alignment.offset.y = -10
+            G.blind_select.alignment.offset.y = 40
+            G.blind_select.alignment.offset.x = 0
+            return true
+        end}))
+    G.E_MANAGER:add_event(Event({
+        trigger = "immediate",
+        func = function()
+            G.GAME.current_round.jokers_purchased = 0
+            G.STATE = G.STATES.SHOP
+            G.STATE_COMPLETE = false
 
+            G.GAME.shop_free = nil
+            G.GAME.shop_d6ed = nil
+            G.GAME.current_round.used_packs = {}
+
+            G.blind_select:remove()
+            G.blind_prompt_box:remove()
+            G.blind_select = nil
+            delay(0.2)    
+            return true
+            end,
+        }))
+end
+'''
+match_indent = true
+times = 1
+
+# Title Screen - Colors
 [[patches]]
 [patches.pattern]
 target = "globals.lua"
@@ -18,6 +59,7 @@ GARB_T2 = HEX("B670D8"),
 match_indent = true
 times = 1
 
+# Tangerine Deck - Probabilities
 [[patches]]
 [patches.pattern]
 target = "functions/common_events.lua"
@@ -35,7 +77,7 @@ end
 '''
 match_indent = true
 
-
+# Colorful Joker - Unlock
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -60,6 +102,7 @@ payload = '''
 match_indent = false
 overwrite = false
 
+# Black Hole - Unlock
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -69,6 +112,7 @@ payload = '''check_for_unlock({ type = "black_hole" })'''
 match_indent = true
 overwrite = false
 
+# Quadrant Hands - Jupiter LvUP
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -83,6 +127,7 @@ end
 match_indent = true
 overwrite = false
 
+# Quadrant Hands - Blue Seal
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -97,6 +142,7 @@ end
 match_indent = true
 overwrite = false
 
+# Angel of Salt - Unlock
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -110,6 +156,7 @@ payload = '''
 match_indent = true
 overwrite = false
 
+# Title Screen - Cryptid Compatibility
 [[patches]]
 [patches.pattern]
 target = "game.lua"
@@ -133,6 +180,7 @@ end
 match_indent = true
 overwrite = true
 
+# Splash - THE SURGE
 [[patches]]
 [patches.pattern]
 target = "game.lua"

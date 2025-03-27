@@ -1375,7 +1375,7 @@ SMODS.Joker {
       "{C:attention}#1#{}"
       }
     },
-    config = { extra = { hand_text = "Matespritship", suit = 'Hearts' } },
+    config = { extra = { hand_text = "Matesprit", suit = 'Hearts' } },
     loc_vars = function(self, info_queue, card)
       info_queue[#info_queue+1] = {set = "Other", key = "quadrant_hands", specific_vars = {card.ability.extra.hand_text}} 
       return { vars = { card.ability.extra.hand_text, localize(card.ability.extra.suit, 'suits_plural'), colours = {G.C.SUITS[card.ability.extra.suit]} } }
@@ -1401,10 +1401,10 @@ SMODS.Joker {
     }
 
     local hands = {
-      ['Hearts'] = "Matespritship",
-      ['Diamonds'] = "Moirallegiance",
-      ['Spades'] = "Kismesissitude",
-      ['Clubs'] = "Auspisticism"
+      ['Hearts'] = "Matesprit",
+      ['Diamonds'] = "Moirail",
+      ['Spades'] = "Kismesis",
+      ['Clubs'] = "Auspistice"
   }
 
     if G.playing_cards then
@@ -1426,6 +1426,43 @@ SMODS.Joker {
     SHIPPINGWALL_HAND = hands[card.ability.extra.suit]
     card.ability.extra.hand_text = SHIPPINGWALL_HAND
 end
+  },
+
+  SMODS.Joker {
+    key = 'backtrack',
+    loc_txt = {
+      name = 'Backtrack',
+      text = {
+        "Visit the {C:attention}Shop{}",
+        "after blind is" ,
+        "{C:attention}skipped{}",
+      }
+    },
+    config = { extra = {  } },
+    loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue+1] = {set = "Other", key = "lamborghiniofficial", specific_vars = {}} 
+      return { vars = {  } }
+    end,
+  
+    rarity = 3,
+    atlas = 'GarbJokers',
+    pos = { x = 2, y = 6 },
+    cost = 5,
+  
+      unlocked = true, 
+      discovered = false, --whether or not it starts discovered
+      blueprint_compat = true, --can it be blueprinted/brainstormed/other
+      eternal_compat = true, --can it be eternal
+      perishable_compat = true, --can it be perishable
+
+      calculate = function(self, card, context)
+        if context.skip_blind then
+          return {
+            message = 'Backtracked!',
+            card = card
+          }
+        end
+      end
   },
  
   SMODS.Joker {
@@ -1580,7 +1617,7 @@ SMODS.Joker {
     end,
 
     update = function(self, card)
-      if clock and SMODS.find_card("j_garb_trumpets") and G.GAME.blind.in_blind and not G.SETTINGS.paused then
+      if clock and next(SMODS.find_card("j_garb_trumpets")) and G.GAME.blind.in_blind and not G.SETTINGS.paused then
         if (clock + (card.ability.extra.seconds - 1) < G.TIMERS.REAL) then
           clock = G.TIMERS.REAL
           create_champion_event()
@@ -1944,7 +1981,7 @@ SMODS.Joker {
       perishable_compat = false, --can it be perishable
   
         add_to_deck = function(self, card)
-        check_for_unlock({ type = "discover_garb" })
+        check_for_unlock({ type = "discover_garb777" })
       end,
   
      calculate = function(self, card, context)

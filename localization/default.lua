@@ -51,7 +51,13 @@ return {
                 },
             },            
             
-            
+            lamborghiniofficial = {
+                name = "Credits",
+                text = {
+                    "Art and idea by",
+                    "{E:1,C:attention}lamborghiniofficial"
+                }
+            }, 
      
             talisman_warning = {
                 name = "WARNING!",
@@ -182,6 +188,17 @@ return {
                     "{C:attention}3x{} more often",
                     "Start run with {C:attention}#1#{}",
                 },
+            },
+            b_garb_albert = {
+                name = "Albert's Deck",
+                text = {
+                    "Start with a {E:1,C:legendary}Legendary{} Joker",
+                    "{C:red}X#1#{} base Blind size",
+                },
+                unlock = {
+                    "Use a {C:stamp}Vintage Stamp{} on",
+                    "a {E:1,C:legendary}Legendary{} Joker"
+                }
             },
         },
     

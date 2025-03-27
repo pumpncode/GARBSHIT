@@ -133,6 +133,7 @@ SMODS.Consumable{
       elseif rarity == 3 then
         rarity = 0.99
       elseif rarity == 4 then
+        check_for_unlock({ type = "albert_deck" })
         rarity = nil
         legendary = true
       end
