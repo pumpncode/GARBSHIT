@@ -5,7 +5,7 @@ return {
           name = 'Mail Tag',
           text = {
             "Gives a free",
-            "{C:attention}Mega Postal Pack"
+            "{C:stamp}Mega Postal Pack"
         }
         },
         atlas = 'GarbTags', 

@@ -148,7 +148,7 @@ SMODS.Atlas{
     SMODS.Sound {
         key = "music_stamps",
         path = {
-            ["default"] = "music_swapdoodle.ogg"
+            ["default"] = "music_stamps.ogg"
         },
         sync = true,
         pitch = 1,

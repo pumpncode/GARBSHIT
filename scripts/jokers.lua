@@ -1365,26 +1365,25 @@ SMODS.Joker {
     end
   },
   
-  --[[
   SMODS.Joker {
-    key = 'matesprit',
+    key = 'shipping',
     loc_txt = {
-      name = 'Matespritship',
+      name = 'Shipping Wall',
       text = {
-        "{C:attention}Flush{} of {C:hearts}Hearts{}",
+        "{C:attention}Flush{} of {V:1}#2#{}",
       "becomes",
-      "{C:attention}Blush Flush{}"
+      "{C:attention}#1#{}"
       }
     },
-    config = { extra = { hand_text = "Blush Flush" } },
+    config = { extra = { hand_text = "Matespritship", suit = 'Hearts' } },
     loc_vars = function(self, info_queue, card)
       info_queue[#info_queue+1] = {set = "Other", key = "quadrant_hands", specific_vars = {card.ability.extra.hand_text}} 
-      return { vars = {  } }
+      return { vars = { card.ability.extra.hand_text, localize(card.ability.extra.suit, 'suits_plural'), colours = {G.C.SUITS[card.ability.extra.suit]} } }
     end,
   
     rarity = 2,
     atlas = 'GarbJokers',
-    pos = { x = 0, y = 9 },
+    pos = { x = 1, y = 5 },
     cost = 5,
   
       unlocked = true, 
@@ -1392,91 +1391,43 @@ SMODS.Joker {
       blueprint_compat = true, --can it be blueprinted/brainstormed/other
       eternal_compat = true, --can it be eternal
       perishable_compat = true, --can it be perishable
-  },
 
-  SMODS.Joker {
-    key = 'kismesis',
-    loc_txt = {
-      name = 'Kismesissitude',
-      text = {
-        "{C:attention}Flush{} of {C:spades}Spades{}",
-      "becomes",
-      "{C:attention}Caliginous Quarrel{}"
-      }
-    },
-    config = { extra = { hand_text = "Caliginous Quarrel" } },
-    loc_vars = function(self, info_queue, card)
-      info_queue[#info_queue+1] = {set = "Other", key = "quadrant_hands", specific_vars = {card.ability.extra.hand_text}} 
-      return { vars = {  } }
-    end,
-  
-    rarity = 2,
-    atlas = 'GarbJokers',
-    pos = { x = 1, y = 0 },
-    cost = 5,
-  
-      unlocked = true, 
-      discovered = false, --whether or not it starts discovered
-      blueprint_compat = true, --can it be blueprinted/brainstormed/other
-      eternal_compat = true, --can it be eternal
-      perishable_compat = true, --can it be perishable
-      },
-  
-  SMODS.Joker {
-    key = 'auspistice',
-    loc_txt = {
-      name = 'Auspisticism',
-      text = {
-        "{C:attention}Flush{} of {C:clubs}Clubs{}",
-      "becomes",
-      "{C:attention}Ashen Resolution{}"
-      }
-    },
-    config = { extra = { hand_text = "Ashen Resolution" } },
-    loc_vars = function(self, info_queue, card)
-      info_queue[#info_queue+1] = {set = "Other", key = "quadrant_hands", specific_vars = {card.ability.extra.hand_text}} 
-      return { vars = {  } }
-    end,
-    rarity = 2,
-    atlas = 'GarbJokers',
-    pos = { x = 1, y = 0 },
-    cost = 5,
-  
-      unlocked = true, 
-      discovered = false, --whether or not it starts discovered
-      blueprint_compat = true, --can it be blueprinted/brainstormed/other
-      eternal_compat = true, --can it be eternal
-      perishable_compat = true, --can it be perishable
-  },
-  
-  SMODS.Joker {
-    key = 'moirail',
-    loc_txt = {
-      name = 'Moirallegience',
-      text = {
-        "{C:attention}Flush{} of {C:diamonds}Diamonds{}",
-      "becomes",
-      "{C:attention}Pale Allegiance{}",
-      }
-    },
-    config = { extra = { hand_text = "Pale Allegiance" } },
-    loc_vars = function(self, info_queue, card)
-      info_queue[#info_queue+1] = {set = "Other", key = "quadrant_hands", specific_vars = {card.ability.extra.hand_text}} 
-      return { vars = {  } }
-    end,
-    rarity = 2,
-    atlas = 'GarbJokers',
-    pos = { x = 1, y = 0 },
-    cost = 5,
-  
-      unlocked = true, 
-      discovered = false, --whether or not it starts discovered
-      blueprint_compat = true, --can it be blueprinted/brainstormed/other
-      eternal_compat = true, --can it be eternal
-      perishable_compat = true, --can it be perishable
-      },
-  ]]
+    set_ability = function(self, card, initial, delay_sprites)
+    local suits = {
+        ['Hearts'] = 0,
+        ['Diamonds'] = 0,
+        ['Spades'] = 0,
+        ['Clubs'] = 0
+    }
+
+    local hands = {
+      ['Hearts'] = "Matespritship",
+      ['Diamonds'] = "Moirallegiance",
+      ['Spades'] = "Kismesissitude",
+      ['Clubs'] = "Auspisticism"
+  }
+
+    if G.playing_cards then
+      for i = 1, #G.playing_cards do
+              if G.playing_cards[i]:is_suit('Hearts', true) then suits["Hearts"] = suits["Hearts"] + 1
+              elseif G.playing_cards[i]:is_suit('Diamonds', true)  then suits["Diamonds"] = suits["Diamonds"] + 1
+              elseif G.playing_cards[i]:is_suit('Spades', true)  then suits["Spades"] = suits["Spades"] + 1
+              elseif G.playing_cards[i]:is_suit('Clubs', true)  then suits["Clubs"] = suits["Clubs"] + 1 end
+      end
+    end
     
+    local highestnumber = 0
+    for k, v in pairs(suits) do
+      if v > highestnumber then
+        highestnumber = v
+        card.ability.extra.suit = k
+      end
+    end
+    SHIPPINGWALL_HAND = hands[card.ability.extra.suit]
+    card.ability.extra.hand_text = SHIPPINGWALL_HAND
+end
+  },
+ 
   SMODS.Joker {
     key = 'archive',
     loc_txt = {

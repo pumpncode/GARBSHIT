@@ -17,7 +17,7 @@ SMODS.PokerHand {
     },
     loc_txt = {
         ['en-us'] = {
-            name = 'Blush Flush',
+            name = 'Matespritship',
             description = {
               "5 cards of heart suit"
             }
@@ -25,7 +25,7 @@ SMODS.PokerHand {
     },
     visible = false,
     evaluate = function(parts, hand)
-        if next(parts._flush) and next(find_joker("j_garb_matesprit")) then
+        if next(parts._flush) and next(find_joker("j_garb_shipping")) and SHIPPINGWALL_HAND == "Matespritship" then
             local royal = true
             local _flosh = SMODS.merge_lists(parts._flush)
             for j = 1, #_flosh do
@@ -51,7 +51,7 @@ SMODS.PokerHand {
     },
     loc_txt = {
         ['en-us'] = {
-            name = 'Caliginous Quarrel',
+            name = 'Kismesissitude',
             description = {
               "5 cards of spade suit"
             }
@@ -59,7 +59,7 @@ SMODS.PokerHand {
     },
     visible = false,
     evaluate = function(parts, hand)
-        if next(parts._flush) and next(find_joker("j_garb_kismesis")) then
+        if next(parts._flush) and next(find_joker("j_garb_shipping")) and SHIPPINGWALL_HAND == "Kismesissitude" then
             local royal = true
             local _flosh = SMODS.merge_lists(parts._flush)
             for j = 1, #_flosh do
@@ -85,7 +85,7 @@ SMODS.PokerHand {
     },
     loc_txt = {
         ['en-us'] = {
-            name = 'Ashen Resolution',
+            name = 'Auspisticism',
             description = {
               "5 cards of club suit"
             }
@@ -93,7 +93,7 @@ SMODS.PokerHand {
     },
     visible = false,
     evaluate = function(parts, hand)
-        if next(parts._flush) and next(find_joker("j_garb_auspistice")) then
+        if next(parts._flush) and next(find_joker("j_garb_shipping")) and SHIPPINGWALL_HAND == "Auspisticism" then
             local royal = true
             local _flosh = SMODS.merge_lists(parts._flush)
             for j = 1, #_flosh do
@@ -119,7 +119,7 @@ SMODS.PokerHand {
     },
     loc_txt = {
         ['en-us'] = {
-            name = 'Pale Allegiance',
+            name = 'Moirallegiance',
             description = {
               "5 cards of diamond suit"
             }
@@ -127,7 +127,7 @@ SMODS.PokerHand {
     },
     visible = false,
     evaluate = function(parts, hand)
-        if next(parts._flush) and next(find_joker("j_garb_moirail")) then
+        if next(parts._flush) and next(find_joker("j_garb_shipping")) and SHIPPINGWALL_HAND == "Moirallegiance" then
             local royal = true
             local _flosh = SMODS.merge_lists(parts._flush)
             for j = 1, #_flosh do

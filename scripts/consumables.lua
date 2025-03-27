@@ -244,12 +244,21 @@ SMODS.Consumable{
     config = {extra = { }},
     
     loc_vars = function(self, info_queue, card)
-      info_queue[#info_queue+1] = {set = "Tag", key = "tag_voucher", specific_vars = {}}
+      info_queue[#info_queue+1] = G.P_CENTERS.e_foil
+      info_queue[#info_queue+1] = G.P_CENTERS.e_holo
+      info_queue[#info_queue+1] = G.P_CENTERS.e_polychrome
         return { vars = {  }}
     end,
 
     can_use = function(self, card)
-      if (#G.jokers.highlighted == 1) and not (G.jokers.highlighted[1].ability.eternal) then return true else return false end
+      local exchange = (#G.jokers.highlighted == 1) and not (G.jokers.highlighted[1].ability.eternal)
+      eligible_strength_jokers = EMPTY(eligible_strength_jokers)
+      for k, v in pairs(G.jokers.cards) do
+        if v.ability.set == 'Joker' and (not v.edition) and v ~= G.jokers.highlighted[1] then
+            table.insert(eligible_strength_jokers, v)
+        end
+      end
+      return (#eligible_strength_jokers > 0 or false) and exchange
     end,
   
     use = function(self, card, area, copier)
@@ -257,6 +266,10 @@ SMODS.Consumable{
       _card = G.jokers.highlighted[1]
       -- FINISH THE MUSHROOM
       _card:start_dissolve(nil, false)
+      local eligible_card = pseudorandom_element(eligible_strength_jokers, pseudoseed("shroomie"))
+      local edition = poll_edition('shroomie', nil, true, true)
+      eligible_card:set_edition(edition, true)
+      check_for_unlock({type = 'have_edition'})
       delay(0.6)
       return true
     end
@@ -330,6 +343,9 @@ SMODS.Consumable{
       
       loc_vars = function(self, info_queue, card)
           info_queue[#info_queue+1] = G.P_CENTERS.m_garb_infected
+          if next(find_joker("j_garb_scopacane")) then
+            info_queue[#info_queue+1] = {set = "Other", key = "mega_enhance", specific_vars = {card.ability.extra.max_highlighted, card.ability.extra.enhancement}}
+            end      
           return { vars = { card.ability.extra.max_highlighted, card.ability.extra.enhancement }}
       end,
   
