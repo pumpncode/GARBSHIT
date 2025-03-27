@@ -13,7 +13,7 @@ return {
         order = 1,
         weight = 1,
         unlocked = true,
-        discovered = true,
+        discovered = false,
         create_card = function(self, card)
             return create_card("Stamp", G.pack_cards, nil, nil, true, true, nil, nil)
         end,
@@ -37,7 +37,7 @@ return {
         order = 1,
         weight = 1,
         unlocked = true,
-        discovered = true,
+        discovered = false,
         create_card = function(self, card)
             return create_card("Stamp", G.pack_cards, nil, nil, true, true, nil, nil)
         end,
@@ -61,7 +61,7 @@ return {
         order = 1,
         weight = 1,
         unlocked = true,
-        discovered = true,
+        discovered = false,
         create_card = function(self, card)
             return create_card("Stamp", G.pack_cards, nil, nil, true, true, nil, nil)
         end,
@@ -85,7 +85,7 @@ return {
         order = 1,
         weight = 0.5,
         unlocked = true,
-        discovered = true,
+        discovered = false,
         create_card = function(self, card)
             return create_card("Stamp", G.pack_cards, nil, nil, true, true, nil, nil)
         end,

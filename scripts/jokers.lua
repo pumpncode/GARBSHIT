@@ -1571,7 +1571,7 @@ SMODS.Joker {
   pos = { x = 5, y = 5 },
   cost = 5,
     unlocked = true, 
-    discovered = true, --whether or not it starts discovered
+    discovered = false, --whether or not it starts discovered
     blueprint_compat = true, --can it be blueprinted/brainstormed/other
     eternal_compat = true, --can it be eternal
     perishable_compat = true, --can it be perishable
