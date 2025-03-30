@@ -945,12 +945,13 @@ SMODS.Joker {
     loc_txt = {
       name = 'Magic Missile',
       text = {
-        "{X:mult,C:white} X#1# {} Mult if {C:attention}poker hand{}",
+        "{X:mult,C:white} X#1# {} Mult if",
+        "played {C:attention}poker hand{}",
         "is a {C:attention}High Card{}"
       }
     },
     -- Extra is empty, because it only happens once. If you wanted to copy multiple cards, you'd need to restructure the code and add a for loop or something.
-    config = { extra = {Xmult = 2} },
+    config = { extra = {Xmult = 3} },
     rarity = 2,
     atlas = 'GarbJokers',
     pos = { x = 5, y = 4 },
@@ -2355,9 +2356,10 @@ SMODS.Joker {
     loc_txt = {
       name = 'Alain',
       text = {
-        "When hand is played, creates a",
-        "{C:dark_edition}Negative{} {C:planet}Planet{} card",
-        "for played {C:attention}poker hand{}",
+        "When hand is played", 
+        "creates a {C:planet}Planet{} card",
+        "for played {C:attention}poker hand",
+        "and a {C:dark_edition}Negative{} of it",
       },
       unlock = {
         "{E:1,s:1.3}?????"
@@ -2393,6 +2395,11 @@ SMODS.Joker {
             _card:set_edition('e_negative', true)
             _card:add_to_deck()
             G.consumeables:emplace(_card)
+            if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+            local _card2 = SMODS.create_card{key = _planet or "c_jupiter", no_edition = true}
+            _card2:add_to_deck()
+            G.consumeables:emplace(_card2)
+            end
             return true
           end
         }))
