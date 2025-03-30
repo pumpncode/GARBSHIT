@@ -160,9 +160,9 @@ SMODS.Joker {
     loc_txt = {
       name = 'Golden Lucky Cat',
       text = {
-        "Earn {C:money}$#1#{} every time",
-        "a {C:attention}Lucky{} card",
-        "{C:green}successfully{} triggers"
+        "{C:green}#3# in #2#{} chance for",
+        "{C:attention}Lucky{} cards held in hand",
+        "to give {C:money}$#1#"
       }
     },
     
@@ -172,25 +172,28 @@ SMODS.Joker {
       eternal_compat = true, --can it be eternal
       perishable_compat = true, --can it be perishable
   
-    config = { extra = { money = 4 } },
+    config = { extra = { money = 20, odds = 15 } },
     rarity = 2,
     atlas = 'GarbJokers',
     pos = { x = 5, y = 1 },
     cost = 6,
     loc_vars = function(self, info_queue, card)
       info_queue[#info_queue+1] = G.P_CENTERS.m_lucky
-      return { vars = { card.ability.extra.money } }
+      return { vars = { card.ability.extra.money, card.ability.extra.odds, G.GAME.probabilities.normal } }
     end,
     
      calculate = function(self, card, context)
   
-      if context.individual and not context.other_card.debuff and context.other_card.lucky_trigger then
-                                  G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + card.ability.extra.money
-                                  G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
-                                  return {
-                                      dollars = card.ability.extra.money,
-                                      colour = G.C.MONEY
-                                  }
+      if context.individual and context.cardarea == G.hand and not context.end_of_round then
+        if pseudorandom('Nyanko') < G.GAME.probabilities.normal/card.ability.extra.odds then
+          G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + card.ability.extra.money
+          G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+          return {
+            dollars = card.ability.extra.money,
+            message_card = context.other_card,
+            colour = G.C.MONEY
+          }
+          end
       end
     end
   },
@@ -1005,8 +1008,6 @@ SMODS.Joker {
           if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
                       G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
                       G.E_MANAGER:add_event(Event({
-                          trigger = 'before',
-                          delay = 0.0,
                           func = (function()
                                   local card = create_card('Spectral',G.consumeables, nil, nil, nil, nil, nil, 'sixth')
                                   card:add_to_deck()
@@ -1016,7 +1017,6 @@ SMODS.Joker {
                           end)}))
                       card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_plus_spectral'), colour = G.C.SECONDARY_SET.Spectral})
                   end
-          return true
       end
     end
   },
@@ -2405,6 +2405,62 @@ SMODS.Joker {
   end
 },
   
+SMODS.Joker {
+  key = 'androsius',
+  loc_txt = {
+    name = 'Androsius',
+    text = {
+      "This Joker gains",
+      "{X:mult,C:white} X#1# {} Mult every time",
+      "a {C:stamp}Stamp{} card is used",
+      "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)"
+    },
+    unlock = {
+      "{E:1,s:1.3}?????"
+    }
+  },
+  config = { extra = { Xmult_gain = 1, Xmult = 1} },
+  rarity = 4,
+  atlas = 'GarbJokers',
+  pos = { x = 3, y = 6 },
+  soul_pos = { x = 4, y = 6 },
+  cost = 20,
+
+  unlocked = false, 
+  discovered = false, --whether or not it starts discovered
+  blueprint_compat = true, --can it be blueprinted/brainstormed/other
+  eternal_compat = true, --can it be eternal
+  perishable_compat = true, --can it be perishable
+
+  loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.Xmult_gain, card.ability.extra.Xmult} }
+  end,
+
+
+  add_to_deck = function(self, card)
+    check_for_unlock({ type = "discover_androsius" })
+  end,
+
+  calculate = function(self, card, context)
+    if context.using_consumeable and context.consumeable.ability.set == 'Stamp' then
+      card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_gain
+          return {
+            message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } },
+            card = card
+          }
+    end
+
+    if context.joker_main and card.ability.extra.Xmult > 1 then
+      return {
+        Xmult_mod = card.ability.extra.Xmult,
+        message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } },
+        card = card
+      }
+    end
+
+  end
+},
+
 -- TITLE JOKERS
 
 SMODS.Joker {

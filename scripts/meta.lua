@@ -22,6 +22,12 @@ SMODS.Atlas({
 	py = 32,
 }),
 
+SMODS.Atlas({
+	key = "GarbVouchers",
+	path = "Vouchers.png",
+	px = 71,
+	py = 95,
+}),
 
 SMODS.Atlas{
     key = 'GarbJokers', --atlas key

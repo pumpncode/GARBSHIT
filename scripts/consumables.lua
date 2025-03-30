@@ -17,6 +17,7 @@ return {
             }       
         },
     },
+    shop_rate = 0.0,
     default = "c_garb_fruit"
 },
 
@@ -69,8 +70,7 @@ SMODS.Consumable{
       "next round"
     }
   },
-
-  atlas = 'Stamps', pos = { x = 1, y = 0 },
+    atlas = 'Stamps', pos = { x = 1, y = 0 },
 
     config = {extra = { max_highlighted = 1, h_size = 3}},
     

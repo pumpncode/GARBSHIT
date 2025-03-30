@@ -201,6 +201,14 @@ return {
                     "a {E:1,C:legendary}Legendary{} Joker"
                 }
             },
+            b_garb_doodle = {
+                name = "Doodle Deck",
+                text = {
+                    "Start run with the",
+                    "{C:stamp,T:v_garb_postcard}#1#{} voucher",
+                    "and a {C:stamp,T:c_garb_vintage}Vintage{} card"
+                },
+            },
         },
     
     },

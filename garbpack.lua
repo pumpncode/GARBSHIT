@@ -1,12 +1,3 @@
---- STEAMODDED HEADER
---- MOD_NAME: Garbshit
---- MOD_ID: GARBPACK
---- MOD_AUTHOR: [garb]
---- BADGE_COLOUR: 7E5A7D
---- MOD_DESCRIPTION: Garb's silly collection of good and bad thingamajigs.
---- PREFIX: garb
---- DEPENDENCIES: [Steamodded>=1.0.0~ALPHA-1418a]
-
 ----------------------------------------------
 ------------MOD CODE -------------------------
 
@@ -164,3 +155,5 @@ assert(SMODS.load_file('scripts/unleashed_tarots.lua'))()
 assert(SMODS.load_file('scripts/decks.lua'))()
 assert(SMODS.load_file('scripts/boosters.lua'))()
 assert(SMODS.load_file('scripts/tags.lua'))()
+assert(SMODS.load_file('scripts/vouchers.lua'))()
+
