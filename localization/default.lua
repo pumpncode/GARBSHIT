@@ -206,7 +206,7 @@ return {
                 text = {
                     "Start run with the",
                     "{C:stamp,T:v_garb_postcard}#1#{} voucher",
-                    "and a {C:stamp,T:c_garb_vintage}Vintage{} card"
+                    "and a {C:stamp,T:c_garb_creature}#2#{} card"
                 },
             },
         },
