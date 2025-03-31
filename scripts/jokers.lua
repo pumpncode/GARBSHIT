@@ -86,6 +86,8 @@ SMODS.Joker {
       if context.reroll_shop then
           G.E_MANAGER:add_event(Event({
                       func = function() 
+                          if not stone_counter then stone_counter = 1 else stone_counter = stone_counter + 1 end
+                          if stone_counter == 25 then check_for_unlock({ type = "rocking" }) end
                           local front = pseudorandom_element(G.P_CARDS, pseudoseed('marb_fr'))
                           G.playing_card = (G.playing_card and G.playing_card + 1) or 1
                           local card = Card(G.play.T.x + G.play.T.w/2, G.play.T.y, G.CARD_W, G.CARD_H, front, G.P_CENTERS.m_stone, {playing_card = G.playing_card})
@@ -642,6 +644,7 @@ SMODS.Joker {
               local deletable_jokers = {}
               local _first_dissolve = nil
               play_sound('garb_surge', 1, 0.6)
+              check_for_unlock({ type = "surged" })
               for k, v in pairs(G.jokers.cards) do
                   if not v.ability.eternal then deletable_jokers[#deletable_jokers + 1] = v end
               end
@@ -1142,6 +1145,7 @@ SMODS.Joker {
   
       if context.after then
         card.ability.extra.chips = 5
+        s_no_retrigger = -1
       end
       
       if context.individual and context.cardarea == G.play then

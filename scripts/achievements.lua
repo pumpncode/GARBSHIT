@@ -17,18 +17,6 @@ SMODS.Achievement({
 		end
 	end
 }),
---[[
-SMODS.Achievement({
-	key = "criticalfail",
-	bypass_all_unlocked = true,
-	atlas = "garb_achievements",
-	-- reset_on_startup = true,
-	unlock_condition = function(self, args)
-		if args.type == "criticalfail" then
-			return true
-		end
-	end
-}),
 
 SMODS.Achievement({
 	key = "surged",
@@ -49,6 +37,19 @@ SMODS.Achievement({
 	-- reset_on_startup = true,
 	unlock_condition = function(self, args)
 		if args.type == "rocking" then
+			return true
+		end
+	end
+}),
+
+--[[
+SMODS.Achievement({
+	key = "criticalfail",
+	bypass_all_unlocked = true,
+	atlas = "garb_achievements",
+	-- reset_on_startup = true,
+	unlock_condition = function(self, args)
+		if args.type == "criticalfail" then
 			return true
 		end
 	end
