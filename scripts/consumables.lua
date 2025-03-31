@@ -265,10 +265,9 @@ SMODS.Consumable{
     use = function(self, card, area, copier)
       play_sound('timpani')
       _card = G.jokers.highlighted[1]
-      -- FINISH THE MUSHROOM
       _card:start_dissolve(nil, false)
       local eligible_card = pseudorandom_element(eligible_strength_jokers, pseudoseed("shroomie"))
-      local edition = poll_edition('shroomie', nil, true, true)
+      local edition = poll_edition('shroomie', nil, true, true,  {"e_foil", "e_holo","e_polychrome"})
       eligible_card:set_edition(edition, true)
       check_for_unlock({type = 'have_edition'})
       delay(0.6)
@@ -277,26 +276,24 @@ SMODS.Consumable{
 
 },
 
---[[
 SMODS.Consumable{
-  key = 'souvenir',
+  key = 'creature',
   set = 'Stamp',
   loc_txt = {
-    name = 'Souvenir',
+    name = 'Creature',
     text = {
       "Exchange selected Joker",
-      "for up to {C:attention}#1#{} copies",
-      "of {C:attention}The Fool{}",
+      "for up to {C:attention}#1#{} random",
+      "{C:spectral}Spectral{} cards",
       "{C:inactive}(Must have room)"
     }
   },
 
-  atlas = 'Stamps', pos = { x = 2, y = 0 },
+  atlas = 'Stamps', pos = { x = 1, y = 1 },
 
     config = {extra = { max_highlighted = 1, copies = 2, }},
     
     loc_vars = function(self, info_queue, card)
-        info_queue[#info_queue+1] = G.P_CENTERS.c_fool
         return { vars = { card.ability.extra.copies }}
     end,
 
@@ -312,7 +309,7 @@ SMODS.Consumable{
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
             if G.consumeables.config.card_limit > #G.consumeables.cards then
                 play_sound('timpani')
-                local card = SMODS.create_card{key = "c_fool", no_edition = true}
+                local card = SMODS.create_card{set = "Spectral", no_edition = true}
                 G.consumeables:emplace(card)
                 card:juice_up(0.3, 0.5)
             end
@@ -322,7 +319,7 @@ SMODS.Consumable{
     end
 
 },
-]]
+
 
 -- MISC CONSUMABLES
 

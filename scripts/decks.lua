@@ -61,7 +61,7 @@ return {
                 'v_garb_postcard',
             },
             consumables = {
-                "c_garb_vintage"
+                "c_garb_creature"
             }
         },
         loc_vars = function(self, info_queue, card)
