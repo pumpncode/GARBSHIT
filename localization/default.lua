@@ -105,7 +105,7 @@ return {
                 name = "True Arcana",
                 text = {
                     "Enhances all",
-                    "played cards to",
+                    "scored cards to",
                     "{C:attention}#2#s"
                 }
             },
