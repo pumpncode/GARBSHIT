@@ -59,6 +59,28 @@ GARB_T2 = HEX("B670D8"),
 match_indent = true
 times = 1
 
+# Temp Hands - Defined
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "temp_handsize = nil,"
+position = "after"
+payload = '''
+temp_hands = nil,
+'''
+match_indent = true
+
+# Temp Hands
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = "if G.GAME.round_resets.temp_handsize then G.hand:change_size(-G.GAME.round_resets.temp_handsize); G.GAME.round_resets.temp_handsize = nil end"
+position = "after"
+payload = '''
+if G.GAME.round_resets.temp_hands then G.GAME.round_resets.hands = G.GAME.round_resets.hands - G.GAME.round_resets.temp_hands; G.GAME.round_resets.temp_hands = nil end
+'''
+match_indent = true
+
 # Tangerine Deck - Probabilities
 [[patches]]
 [patches.pattern]

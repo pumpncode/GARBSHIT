@@ -530,13 +530,11 @@ SMODS.Joker {
      calculate = function(self, card, context)
   
           if context.joker_main then
-              return {
-                  card = card,
-                  Xmult_mod = card.ability.extra.Xmult,
-                  message = 'X' .. card.ability.extra.Xmult,
-                  colour = G.C.MULT
-              }
-          end
+        return {
+          Xmult_mod = card.ability.extra.Xmult,
+          message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } }
+        }
+      end
     end,
     
     add_to_deck = function(self, card, from_debuff)
