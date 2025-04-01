@@ -134,7 +134,7 @@ payload = '''check_for_unlock({ type = "black_hole" })'''
 match_indent = true
 overwrite = false
 
-# Quadrant Hands - Jupiter LvUP
+# Quadrant Hands - Telescope
 [[patches]]
 [patches.pattern]
 target = "card.lua"

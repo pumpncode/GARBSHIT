@@ -53,10 +53,9 @@ end
 
 local use_consumeable_old = Card.use_consumeable
 local quadrant_hands = {"garb_blush", "garb_caliginous", "garb_ashen", "garb_pale"}
-local jonklers = {"j_garb_matesprit", "j_garb_kismesis", "j_garb_auspistice", "j_garb_moirail"}
 function Card:use_consumeable(area, copier)
   for i = 1, #quadrant_hands do
-  if self.ability.consumeable.hand_type == "Flush" and next(find_joker(jonklers[i])) then
+  if self.ability.consumeable.hand_type == "Flush" and SHIPPINGWALL_HAND and localize(quadrant_hands[i], 'poker_hands') == SHIPPINGWALL_HAND then
     update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(quadrant_hands[i], 'poker_hands'),chips = G.GAME.hands[quadrant_hands[i]].chips, mult = G.GAME.hands[quadrant_hands[i]].mult, level=G.GAME.hands[quadrant_hands[i]].level})
     level_up_hand(self, quadrant_hands[i], nil, 1)
     update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})

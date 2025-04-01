@@ -1375,7 +1375,8 @@ SMODS.Joker {
       text = {
         "{C:attention}Flush{} of {V:1}#2#{}",
       "becomes",
-      "{C:attention}#1#{}"
+      "{C:attention}#1#{}",
+      "{s:0.8}(Effect updates to most owned suit)"
       }
     },
     config = { extra = { hand_text = "Matesprit", suit = 'Hearts' } },
@@ -1395,7 +1396,11 @@ SMODS.Joker {
       eternal_compat = true, --can it be eternal
       perishable_compat = true, --can it be perishable
 
-    set_ability = function(self, card, initial, delay_sprites)
+    remove_from_deck = function(self, card, context)
+    SHIPPINGWALL_HAND = nil
+    end,
+    
+    update = function(self, card, initial, delay_sprites)
     local suits = {
         ['Hearts'] = 0,
         ['Diamonds'] = 0,
@@ -1428,7 +1433,8 @@ SMODS.Joker {
     end
     SHIPPINGWALL_HAND = hands[card.ability.extra.suit]
     card.ability.extra.hand_text = SHIPPINGWALL_HAND
-end
+    end,
+  
   },
 
   SMODS.Joker {

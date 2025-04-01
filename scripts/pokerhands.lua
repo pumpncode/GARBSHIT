@@ -19,7 +19,7 @@ SMODS.PokerHand {
         ['en-us'] = {
             name = 'Matesprit',
             description = {
-              "5 heart cards"
+              "5 Heart cards"
             }
         }
     },
@@ -53,7 +53,7 @@ SMODS.PokerHand {
         ['en-us'] = {
             name = 'Kismesis',
             description = {
-              "5 spade cards"
+              "5 Spade cards"
             }
         }
     },
@@ -87,7 +87,7 @@ SMODS.PokerHand {
         ['en-us'] = {
             name = 'Auspistice',
             description = {
-              "5 club cards"
+              "5 Club cards"
             }
         }
     },
@@ -121,7 +121,7 @@ SMODS.PokerHand {
         ['en-us'] = {
             name = 'Moirail',
             description = {
-              "5 diamond cards"
+              "5 Diamond cards"
             }
         }
     },
