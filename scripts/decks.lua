@@ -61,11 +61,11 @@ return {
                 'v_garb_postcard',
             },
             consumables = {
-                "c_garb_creature"
+                "c_garb_mascot"
             }
         },
         loc_vars = function(self, info_queue, card)
-            return {vars = {localize{type = 'name_text', key = 'v_garb_postcard', set = 'Voucher'}, localize{type = 'name_text', key = 'c_garb_creature', set = 'Stamp'}}}
+            return {vars = {localize{type = 'name_text', key = 'v_garb_postcard', set = 'Voucher'}, localize{type = 'name_text', key = 'c_garb_mascot', set = 'Stamp'}}}
         end,
         check_for_unlock = function(self, args)
             if args.type == "doodle_deck" then
