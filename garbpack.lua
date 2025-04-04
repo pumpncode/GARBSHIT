@@ -144,6 +144,10 @@ Game.main_menu = function(change_context)
 end
 end
 
+SMODS.current_mod.description_loc_vars = function()
+  return { background_colour = G.C.CLEAR, text_colour = G.C.WHITE, scale = 1.2 }
+end
+
 assert(SMODS.load_file("scripts/achievements.lua"))()
 assert(SMODS.load_file("scripts/meta.lua"))()
 assert(SMODS.load_file("scripts/pokerhands.lua"))()

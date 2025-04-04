@@ -1,7 +1,7 @@
 [manifest]
 version = "1.1.m"
 dump_lua = true
-priority = 99999999
+priority = 27
 
 # Backtrack
 [[patches]]

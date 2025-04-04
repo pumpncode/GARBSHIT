@@ -6,7 +6,7 @@
 	"description": "Garb's silly collection of good and bad thingamajigs.",
 	"prefix": "garb",
 	"main_file": "garbpack.lua",
-    "version": "1.1.m",
+    "version": "1.8",
     "priority": -10,
     "dependencies": [
         "Steamodded (>=1.0.0~ALPHA-1418a)"

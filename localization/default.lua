@@ -18,7 +18,6 @@ return {
         },
 
         Other = {
-
             p_garb_stamp_booster = {
                 name = "Postal Pack",
                 text = {
@@ -211,8 +210,26 @@ return {
             },
         },
     
+    
+    Mod = 
+    {
+        GARBPACK = {
+            name = "GARBSHIT",
+            text = {
+                "A vanilla-friendly mod made by {C:attention,E:1}Garb{}",
+                " ",
+                "{s:1.5,C:attention,E:2}Credits:",
+                "{C:dark_edition,E:2}garb{} - Lead, Art, Code",
+                " ",
+                "{s:1.5,C:attention,E:2}Also Try:",
+                "{C:dark_edition,E:1}Rofflatro, Victin's Collection, Aikoyori's Shenanigans{}",
+                " ",
+                "{s:0.9}Special thanks to the {C:attention,s:0.9}Balatro Discord!{}"
+            }
+        }
     },
 
+},
     misc = {
         achievement_names = {
             ach_garb_regicide = "Regicide!",
@@ -238,5 +255,5 @@ return {
             stamp_booster = "Postal Pack",
             ph_mr_bones = "Saved by Joker effect",
         }
-    }
+    },
 }
