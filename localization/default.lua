@@ -216,13 +216,17 @@ return {
         GARBPACK = {
             name = "GARBSHIT",
             text = {
-                "A vanilla-friendly mod made by {C:attention,E:1}Garb{}",
+                "A vanilla-friendly mod made by {C:attention,E:1}garb{}",
                 " ",
                 "{s:1.5,C:attention,E:2}Credits:",
                 "{C:dark_edition,E:2}garb{} - Lead, Art, Code",
                 " ",
+                "{s:1.25,C:attention,E:2}Joker Contributions:",
+                "{C:dark_edition,E:2}lamborghiniofficial{} - Backtrack",
+                " ",
                 "{s:1.5,C:attention,E:2}Also Try:",
                 "{C:dark_edition,E:1}Rofflatro, Victin's Collection, Aikoyori's Shenanigans{}",
+                "{C:dark_edition,E:1}Revo's Vault{}",
                 " ",
                 "{s:0.9}Special thanks to the {C:attention,s:0.9}Balatro Discord!{}"
             }
