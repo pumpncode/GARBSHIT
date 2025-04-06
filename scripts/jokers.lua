@@ -1153,6 +1153,7 @@ SMODS.Joker {
                       if context.scoring_hand[s_no_retrigger] == _card then
                         card.ability.extra.chips = card.ability.extra.chips*2
                         card.ability.extra.last_scored = card.ability.extra.chips
+                        if card.ability.extra.chips > 2500 then check_for_unlock({ type = "snowedin" }) end
                         return {
                           message = localize { type = 'variable', key = 'a_chips', vars = { card.ability.extra.chips } },
                           card = card
@@ -1352,6 +1353,7 @@ SMODS.Joker {
           -- ease_dollars(card.ability.extra.money, true)    
           card.ability.extra.money = card.ability.extra.money + card.ability.extra.scale/2
           card.ability.extra.HP = card.ability.extra.maxHP
+          if card.ability.extra.money == 30 then check_for_unlock({ type = "mustdie" }) end
           return {
             message = "Defeated!",
             dollars = card.ability.extra.money-card.ability.extra.scale/2,
@@ -1376,7 +1378,7 @@ SMODS.Joker {
         "{C:attention}Flush{} of {V:1}#2#{}",
       "becomes",
       "{C:attention}#1#{}",
-      "{s:0.8}(Effect updates to most owned suit)"
+      "{s:0.8}(Effect adapts to most owned suit)"
       }
     },
     config = { extra = { hand_text = "Matesprit", suit = 'Hearts' } },
@@ -1784,6 +1786,46 @@ SMODS.Joker {
   
   },
 
+  SMODS.Joker {
+    key = 'holywater',
+    loc_txt = {
+      name = 'Holy Water',
+      text = {
+        "If current blind is a {C:attention}Boss Blind{},",
+        "scored {C:attention}Pure{} cards",
+        "give {X:mult,C:white}X#1#{} Mult"
+      }
+    },
+    -- Extra is empty, because it only happens once. If you wanted to copy multiple cards, you'd need to restructure the code and add a for loop or something.
+    config = { extra = {Xmult = 1.5} },
+    rarity = 2,
+    atlas = 'GarbJokers',
+    pos = { x = 5, y = 6},
+    
+      unlocked = true, 
+      discovered = false, --whether or not it starts discovered
+      blueprint_compat = true, --can it be blueprinted/brainstormed/other
+      eternal_compat = true, --can it be eternal
+      perishable_compat = true, --can it be perishable
+      cost = 5,
+      loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue+1] = G.P_CENTERS.m_garb_pure
+      return { vars = { card.ability.extra.Xmult } }
+    end,
+      
+     calculate = function(self, card, context)
+     
+      if context.individual and context.cardarea == G.play and not context.blueprint and G.GAME.blind.boss then
+        if context.other_card.ability.name == 'm_garb_pure' then
+        return {
+          Xmult_mod = card.ability.extra.Xmult,
+          message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } }
+        }
+      end
+      end
+      
+    end
+  },
 
    -- LEGENDARIES
    

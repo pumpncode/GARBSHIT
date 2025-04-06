@@ -42,14 +42,13 @@ SMODS.Achievement({
 	end
 }),
 
---[[
 SMODS.Achievement({
-	key = "criticalfail",
+	key = "jimboss",
 	bypass_all_unlocked = true,
 	atlas = "garb_achievements",
 	-- reset_on_startup = true,
 	unlock_condition = function(self, args)
-		if args.type == "criticalfail" then
+		if args.type == "mustdie" then
 			return true
 		end
 	end
@@ -67,17 +66,19 @@ SMODS.Achievement({
 	end
 }),
 
+--[[
 SMODS.Achievement({
-	key = "jimboss",
+	key = "criticalfail",
 	bypass_all_unlocked = true,
 	atlas = "garb_achievements",
 	-- reset_on_startup = true,
 	unlock_condition = function(self, args)
-		if args.type == "mustdie" then
+		if args.type == "criticalfail" then
 			return true
 		end
 	end
 }),
+
 --]]
 
 SMODS.Achievement({

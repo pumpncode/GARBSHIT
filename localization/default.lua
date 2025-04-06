@@ -216,7 +216,7 @@ return {
         GARBPACK = {
             name = "GARBSHIT",
             text = {
-                "A vanilla-friendly mod made by {C:attention,E:1}garb{}",
+                "A silly vanilla-friendly mod made by {C:attention,E:1}garb{}",
                 " ",
                 "{s:1.5,C:attention,E:2}Credits:",
                 "{C:dark_edition,E:2}garb{} - Lead, Art, Code",
@@ -243,7 +243,7 @@ return {
             ach_garb_surged = "SURGED!",
             ach_garb_rocking = "You Got Me Rocking",
             ach_garb_snowedin = "Snowed In",
-            ach_garb_jimboss = "BALATRO MUST DIE",
+            ach_garb_jimboss = "JIMBO MUST DIE",
         },
         achievement_descriptions = {
             ach_garb_regicide = "Guillotine the Baron",
