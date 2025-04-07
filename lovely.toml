@@ -81,6 +81,17 @@ if G.GAME.round_resets.temp_hands then G.GAME.round_resets.hands = G.GAME.round_
 '''
 match_indent = true
 
+# Temp Discards
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = "if G.GAME.round_resets.temp_handsize then G.hand:change_size(-G.GAME.round_resets.temp_handsize); G.GAME.round_resets.temp_handsize = nil end"
+position = "after"
+payload = '''
+if G.GAME.round_resets.temp_discards then G.GAME.round_resets.discards = G.GAME.round_resets.discards - G.GAME.round_resets.temp_discards; G.GAME.round_resets.temp_discards = nil end
+'''
+match_indent = true
+
 # Tangerine Deck - Probabilities
 [[patches]]
 [patches.pattern]
