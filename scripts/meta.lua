@@ -152,6 +152,13 @@ SMODS.Atlas{
 	},
 
     SMODS.Sound {
+        key = "snap",
+        path = {
+            ["default"] = "snap_nodrama.ogg"
+        }
+        },
+
+    SMODS.Sound {
         key = "music_stamps",
         path = {
             ["default"] = "music_stamps.ogg"
