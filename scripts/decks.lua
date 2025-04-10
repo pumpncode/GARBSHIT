@@ -57,7 +57,7 @@ return {
         unlocked = false,
         discovered = true,
         config = {
-            money = 50,
+            money = 75,
             ante = 1
         },
         loc_vars = function(self, info_queue, card)
