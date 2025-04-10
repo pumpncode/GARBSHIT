@@ -1677,6 +1677,10 @@ SMODS.Joker {
         "{X:mult,C:white} X#1# {} Mult if",
         "first played {C:attention}face{} card",
         "is {C:attention}retriggered"
+      },
+      unlock = {
+        "Win a run on at least", 
+        "{E:1,C:attention}Gold Stake{} difficulty"
       }
     },
     config = { extra = { Xmult = 3 } },
@@ -1689,11 +1693,17 @@ SMODS.Joker {
     pos = { x = 6, y = 5 },
     cost = 6,
 
-      unlocked = true, 
+      unlocked = false, 
       discovered = false, --whether or not it starts discovered
       blueprint_compat = true, --can it be blueprinted/brainstormed/other
       eternal_compat = true, --can it be eternal
       perishable_compat = true, --can it be perishable
+
+      check_for_unlock = function(self, args)
+        if args.type == "win_stake" then
+          if get_deck_win_stake() == 8 then return true else return false end
+        end
+      end, 
 
     calculate = function(self,card,context)
       if context.individual and context.cardarea == G.play then
@@ -1883,7 +1893,7 @@ SMODS.Joker {
                             G.HUD_blind:recalculate()
     
                             attention_text({
-                                text = '+' .. mod_text,
+                                text = mod_text,
                                 scale = 0.8,
                                 hold = 0.7,
                                 cover = chips_UI.parent,
@@ -1909,6 +1919,32 @@ SMODS.Joker {
           }
         end
     end,
+  },
+
+  SMODS.Joker {
+    key = 'goldcarrot',
+    loc_txt = {
+      name = 'Golden Carrot',
+      text = {
+        "{C:rare}Rare{} Jokers appear",
+        "{C:attention}3x{} as often"
+    }
+    },
+    config = { extra = {  } },
+    loc_vars = function(self, info_queue, card)
+      return {vars = {}}
+    end,
+    rarity = 3,
+    atlas = 'GarbJokers',
+    pos = { x = 0, y = 7 },
+    cost = 7,
+  
+      unlocked = true, 
+      discovered = false, --whether or not it starts discovered
+      blueprint_compat = true, --can it be blueprinted/brainstormed/other
+      eternal_compat = true, --can it be eternal
+      perishable_compat = true, --can it be perishable
+      
   },
 
    -- LEGENDARIES
@@ -2012,10 +2048,9 @@ SMODS.Joker {
     loc_txt = {
       name = 'Sara :3',
       text = {
-        "On {C:attention}first hand{} of round,",
-          "add a permanent copy of",
-        "all scored {C:attention}Glass Cards{} to deck",
-        "and draw them to {C:attention}hand",
+        "Add a permanent copy of",
+        "all scored {C:attention}Glass Cards{}",
+        "to deck"
       },
       unlock = {
         "{E:1,s:1.3}?????"
@@ -2048,8 +2083,8 @@ SMODS.Joker {
   
     calculate = function(self, card, context)
   
-      if context.repetition and context.cardarea == G.play and G.GAME.current_round.hands_played == 0 then
-                                      local card = context.other_card
+      if context.repetition and context.cardarea == G.play then
+                          local card = context.other_card
                           -- if card == context.scoring_hand[no_retrigger] then return false end
                           
                           if card.ability.name == 'Glass Card' then
@@ -2059,7 +2094,6 @@ SMODS.Joker {
   
                               G.deck.config.card_limit = G.deck.config.card_limit + 1
                               table.insert(G.playing_cards, _card)
-                              G.hand:emplace(_card)
                               _card.states.visible = nil
   
                               G.E_MANAGER:add_event(Event({
@@ -2068,15 +2102,22 @@ SMODS.Joker {
                                       return true
                                   end
                               })) 
-  
-                              --[[
+
+                              G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.6,
+                                func = function()
+                                  G.deck:emplace(_card)
+                                  return true
+                                end
+                            })) 
+
+                            card = context.other_card
+                            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_copied_ex')})
+                            --[[
                               for i = 1, #context.scoring_hand do
                               if card == context.scoring_hand[i] then no_retrigger = i end
                               end
                               ]]--
                               return {
-                                  message = localize('k_copied_ex'),
-                                  colour = G.C.CHIPS,
                                   card = card,
                                   playing_cards_created = {true}
                               }

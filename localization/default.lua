@@ -200,6 +200,19 @@ return {
                     "a {E:1,C:legendary}Legendary{} Joker"
                 }
             },
+            b_garb_cycle = {
+                name = "Cyclic Deck",
+                text = {
+                    "At the start of each {C:attention}Ante{},",
+                    "set money to {C:money}$#1#{} and",
+                    "{C:red}destroy{} all {C:attention}Joker{} and",
+                    "{C:attention}Consumable{} cards",
+                },
+                unlock = {
+                    "Find and use the",
+                    "{E:1,C:spectral}Eternity{} Card"
+                }
+            },
             b_garb_doodle = {
                 name = "Doodle Deck",
                 text = {

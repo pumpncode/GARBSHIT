@@ -50,13 +50,13 @@ SMODS.Consumable{
     end,
   
     use = function(self, card, area, copier)
+      check_for_unlock({ type = "cycle_deck" })
       play_sound('timpani')
       _card = G.jokers.highlighted[1]
       _card:start_dissolve(nil, false)
       ease_ante(-1)
       delay(0.6)
     end
-
 },
 
 SMODS.Consumable{
@@ -199,7 +199,7 @@ SMODS.Consumable{
     name = 'Souvenir',
     text = {
       "Exchange selected",
-      "{C:attention}Uncommon{} Joker",
+      "{C:uncommon}Uncommon{} Joker",
       "for a {C:attention}Voucher Tag{}"
     }
   },
@@ -499,7 +499,7 @@ SMODS.Consumable{
       local rarities = {}
       if G.jokers then
         for k, v in pairs(G.jokers.cards) do
-          if v.ability.set == 'Joker' then
+          if v.ability.set == 'Joker'	and type(v.config.center.rarity) == "number" and not (type(v.config.center.rarity) == "number" and v.config.center.rarity >= 5) then
              table.insert(rarities, v.config.center.rarity)
           end
         end  

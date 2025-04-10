@@ -128,7 +128,7 @@ end
 local main_menu_ref = Game.main_menu
 Game.main_menu = function(change_context)
     local ret = main_menu_ref(change_context)
-    add_card_to_title("j_garb_ratboyTITLE")
+    add_card_to_title("j_garb_garbTITLE")
     G.title_top.T.w = G.title_top.T.w * 1.7675 * 1.2
     G.title_top.T.x = G.title_top.T.x - 0.8 * 1.8
     G.SPLASH_BACK:define_draw_steps({ {
