@@ -90,12 +90,10 @@ return {
                         if not v.ability.eternal then deletable_jokers[#deletable_jokers + 1] = v end
                     end
 
-                    --[[
                     for k, v in pairs(G.consumeables.cards) do
                         v:start_dissolve(nil, _first_dissolve)
                         _first_dissolve = true
                     end
-                    ]]
                     
                     for k, v in pairs(deletable_jokers) do
                         if v ~= chosen_joker then 

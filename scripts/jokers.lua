@@ -1375,7 +1375,7 @@ SMODS.Joker {
     loc_txt = {
       name = 'Shipping Wall',
       text = {
-        "{C:attention}Flush{} of {V:1}#2#{}",
+      "{C:attention}Flush{} of {V:1}#2#{}",
       "becomes",
       "{C:attention}#1#{}",
       "{s:0.8}(Effect adapts to most owned suit)"
@@ -1433,8 +1433,11 @@ SMODS.Joker {
         card.ability.extra.suit = k
       end
     end
-    SHIPPINGWALL_HAND = hands[card.ability.extra.suit]
-    card.ability.extra.hand_text = SHIPPINGWALL_HAND
+
+    if next(find_joker("j_garb_shipping")) then
+      SHIPPINGWALL_HAND = hands[card.ability.extra.suit]
+    end
+    card.ability.extra.hand_text = hands[card.ability.extra.suit]
     end,
   
   },
@@ -1947,6 +1950,53 @@ SMODS.Joker {
       
   },
 
+  SMODS.Joker {
+    key = 'swapnote',
+    loc_txt = {
+      name = 'Swapnote',
+      text = {
+        "This Joker gains",
+        "{C:chips}+#1#{} Chips every time",
+        "a {C:stamp}Stamp{} card is used",
+        "{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)"
+      }
+    },
+    config = { extra = { chip_gain = 15, chips = 0} },
+    rarity = 1,
+    atlas = 'GarbJokers',
+    pos = { x = 1, y = 7 },
+    cost = 4,
+  
+    unlocked = true, 
+    discovered = false, --whether or not it starts discovered
+    blueprint_compat = true, --can it be blueprinted/brainstormed/other
+    eternal_compat = true, --can it be eternal
+    perishable_compat = true, --can it be perishable
+  
+    loc_vars = function(self, info_queue, card)
+      return { vars = { card.ability.extra.chip_gain, card.ability.extra.chips} }
+    end,
+  
+    calculate = function(self, card, context)
+      if context.using_consumeable and context.consumeable.ability.set == 'Stamp' and not context.blueprint then
+        card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_gain
+            return {
+              message = localize { type = 'variable', key = 'a_chips', vars = { card.ability.extra.chips } },
+              card = card
+            }
+      end
+  
+      if context.joker_main and card.ability.extra.chips > 1 then
+        return {
+          chip_mod = card.ability.extra.chips,
+          message = localize { type = 'variable', key = 'a_chips', vars = { card.ability.extra.chips } },
+          card = card
+        }
+      end
+  
+    end
+  },
+
    -- LEGENDARIES
    
   SMODS.Joker {
@@ -2048,9 +2098,10 @@ SMODS.Joker {
     loc_txt = {
       name = 'Sara :3',
       text = {
-        "Add a permanent copy of",
-        "all scored {C:attention}Glass Cards{}",
-        "to deck"
+        "On {C:attention}first hand{} of round,",
+          "add a permanent copy of",
+        "all scored {C:attention}Glass Cards{} to deck",
+        "and draw them to {C:attention}hand",
       },
       unlock = {
         "{E:1,s:1.3}?????"
@@ -2083,7 +2134,7 @@ SMODS.Joker {
   
     calculate = function(self, card, context)
   
-      if context.repetition and context.cardarea == G.play then
+      if context.repetition and context.cardarea == G.play and G.GAME.current_round.hands_played == 0 then
                           local card = context.other_card
                           -- if card == context.scoring_hand[no_retrigger] then return false end
                           
@@ -2094,6 +2145,7 @@ SMODS.Joker {
   
                               G.deck.config.card_limit = G.deck.config.card_limit + 1
                               table.insert(G.playing_cards, _card)
+                              G.hand:emplace(_card)
                               _card.states.visible = nil
   
                               G.E_MANAGER:add_event(Event({
@@ -2103,29 +2155,23 @@ SMODS.Joker {
                                   end
                               })) 
 
-                              G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.6,
-                                func = function()
-                                  G.deck:emplace(_card)
-                                  return true
-                                end
-                            })) 
+                              card_eval_status_text(context.other_card, 'extra', nil, nil, nil, {message = localize('k_copied_ex')})
 
-                            card = context.other_card
-                            card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_copied_ex')})
-                            --[[
+                              --[[
                               for i = 1, #context.scoring_hand do
                               if card == context.scoring_hand[i] then no_retrigger = i end
                               end
                               ]]--
+                              SMODS.calculate_context({playing_card_added = true, cards = {_card}})
+
                               return {
                                   card = card,
-                                  playing_cards_created = {true}
-                              }
+                                  playing_cards_created = {_card}
+                                }
         end
       end
     end
-  },
-  
+  },  
   
   SMODS.Joker {
     key = 'garb777',
@@ -2624,7 +2670,7 @@ SMODS.Joker {
   end,
 
   calculate = function(self, card, context)
-    if context.using_consumeable and context.consumeable.ability.set == 'Stamp' then
+    if context.using_consumeable and context.consumeable.ability.set == 'Stamp' and not context.blueprint then
       card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_gain
           return {
             message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } },
