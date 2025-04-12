@@ -201,7 +201,7 @@ return {
                 }
             },
             b_garb_cycle = {
-                name = "Cyclic Deck",
+                name = "Epoch Deck",
                 text = {
                     "At the start of each {C:attention}Ante{},",
                     "set money to {C:money}$#1#{} and",
