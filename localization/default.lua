@@ -57,6 +57,15 @@ return {
                     "{E:1,C:attention}lamborghiniofficial"
                 }
             }, 
+
+            sixty4suns = {
+                name = "Credits",
+                text = {
+                    "Art and idea by",
+                    "{E:1,C:attention}64suns"
+                }
+            }, 
+
      
             talisman_warning = {
                 name = "WARNING!",
@@ -236,6 +245,7 @@ return {
                 " ",
                 "{s:1.25,C:attention,E:2}Joker Contributions:",
                 "{C:dark_edition,E:2}lamborghiniofficial{} - Backtrack",
+                "{C:dark_edition,E:2}64suns{} - Two of Cups",
                 " ",
                 "{s:1.5,C:attention,E:2}Also Try:",
                 "{C:dark_edition,E:1}Rofflatro, Victin's Collection, Aikoyori's Shenanigans{}",
