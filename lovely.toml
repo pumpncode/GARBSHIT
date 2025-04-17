@@ -1,9 +1,67 @@
 [manifest]
-version = "1.0.0"
+version = "2.0"
 dump_lua = true
-priority = 99999999
+priority = 27
 
+# Golden Carrot
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = '''local rarity = _rarity or SMODS.poll_rarity("Joker", 'rarity'..G.GAME.round_resets.ante..(_append or ''))'''
+position = "after"
+payload = '''
+if G.jokers and next(SMODS.find_card("j_garb_goldcarrot")) and _type == 'Joker' then
+    for i = 1, (3*#SMODS.find_card("j_garb_goldcarrot")) do
+        if rarity ~= 3 then
+            rarity = SMODS.poll_rarity("Joker", 'rarity'..G.GAME.round_resets.ante..(_append or ''))
+        end
+    end
+end
+'''
+match_indent = true
 
+# Backtrack
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''
+G.GAME.skips = (G.GAME.skips or 0) + 1
+'''
+position = "after"
+payload = '''
+if next(SMODS.find_card("j_garb_backtrack")) then
+        G.E_MANAGER:add_event(Event({
+          trigger = 'before', delay = 0.2,
+          func = function()
+            G.blind_prompt_box.alignment.offset.y = -10
+            G.blind_select.alignment.offset.y = 40
+            G.blind_select.alignment.offset.x = 0
+            return true
+        end}))
+    G.E_MANAGER:add_event(Event({
+        trigger = "immediate",
+        func = function()
+            G.GAME.current_round.jokers_purchased = 0
+            G.STATE = G.STATES.SHOP
+            G.STATE_COMPLETE = false
+
+            G.GAME.shop_free = nil
+            G.GAME.shop_d6ed = nil
+            G.GAME.current_round.used_packs = {}
+
+            G.blind_select:remove()
+            G.blind_prompt_box:remove()
+            G.blind_select = nil
+            delay(0.2)    
+            return true
+            end,
+        }))
+end
+'''
+match_indent = true
+times = 1
+
+# Title Screen - Colors
 [[patches]]
 [patches.pattern]
 target = "globals.lua"
@@ -18,6 +76,40 @@ GARB_T2 = HEX("B670D8"),
 match_indent = true
 times = 1
 
+# Temp Hands - Defined
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "temp_handsize = nil,"
+position = "after"
+payload = '''
+temp_hands = nil,
+'''
+match_indent = true
+
+# Temp Hands
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = "if G.GAME.round_resets.temp_handsize then G.hand:change_size(-G.GAME.round_resets.temp_handsize); G.GAME.round_resets.temp_handsize = nil end"
+position = "after"
+payload = '''
+if G.GAME.round_resets.temp_hands then G.GAME.round_resets.hands = G.GAME.round_resets.hands - G.GAME.round_resets.temp_hands; G.GAME.round_resets.temp_hands = nil end
+'''
+match_indent = true
+
+# Temp Discards
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = "if G.GAME.round_resets.temp_handsize then G.hand:change_size(-G.GAME.round_resets.temp_handsize); G.GAME.round_resets.temp_handsize = nil end"
+position = "after"
+payload = '''
+if G.GAME.round_resets.temp_discards then G.GAME.round_resets.discards = G.GAME.round_resets.discards - G.GAME.round_resets.temp_discards; G.GAME.round_resets.temp_discards = nil end
+'''
+match_indent = true
+
+# Tangerine Deck - Probabilities
 [[patches]]
 [patches.pattern]
 target = "functions/common_events.lua"
@@ -35,7 +127,7 @@ end
 '''
 match_indent = true
 
-
+# Colorful Joker - Unlock
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -60,6 +152,33 @@ payload = '''
 match_indent = false
 overwrite = false
 
+# Two of Cups - Unlock
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "function Card:add_to_deck(from_debuff)"
+position = "after"
+payload = '''
+    local vteller_jokers = {"j_fortune_teller", "j_vagabond"}
+    local v_have_jokers = {}
+    for i = 1, #vteller_jokers do
+        if self.config.center.key == vteller_jokers[i] then
+            for m = 1, #vteller_jokers do
+                if m ~= i then
+                    if next(SMODS.find_card(vteller_jokers[m])) then v_have_jokers[m] = vteller_jokers[i] else v_have_jokers = {} end
+                end  
+            end
+        end
+        if #v_have_jokers == 1 then
+            check_for_unlock({ type = "vteller" })
+        end
+    end
+    '''
+match_indent = false
+overwrite = false
+
+
+# Black Hole - Unlock
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -69,6 +188,7 @@ payload = '''check_for_unlock({ type = "black_hole" })'''
 match_indent = true
 overwrite = false
 
+# Quadrant Hands - Telescope
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -83,6 +203,7 @@ end
 match_indent = true
 overwrite = false
 
+# Quadrant Hands - Blue Seal
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -97,6 +218,7 @@ end
 match_indent = true
 overwrite = false
 
+# Angel of Salt - Unlock
 [[patches]]
 [patches.pattern]
 target = "card.lua"
@@ -110,6 +232,7 @@ payload = '''
 match_indent = true
 overwrite = false
 
+# Title Screen - Cryptid Compatibility
 [[patches]]
 [patches.pattern]
 target = "game.lua"
@@ -122,7 +245,7 @@ elseif config.title then
 	replace_card = SMODS.create_card({
 		set = "Joker",
 		area = G.title_top,
-		key = "j_garb_garbTITLE",
+		key = "j_garb_ratboyTITLE",
 		no_edition = true
 	})
     replace_card.T.scale = 1.32
@@ -133,6 +256,7 @@ end
 match_indent = true
 overwrite = true
 
+# Splash - THE SURGE
 [[patches]]
 [patches.pattern]
 target = "game.lua"
