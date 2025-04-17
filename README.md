@@ -21,7 +21,7 @@ Check the repository every once in a while for updates :33
 - 2 Vouchers
 - 2 Spectrals
 - 4 Decks
-- 15 Stamps
+- 12 Stamps
 - 1 New Booster Type
 - 1 Tag
 
