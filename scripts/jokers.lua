@@ -1560,12 +1560,6 @@ SMODS.Joker {
       }
   end
 
-    if context.destroying_card and context.destroying_card.destroyme then
-      return{
-          remove = true,
-      }
-  end
-
   end
 },
 
