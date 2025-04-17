@@ -102,7 +102,7 @@ SMODS.Consumable{
       "Exchange selected Joker",
       "for a different Joker",
       "of the {C:attention}same rarity",
-      "{C:inactive,s:0.9}(New Joker cannot be {C:dark_edition,s:0.9}Negative{C:inactive,s:0.9})"
+      "{C:inactive,s:0.9}(New Joker will not be {C:dark_edition,s:0.9}Negative{C:inactive,s:0.9})"
     }
   },
 

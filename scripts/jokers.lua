@@ -1961,7 +1961,7 @@ SMODS.Joker {
         "{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)"
       }
     },
-    config = { extra = { chip_gain = 15, chips = 0} },
+    config = { extra = { chip_gain = 20, chips = 0} },
     rarity = 1,
     atlas = 'GarbJokers',
     pos = { x = 1, y = 7 },
@@ -2002,11 +2002,16 @@ SMODS.Joker {
     loc_txt = {
       name = 'Two of Cups',
       text = {
-        "Gains {X:mult,C:white} X#1# {} when", 
+        "Gains {X:mult,C:white} X#1# {} every time", 
         "a {C:tarot}Tarot{} card is used,",
         "resets if hand is played",
         "with more than {C:money}$#2#{}",
         "{C:inactive}(Currently: {X:mult,C:white} X#3# {C:inactive})"
+      },
+      unlock = {
+        "Have the {E:1,C:tarot}Vagabond{}",
+        "and {E:1,C:tarot}Fortune Teller{}",
+        "Jokers at the same time"
       }
     },
     -- Extra is empty, because it only happens once. If you wanted to copy multiple cards, you'd need to restructure the code and add a for loop or something.
@@ -2015,7 +2020,7 @@ SMODS.Joker {
     atlas = 'GarbJokers',
     pos = { x = 2, y = 7 },
     
-      unlocked = true, 
+      unlocked = false, 
       discovered = false, --whether or not it starts discovered
       blueprint_compat = true, --can it be blueprinted/brainstormed/other
       eternal_compat = true, --can it be eternal
@@ -2026,6 +2031,12 @@ SMODS.Joker {
       return { vars = { card.ability.extra.Xmult_gain,card.ability.extra.dollars, card.ability.extra.Xmult} }
     end,
       
+    check_for_unlock = function(self, args)
+      if args.type == "vteller" then
+        return true
+      end
+    end,
+
      calculate = function(self, card, context)
       if context.using_consumeable and context.consumeable.ability.set == 'Tarot' and not context.blueprint then
         card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_gain
@@ -2049,6 +2060,69 @@ SMODS.Joker {
           message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } },
           card = card
         }
+      end
+    end
+  },
+
+  SMODS.Joker {
+    key = 'hivemind',
+    loc_txt = {
+      name = 'The Hivemind',
+      text = {
+        "This Joker gains {X:mult,C:white} X#1# {} Mult",
+        "every time an {C:attention}Infected{} card",
+        "is destroyed",
+        "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)"
+}
+    },
+    -- Extra is empty, because it only happens once. If you wanted to copy multiple cards, you'd need to restructure the code and add a for loop or something.
+    config = { extra = {Xmult = 1, Xmult_gain = 0.5} },
+    rarity = 2,
+    atlas = 'GarbJokers',
+    pos = { x = 3, y = 7},
+    
+      unlocked = true, 
+      discovered = false, --whether or not it starts discovered
+      blueprint_compat = true, --can it be blueprinted/brainstormed/other
+      eternal_compat = true, --can it be eternal
+      perishable_compat = true, --can it be perishable
+      cost = 5,
+      loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue+1] = G.P_CENTERS.m_garb_infected
+      return { vars = { card.ability.extra.Xmult_gain, card.ability.extra.Xmult } }
+    end,
+      
+     calculate = function(self, card, context)
+      if context.remove_playing_cards then
+        local hive = 0
+        for k, v in ipairs(context.removed) do
+          if v.ability.name == 'm_garb_infected' then
+              hive = hive + 1
+          end
+        end
+
+        if hive > 0 then
+          G.E_MANAGER:add_event(Event({
+             func = function()
+          G.E_MANAGER:add_event(Event({
+             func = function()
+                card.ability.extra.Xmult = card.ability.extra.Xmult + hive*card.ability.extra.Xmult_gain
+                return true
+             end
+           }))
+         card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_xmult', vars = {card.ability.extra.Xmult + hive*card.ability.extra.Xmult_gain}}})
+         return true
+         end
+        }))
+        end
+      end  
+
+        if context.joker_main and card.ability.extra.Xmult > 1 then
+          return {
+            Xmult_mod = card.ability.extra.Xmult,
+            message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } },
+            card = card
+          }
       end
     end
   },
@@ -2742,6 +2816,54 @@ SMODS.Joker {
       }
     end
 
+  end
+},
+
+SMODS.Joker {
+  key = 'albero',
+  loc_txt = {
+    name = 'Albero',
+    text = {
+      "Retrigger all played",
+      "{C:attention}enhanced{} cards",
+      "{C:attention}#1#{} additional times"
+    },
+    unlock = {
+      "{E:1,s:1.3}?????"
+    }
+  },
+  config = { extra = { retriggers = 2 } },
+  rarity = 4,
+  atlas = 'GarbJokers',
+  pos = { x = 4, y = 7 },
+  soul_pos = { x = 5, y = 7 },
+  cost = 20,
+
+  unlocked = false, 
+  discovered = false, --whether or not it starts discovered
+  blueprint_compat = true, --can it be blueprinted/brainstormed/other
+  eternal_compat = false, --can it be eternal
+  perishable_compat = false, --can it be perishable
+
+  loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.retriggers } }
+  end,
+
+  add_to_deck = function(self, card)
+    check_for_unlock({ type = "discover_albero" })
+  end,
+
+  calculate = function(self, card, context)
+    if context.cardarea == G.play and context.repetition and not context.repetition_only then
+      if context.other_card.ability.set == 'Enhanced' then
+        return {
+          message = 'Again!',
+          message_card = context.blueprint_card or card,
+          repetitions = card.ability.extra.retriggers,
+          card = context.other_card
+        }
+      end
+    end
   end
 },
 

@@ -152,6 +152,32 @@ payload = '''
 match_indent = false
 overwrite = false
 
+# Two of Cups - Unlock
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "function Card:add_to_deck(from_debuff)"
+position = "after"
+payload = '''
+    local vteller_jokers = {"j_fortune_teller", "j_vagabond"}
+    local v_have_jokers = {}
+    for i = 1, #vteller_jokers do
+        if self.config.center.key == vteller_jokers[i] then
+            for m = 1, #vteller_jokers do
+                if m ~= i then
+                    if next(SMODS.find_card(vteller_jokers[m])) then v_have_jokers[m] = vteller_jokers[i] else v_have_jokers = {} end
+                end  
+            end
+        end
+        if #v_have_jokers == 1 then
+            check_for_unlock({ type = "vteller" })
+        end
+    end
+    '''
+match_indent = false
+overwrite = false
+
+
 # Black Hole - Unlock
 [[patches]]
 [patches.pattern]
