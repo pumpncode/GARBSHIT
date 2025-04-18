@@ -2,11 +2,31 @@ return {
 
 -- META STUFF
 
+SMODS.UndiscoveredSprite{
+    key = 'Stamp',
+    atlas = 'Stamps',
+    pos = { x = 0, y = 0 }
+},
+
 SMODS.Atlas({
 	key = "modicon",
 	path = "garb_icon.png",
 	px = 32,
 	py = 32,
+}),
+
+SMODS.Atlas({
+	key = "GarbTags",
+	path = "tags.png",
+	px = 32,
+	py = 32,
+}),
+
+SMODS.Atlas({
+	key = "GarbVouchers",
+	path = "Vouchers.png",
+	px = 71,
+	py = 95,
 }),
 
 SMODS.Atlas{
@@ -15,6 +35,20 @@ SMODS.Atlas{
     px = 71, --width of one card
     py = 95 -- height of one card
 },
+
+SMODS.Atlas{
+    key = 'GarbBoosters', --atlas key
+    path = 'Boosters.png', --atlas' path in (yourMod)/assets/1x or (yourMod)/assets/2x
+    px = 71, --width of one card
+    py = 95 -- height of one card
+},
+
+SMODS.Atlas{
+    key = 'Stamps', --atlas key
+    path = 'Stamps.png', --atlas' path in (yourMod)/assets/1x or (yourMod)/assets/2x
+    px = 65, --width of one card
+    py = 95 -- height of one card
+  },
 
 SMODS.Atlas{
   key = 'GarbConsumables', --atlas key
@@ -116,6 +150,28 @@ SMODS.Atlas{
     },
 	volume = 0.5
 	},
+
+    SMODS.Sound {
+        key = "snap",
+        path = {
+            ["default"] = "snap_nodrama.ogg"
+        }
+        },
+
+    SMODS.Sound {
+        key = "music_stamps",
+        path = {
+            ["default"] = "music_stamps.ogg"
+        },
+        sync = true,
+        pitch = 1,
+        select_music_track = function()
+          return G.pack_cards
+          and G.pack_cards.cards
+          and G.pack_cards.cards[1]
+          and G.pack_cards.cards[1].ability.set == "Stamp"
+        end
+    },
 
   SMODS.Sound {
     key = "music_fukkireta",

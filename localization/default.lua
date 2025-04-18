@@ -4,14 +4,69 @@ return {
 			m_garb_infected = {
 				name = "Infected Card",
 				text = {
-					"{C:green}#1# in #2#{} chance to infect",
-                    "adjacent cards while this card stays in hand",
+					"{C:green}#1# in #2#{} chance to infect adjacent",
+                    "cards while this card stays in hand",
 					"{C:red}Self-destructs{} after {C:attention}#3#{} rounds",
+				},
+			},
+            m_garb_pure = {
+				name = "Pure Card",
+				text = {
+					"Can't be debuffed"
 				},
 			},
         },
 
         Other = {
+            p_garb_stamp_booster = {
+                name = "Postal Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of",
+                    "up to {C:attention}#2# Stamps{}",
+                },
+            },       
+
+            p_garb_stamp_booster_2 = {
+                name = "Postal Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of",
+                    "up to {C:attention}#2# Stamps{}",
+                },
+            },
+
+            p_garb_stamp_booster_j = {
+                name = "Jumbo Postal Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of",
+                    "up to {C:attention}#2# Stamps{}",
+                },
+            },
+
+            p_garb_stamp_booster_m = {
+                name = "Mega Postal Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of",
+                    "up to {C:attention}#2# Stamps{}",
+                },
+            },            
+            
+            lamborghiniofficial = {
+                name = "Credits",
+                text = {
+                    "Art and idea by",
+                    "{E:1,C:attention}lamborghiniofficial"
+                }
+            }, 
+
+            sixty4suns = {
+                name = "Credits",
+                text = {
+                    "Art and idea by",
+                    "{E:1,C:attention}64suns"
+                }
+            }, 
+
+     
             talisman_warning = {
                 name = "WARNING!",
                 text = {
@@ -58,7 +113,7 @@ return {
                 name = "True Arcana",
                 text = {
                     "Enhances all",
-                    "played cards to",
+                    "scored cards to",
                     "{C:attention}#2#s"
                 }
             },
@@ -139,13 +194,69 @@ return {
                 text = {
                     "{C:attention}GARBSHIT{} Jokers appear",
                     "{C:attention}3x{} more often",
-                    "Start run with {C:attention}#1#{}",
+                    "Start run with {C:attention,T:v_overstock_norm}#1#{}",
+                },
+            },
+            b_garb_albert = {
+                name = "Albert's Deck",
+                text = {
+                    "Start run with a",
+                    "{E:1,C:legendary}Legendary{} Joker",
+                    "{C:red}X#1#{} base Blind size",
+                },
+                unlock = {
+                    "Use a {C:stamp,T:c_garb_vintage}Vintage Stamp{} on",
+                    "a {E:1,C:legendary}Legendary{} Joker"
+                }
+            },
+            b_garb_cycle = {
+                name = "Epoch Deck",
+                text = {
+                    "At the start of each {C:attention}Ante{},",
+                    "set money to {C:money}$#1#{} and",
+                    "{C:red}destroy{} all {C:attention}Joker{} and",
+                    "{C:attention}Consumable{} cards",
+                },
+                unlock = {
+                    "Find and use the",
+                    "{E:1,C:spectral}Eternity{} Card"
+                }
+            },
+            b_garb_doodle = {
+                name = "Doodle Deck",
+                text = {
+                    "Start run with the",
+                    "{C:stamp,T:v_garb_postcard}#1#{} voucher",
+                    "and a {C:stamp,T:c_garb_mascot}#2#{} card"
                 },
             },
         },
     
+    
+    Mod = 
+    {
+        GARBPACK = {
+            name = "GARBSHIT",
+            text = {
+                "A silly vanilla-friendly mod made by {C:attention,E:1}garb{}",
+                " ",
+                "{s:1.5,C:attention,E:2}Credits:",
+                "{C:dark_edition,E:2}garb{} - Lead, Art, Code",
+                " ",
+                "{s:1.25,C:attention,E:2}Joker Contributions:",
+                "{C:dark_edition,E:2}lamborghiniofficial{} - Backtrack",
+                "{C:dark_edition,E:2}64suns{} - Two of Cups",
+                " ",
+                "{s:1.5,C:attention,E:2}Also Try:",
+                "{C:dark_edition,E:1}Rofflatro, Victin's Collection, Aikoyori's Shenanigans{}",
+                "{C:dark_edition,E:1}Revo's Vault{}",
+                " ",
+                "{s:0.9}Special thanks to the {C:attention,s:0.9}Balatro Discord!{}"
+            }
+        }
     },
 
+},
     misc = {
         achievement_names = {
             ach_garb_regicide = "Regicide!",
@@ -155,7 +266,7 @@ return {
             ach_garb_surged = "SURGED!",
             ach_garb_rocking = "You Got Me Rocking",
             ach_garb_snowedin = "Snowed In",
-            ach_garb_jimboss = "BALATRO MUST DIE",
+            ach_garb_jimboss = "JIMBO MUST DIE",
         },
         achievement_descriptions = {
             ach_garb_regicide = "Guillotine the Baron",
@@ -166,7 +277,10 @@ return {
             ach_garb_rocking = "Create 25 Stone cards in the same run using Rolling Stone",
             ach_garb_snowedin = "Have Snowball give more than 5000 Chips at once",
             ach_garb_jimboss = "Defeat Jimboss 5 times in the same run",
+        },
+        dictionary = {
+            stamp_booster = "Postal Pack",
+            ph_mr_bones = "Saved by Joker effect",
         }
-        
-    }
+    },
 }

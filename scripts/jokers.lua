@@ -86,6 +86,8 @@ SMODS.Joker {
       if context.reroll_shop then
           G.E_MANAGER:add_event(Event({
                       func = function() 
+                          if not stone_counter then stone_counter = 1 else stone_counter = stone_counter + 1 end
+                          if stone_counter == 25 then check_for_unlock({ type = "rocking" }) end
                           local front = pseudorandom_element(G.P_CARDS, pseudoseed('marb_fr'))
                           G.playing_card = (G.playing_card and G.playing_card + 1) or 1
                           local card = Card(G.play.T.x + G.play.T.w/2, G.play.T.y, G.CARD_W, G.CARD_H, front, G.P_CENTERS.m_stone, {playing_card = G.playing_card})
@@ -123,7 +125,7 @@ SMODS.Joker {
     -- Which atlas key to pull from.
     atlas = 'GarbJokers',
     -- This card's position on the atlas, starting at {x=0,y=0} for the very top left.
-    pos = { x = 1, y = 3 },
+    pos = { x = 6, y = 1 },
     -- Cost of card in shop.
     cost = 7,
     
@@ -160,9 +162,9 @@ SMODS.Joker {
     loc_txt = {
       name = 'Golden Lucky Cat',
       text = {
-        "Earn {C:money}$#1#{} every time",
-        "a {C:attention}Lucky{} card",
-        "{C:green}successfully{} triggers"
+        "{C:green}#3# in #2#{} chance for",
+        "{C:attention}Lucky{} cards held in hand",
+        "to give {C:money}$#1#"
       }
     },
     
@@ -172,25 +174,28 @@ SMODS.Joker {
       eternal_compat = true, --can it be eternal
       perishable_compat = true, --can it be perishable
   
-    config = { extra = { money = 4 } },
+    config = { extra = { money = 20, odds = 15 } },
     rarity = 2,
     atlas = 'GarbJokers',
-    pos = { x = 0, y = 3 },
+    pos = { x = 5, y = 1 },
     cost = 6,
     loc_vars = function(self, info_queue, card)
       info_queue[#info_queue+1] = G.P_CENTERS.m_lucky
-      return { vars = { card.ability.extra.money } }
+      return { vars = { card.ability.extra.money, card.ability.extra.odds, G.GAME.probabilities.normal } }
     end,
     
      calculate = function(self, card, context)
   
-      if context.individual and not context.other_card.debuff and context.other_card.lucky_trigger then
-                                  G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + card.ability.extra.money
-                                  G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
-                                  return {
-                                      dollars = card.ability.extra.money,
-                                      colour = G.C.MONEY
-                                  }
+      if context.individual and context.cardarea == G.hand and not context.end_of_round then
+        if pseudorandom('Nyanko') < G.GAME.probabilities.normal/card.ability.extra.odds and context.other_card.ability.name == 'Lucky Card' then
+          G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + card.ability.extra.money
+          G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+          return {
+            dollars = card.ability.extra.money,
+            message_card = context.other_card,
+            colour = G.C.MONEY
+          }
+          end
       end
     end
   },
@@ -216,7 +221,7 @@ SMODS.Joker {
     config = { extra = {} },
     rarity = 3,
     atlas = 'GarbJokers',
-    pos = { x = 2, y = 3 },
+    pos = { x = 0, y = 2 },
     
       unlocked = false, 
       discovered = false, --whether or not it starts discovered
@@ -305,7 +310,7 @@ SMODS.Joker {
     config = { extra = { duds = 66 } },
     rarity = 1,
     atlas = 'GarbJokers',
-    pos = { x = 2, y = 2 },
+    pos = { x = 3, y = 1 },
     cost = 3,
     loc_vars = function(self, info_queue, card)
       return { vars = { card.ability.extra.duds } }
@@ -369,7 +374,7 @@ SMODS.Joker {
     config = { extra = {} },
     rarity = 2,
     atlas = 'GarbJokers',
-    pos = { x = 0, y = 2 },
+    pos = { x = 1, y = 1 },
     
       unlocked = false, 
       unlock_condition = {type = 'devils_deal'},
@@ -416,7 +421,7 @@ SMODS.Joker {
     config = { extra = { chips = 0, chip_gain = 25 } },
     rarity = 1,
     atlas = 'GarbJokers',
-    pos = { x = 2, y = 4 },
+    pos = { x = 4, y = 2 },
     cost = 3,
     loc_vars = function(self, info_queue, card)
       info_queue[#info_queue+1] = G.P_CENTERS.m_steel
@@ -466,10 +471,10 @@ SMODS.Joker {
       }
     },
   
-    config = { extra = {Xmult = 4} },
+    config = { extra = {Xmult = 3} },
     rarity = 3,
     atlas = 'GarbJokers',
-    pos = { x = 3, y = 4 },
+    pos = { x = 5, y = 2 },
     
       unlocked = true, 
       discovered = false, --whether or not it starts discovered
@@ -509,7 +514,7 @@ SMODS.Joker {
     config = { extra = {Xmult = 1.5} },
     rarity = 2,
     atlas = 'GarbJokers',
-    pos = { x = 0, y = 5 },
+    pos = { x = 6, y = 2 },
     
       unlocked = true, 
       discovered = false, --whether or not it starts discovered
@@ -525,13 +530,11 @@ SMODS.Joker {
      calculate = function(self, card, context)
   
           if context.joker_main then
-              return {
-                  card = card,
-                  Xmult_mod = card.ability.extra.Xmult,
-                  message = 'X' .. card.ability.extra.Xmult,
-                  colour = G.C.MULT
-              }
-          end
+        return {
+          Xmult_mod = card.ability.extra.Xmult,
+          message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } }
+        }
+      end
     end,
     
     add_to_deck = function(self, card, from_debuff)
@@ -575,7 +578,7 @@ SMODS.Joker {
     config = { extra = {odds = 15} },
     rarity = 3,
     atlas = 'GarbJokers',
-    pos = { x = 3, y = 5 },
+    pos = { x = 2, y = 3 },
     
       unlocked = true, 
       discovered = false, --whether or not it starts discovered
@@ -614,7 +617,7 @@ SMODS.Joker {
     config = { extra = {Xmult = 8} },
     rarity = 3,
     atlas = 'GarbJokers',
-    pos = { x = 1, y = 4 },
+    pos = { x = 3, y = 2 },
     
       unlocked = true, 
       discovered = false, --whether or not it starts discovered
@@ -639,6 +642,7 @@ SMODS.Joker {
               local deletable_jokers = {}
               local _first_dissolve = nil
               play_sound('garb_surge', 1, 0.6)
+              check_for_unlock({ type = "surged" })
               for k, v in pairs(G.jokers.cards) do
                   if not v.ability.eternal then deletable_jokers[#deletable_jokers + 1] = v end
               end
@@ -673,7 +677,7 @@ SMODS.Joker {
     config = { extra = {money = 77, value = 6} },
     rarity = 1,
     atlas = 'GarbJokers',
-    pos = { x = 3, y = 2 },
+    pos = { x = 4, y = 1 },
     
       unlocked = true, 
       discovered = false, --whether or not it starts discovered
@@ -723,7 +727,7 @@ SMODS.Joker {
     config = { extra = {value = 0} },
     rarity = 3,
     atlas = 'GarbJokers',
-    pos = { x = 1, y = 2 },
+    pos = { x = 2, y = 1 },
     
       unlocked = true, 
       discovered = false, --whether or not it starts discovered
@@ -793,7 +797,7 @@ SMODS.Joker {
     config = { extra = {odds = 8} },
     rarity = 3,
     atlas = 'GarbJokers',
-    pos = { x = 1, y = 5 },
+    pos = { x = 0, y = 3 },
     
       unlocked = false, 
       discovered = false, --whether or not it starts discovered
@@ -854,7 +858,7 @@ SMODS.Joker {
     config = { extra = {Xmult = 8, odds = 8} },
     rarity = 2,
     atlas = 'GarbJokers',
-    pos = { x = 2, y = 5 },
+    pos = { x = 1, y = 3 },
     
       unlocked = true, 
       discovered = false, --whether or not it starts discovered
@@ -902,7 +906,7 @@ SMODS.Joker {
     config = { extra = {mult = 4} },
     rarity = 1,
     atlas = 'GarbJokers',
-    pos = { x = 0, y = 6 },
+    pos = { x = 3, y = 3 },
     
       unlocked = true, 
       discovered = false, --whether or not it starts discovered
@@ -942,15 +946,16 @@ SMODS.Joker {
     loc_txt = {
       name = 'Magic Missile',
       text = {
-        "{X:mult,C:white} X#1# {} Mult if {C:attention}poker hand{}",
+        "{X:mult,C:white} X#1# {} Mult if",
+        "played {C:attention}poker hand{}",
         "is a {C:attention}High Card{}"
       }
     },
     -- Extra is empty, because it only happens once. If you wanted to copy multiple cards, you'd need to restructure the code and add a for loop or something.
-    config = { extra = {Xmult = 2} },
+    config = { extra = {Xmult = 3} },
     rarity = 2,
     atlas = 'GarbJokers',
-    pos = { x = 1, y = 8 },
+    pos = { x = 5, y = 4 },
     
       unlocked = true, 
       discovered = false, --whether or not it starts discovered
@@ -1032,7 +1037,7 @@ SMODS.Joker {
     end,
     rarity = 2,
     atlas = 'GarbJokers',
-    pos = { x = 1, y = 6 },
+    pos = { x = 4, y = 3 },
     cost = 5,
   
       unlocked = true, 
@@ -1067,7 +1072,7 @@ SMODS.Joker {
       end,
       rarity = 3,
       atlas = 'GarbJokers',
-      pos = { x = 0, y = 7 },
+      pos = { x = 0, y = 4 },
       cost = 7,
   
       check_for_unlock = function(self, args)
@@ -1113,7 +1118,7 @@ SMODS.Joker {
     end,
     rarity = 3,
     atlas = 'GarbJokers',
-    pos = { x = 1, y = 7 },
+    pos = { x = 1, y = 4 },
     cost = 7,
   
       unlocked = true, 
@@ -1137,21 +1142,23 @@ SMODS.Joker {
   
       if context.after then
         card.ability.extra.chips = 5
+        s_no_retrigger = -1
       end
       
       if context.individual and context.cardarea == G.play then
         local _card = context.other_card
               for i=1, #context.scoring_hand do
                   if context.scoring_hand[i] == _card then
-                      if context.scoring_hand[no_retrigger] == _card then
+                      if context.scoring_hand[s_no_retrigger] == _card then
                         card.ability.extra.chips = card.ability.extra.chips*2
                         card.ability.extra.last_scored = card.ability.extra.chips
+                        if card.ability.extra.chips > 2500 then check_for_unlock({ type = "snowedin" }) end
                         return {
-                          message = localize { type = 'variable', key = 'a_chips', vars = { card.ability.extra.chips/2 } },
+                          message = localize { type = 'variable', key = 'a_chips', vars = { card.ability.extra.chips } },
                           card = card
                         }
                       end
-                      no_retrigger = i
+                      s_no_retrigger = i
                   end
                 end
             return nil
@@ -1183,7 +1190,7 @@ SMODS.Joker {
     end,
     rarity = 3,
     atlas = 'GarbJokers',
-    pos = { x = 2, y = 7 },
+    pos = { x = 2, y = 4 },
     cost = 7,
   
       unlocked = false, 
@@ -1258,7 +1265,7 @@ SMODS.Joker {
     config = { extra = {mult = 0, mult_gain = 3} },
     rarity = 2,
     atlas = 'GarbJokers',
-    pos = { x = 2, y = 8 },
+    pos = { x = 6, y = 4 },
     
       unlocked = true, 
       discovered = false, --whether or not it starts discovered
@@ -1321,7 +1328,7 @@ SMODS.Joker {
     config = { extra = {HP = 1000, money = 5, maxHP = 1000, scale = 10} },
     rarity = 3,
     atlas = 'GarbJokers',
-    pos = { x = 3, y = 8 },
+    pos = { x = 0, y = 5 },
     
       unlocked = true, 
       discovered = false, --whether or not it starts discovered
@@ -1345,6 +1352,7 @@ SMODS.Joker {
           -- ease_dollars(card.ability.extra.money, true)    
           card.ability.extra.money = card.ability.extra.money + card.ability.extra.scale/2
           card.ability.extra.HP = card.ability.extra.maxHP
+          if card.ability.extra.money == 30 then check_for_unlock({ type = "mustdie" }) end
           return {
             message = "Defeated!",
             dollars = card.ability.extra.money-card.ability.extra.scale/2,
@@ -1361,26 +1369,26 @@ SMODS.Joker {
     end
   },
   
-  --[[
   SMODS.Joker {
-    key = 'matesprit',
+    key = 'shipping',
     loc_txt = {
-      name = 'Matespritship',
+      name = 'Shipping Wall',
       text = {
-        "{C:attention}Flush{} of {C:hearts}Hearts{}",
+      "{C:attention}Flush{} of {V:1}#2#{}",
       "becomes",
-      "{C:attention}Blush Flush{}"
+      "{C:attention}#1#{}",
+      "{s:0.8}(Effect adapts to most owned suit)"
       }
     },
-    config = { extra = { hand_text = "Blush Flush" } },
+    config = { extra = { hand_text = "Matesprit", suit = 'Hearts' } },
     loc_vars = function(self, info_queue, card)
       info_queue[#info_queue+1] = {set = "Other", key = "quadrant_hands", specific_vars = {card.ability.extra.hand_text}} 
-      return { vars = {  } }
+      return { vars = { card.ability.extra.hand_text, localize(card.ability.extra.suit, 'suits_plural'), colours = {G.C.SUITS[card.ability.extra.suit]} } }
     end,
   
     rarity = 2,
     atlas = 'GarbJokers',
-    pos = { x = 0, y = 9 },
+    pos = { x = 1, y = 5 },
     cost = 5,
   
       unlocked = true, 
@@ -1388,27 +1396,70 @@ SMODS.Joker {
       blueprint_compat = true, --can it be blueprinted/brainstormed/other
       eternal_compat = true, --can it be eternal
       perishable_compat = true, --can it be perishable
+
+    remove_from_deck = function(self, card, context)
+    SHIPPINGWALL_HAND = nil
+    end,
+    
+    update = function(self, card, initial, delay_sprites)
+    local suits = {
+        ['Hearts'] = 0,
+        ['Diamonds'] = 0,
+        ['Spades'] = 0,
+        ['Clubs'] = 0
+    }
+
+    local hands = {
+      ['Hearts'] = "Matesprit",
+      ['Diamonds'] = "Moirail",
+      ['Spades'] = "Kismesis",
+      ['Clubs'] = "Auspistice"
+  }
+
+    if G.playing_cards then
+      for i = 1, #G.playing_cards do
+              if G.playing_cards[i]:is_suit('Hearts', true) then suits["Hearts"] = suits["Hearts"] + 1
+              elseif G.playing_cards[i]:is_suit('Diamonds', true)  then suits["Diamonds"] = suits["Diamonds"] + 1
+              elseif G.playing_cards[i]:is_suit('Spades', true)  then suits["Spades"] = suits["Spades"] + 1
+              elseif G.playing_cards[i]:is_suit('Clubs', true)  then suits["Clubs"] = suits["Clubs"] + 1 end
+      end
+    end
+    
+    local highestnumber = 0
+    for k, v in pairs(suits) do
+      if v > highestnumber then
+        highestnumber = v
+        card.ability.extra.suit = k
+      end
+    end
+
+    if next(find_joker("j_garb_shipping")) then
+      SHIPPINGWALL_HAND = hands[card.ability.extra.suit]
+    end
+    card.ability.extra.hand_text = hands[card.ability.extra.suit]
+    end,
+  
   },
 
   SMODS.Joker {
-    key = 'kismesis',
+    key = 'backtrack',
     loc_txt = {
-      name = 'Kismesissitude',
+      name = 'Backtrack',
       text = {
-        "{C:attention}Flush{} of {C:spades}Spades{}",
-      "becomes",
-      "{C:attention}Caliginous Quarrel{}"
+        "Visit the {C:attention}Shop{}",
+        "after a blind is" ,
+        "{C:attention}skipped{}",
       }
     },
-    config = { extra = { hand_text = "Caliginous Quarrel" } },
+    config = { extra = {  } },
     loc_vars = function(self, info_queue, card)
-      info_queue[#info_queue+1] = {set = "Other", key = "quadrant_hands", specific_vars = {card.ability.extra.hand_text}} 
+      info_queue[#info_queue+1] = {set = "Other", key = "lamborghiniofficial", specific_vars = {}} 
       return { vars = {  } }
     end,
   
-    rarity = 2,
+    rarity = 3,
     atlas = 'GarbJokers',
-    pos = { x = 1, y = 0 },
+    pos = { x = 2, y = 6 },
     cost = 5,
   
       unlocked = true, 
@@ -1416,63 +1467,17 @@ SMODS.Joker {
       blueprint_compat = true, --can it be blueprinted/brainstormed/other
       eternal_compat = true, --can it be eternal
       perishable_compat = true, --can it be perishable
-      },
-  
-  SMODS.Joker {
-    key = 'auspistice',
-    loc_txt = {
-      name = 'Auspisticism',
-      text = {
-        "{C:attention}Flush{} of {C:clubs}Clubs{}",
-      "becomes",
-      "{C:attention}Ashen Resolution{}"
-      }
-    },
-    config = { extra = { hand_text = "Ashen Resolution" } },
-    loc_vars = function(self, info_queue, card)
-      info_queue[#info_queue+1] = {set = "Other", key = "quadrant_hands", specific_vars = {card.ability.extra.hand_text}} 
-      return { vars = {  } }
-    end,
-    rarity = 2,
-    atlas = 'GarbJokers',
-    pos = { x = 1, y = 0 },
-    cost = 5,
-  
-      unlocked = true, 
-      discovered = false, --whether or not it starts discovered
-      blueprint_compat = true, --can it be blueprinted/brainstormed/other
-      eternal_compat = true, --can it be eternal
-      perishable_compat = true, --can it be perishable
+
+      calculate = function(self, card, context)
+        if context.skip_blind then
+          return {
+            message = 'Backtracked!',
+            card = card
+          }
+        end
+      end
   },
-  
-  SMODS.Joker {
-    key = 'moirail',
-    loc_txt = {
-      name = 'Moirallegience',
-      text = {
-        "{C:attention}Flush{} of {C:diamonds}Diamonds{}",
-      "becomes",
-      "{C:attention}Pale Allegiance{}",
-      }
-    },
-    config = { extra = { hand_text = "Pale Allegiance" } },
-    loc_vars = function(self, info_queue, card)
-      info_queue[#info_queue+1] = {set = "Other", key = "quadrant_hands", specific_vars = {card.ability.extra.hand_text}} 
-      return { vars = {  } }
-    end,
-    rarity = 2,
-    atlas = 'GarbJokers',
-    pos = { x = 1, y = 0 },
-    cost = 5,
-  
-      unlocked = true, 
-      discovered = false, --whether or not it starts discovered
-      blueprint_compat = true, --can it be blueprinted/brainstormed/other
-      eternal_compat = true, --can it be eternal
-      perishable_compat = true, --can it be perishable
-      },
-  ]]
-    
+ 
   SMODS.Joker {
     key = 'archive',
     loc_txt = {
@@ -1492,7 +1497,7 @@ SMODS.Joker {
     end,
     rarity = 3,
     atlas = 'GarbJokers',
-    pos = { x = 1, y = 9 },
+    pos = { x = 2, y = 5 },
     soul_pos = { x = 3, y = 5 },
     cost = 8,
   
@@ -1558,6 +1563,568 @@ SMODS.Joker {
   end
 },
 
+SMODS.Joker {
+  key = 'trumpets',
+  loc_txt = {
+    name = 'Too Many Trumpets',
+    text = {
+      "Required Chips to defeat blind",
+      "increase by {C:attention}#4#%{} every {C:attention}#3#{} seconds",
+      "Gains {X:mult,C:white} X#2# {} Mult after hand is played",
+      "{C:inactive}(Currently {X:mult,C:white} X#1# {} {C:inactive}Mult)"
+    }
+  },
+  config = { extra = { difficulty = 1.05, Xmult = 1, Xmult_gain = 0.25, seconds = 2 } },
+  loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.Xmult, card.ability.extra.Xmult_gain, card.ability.extra.seconds, (card.ability.extra.difficulty-1)*100 } }
+  end,
+
+  rarity = 3,
+  atlas = 'GarbJokers',
+  pos = { x = 5, y = 5 },
+  cost = 5,
+    unlocked = true, 
+    discovered = false, --whether or not it starts discovered
+    blueprint_compat = true, --can it be blueprinted/brainstormed/other
+    eternal_compat = true, --can it be eternal
+    perishable_compat = true, --can it be perishable
+
+    add_to_deck = function(self, card)
+      clock = G.TIMERS.REAL
+      create_champion_event = function()
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.2,
+            func = function()
+                if G.hand_text_area.blind_chips and clock then
+                    local new_chips = math.floor(G.GAME.blind.chips * card.ability.extra.difficulty)
+                    local mod_text = number_format(
+                        math.floor(G.GAME.blind.chips * card.ability.extra.difficulty) - G.GAME.blind.chips
+                    )
+                    G.GAME.blind.chips = new_chips
+                    G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
+
+                    local chips_UI = G.hand_text_area.blind_chips
+                    G.FUNCS.blind_chip_UI_scale(G.hand_text_area.blind_chips)
+                    G.HUD_blind:recalculate()
+
+                    attention_text({
+                        text = '+' .. mod_text,
+                        scale = 0.8,
+                        hold = 0.7,
+                        cover = chips_UI.parent,
+                        cover_colour = G.C.RED,
+                        align = 'cm'
+                    })
+
+                    chips_UI:juice_up()
+
+                    play_sound('chips2')
+                else
+                    return false
+                end
+                return true
+            end
+        }))
+        end
+    end,
+
+    update = function(self, card)
+      if clock and next(SMODS.find_card("j_garb_trumpets")) and G.GAME.blind.in_blind and not G.SETTINGS.paused then
+        if (clock + (card.ability.extra.seconds - 1) < G.TIMERS.REAL) then
+          clock = G.TIMERS.REAL
+          create_champion_event()
+          return true
+        end
+      end
+    end,
+
+    calculate = function(self, card, context)
+      if context.before then
+        clock = nil
+      end
+
+      if context.post_joker and not context.blueprint and not context.debuffed_hand then
+        card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_gain
+        return {
+          message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } },
+          card = card
+        }
+      end
+
+      if context.hand_drawn then
+          clock = G.TIMERS.REAL
+      end
+
+      if context.end_of_round and not context.individual and not context.repetition then
+        clock = nil
+      end
+      
+      if context.joker_main and card.ability.extra.Xmult > 1 then
+        return {
+          Xmult_mod = card.ability.extra.Xmult,
+          message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } },
+          card = card
+        }
+      end
+
+    end
+  },
+
+  SMODS.Joker {
+    key = 'roffle',
+    loc_txt = {
+      name = 'Roffle',
+      text = {
+        "{X:mult,C:white} X#1# {} Mult if",
+        "first played {C:attention}face{} card",
+        "is {C:attention}retriggered"
+      },
+      unlock = {
+        "Win a run on at least", 
+        "{E:1,C:attention}Gold Stake{} difficulty"
+      }
+    },
+    config = { extra = { Xmult = 3 } },
+    loc_vars = function(self, info_queue, card)
+      return { vars = { card.ability.extra.Xmult } }
+    end,
+  
+    rarity = 2,
+    atlas = 'GarbJokers',
+    pos = { x = 6, y = 5 },
+    cost = 6,
+
+      unlocked = false, 
+      discovered = false, --whether or not it starts discovered
+      blueprint_compat = true, --can it be blueprinted/brainstormed/other
+      eternal_compat = true, --can it be eternal
+      perishable_compat = true, --can it be perishable
+
+      check_for_unlock = function(self, args)
+        if args.type == "win_stake" then
+          if get_deck_win_stake() == 8 then return true else return false end
+        end
+      end, 
+
+    calculate = function(self,card,context)
+      if context.individual and context.cardarea == G.play then
+        for i = 1, #context.scoring_hand do
+          if context.scoring_hand[i] == context.other_card and faces[1] == context.other_card and no_retrigger == i then roffle_mult = true end
+          if context.scoring_hand[i] == context.other_card then no_retrigger = i end
+        end
+      end
+
+      if context.before then
+        faces = {}
+        roffle_mult = false
+        for i = 1, #context.scoring_hand do
+          local _card = context.scoring_hand[i]
+          if _card:is_face() then 
+            faces[#faces+1] = _card
+          end
+        end
+      end
+
+      if context.joker_main then
+        no_retrigger = -1
+        if roffle_mult == true then
+            return {
+              Xmult_mod = card.ability.extra.Xmult,
+              message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } },
+              card = card
+            }
+        end
+      end
+
+    end
+  },
+
+  SMODS.Joker {
+    key = 'mercante',
+    loc_txt = {
+      name = 'Mercante in Fiera',
+      text = {
+        "Earn {C:money}$#1#{} if",
+        "{C:attention}#2#{} of {V:1}#3#{} hasn't",
+        "been drawn this round",
+        "{s:0.8}Card changes every round"
+      }
+    },
+    config = { extra = { dollars = 6 } },
+    loc_vars = function(self, info_queue, card)
+      return { vars = { card.ability.extra.dollars, localize(G.GAME.current_round.idol_card.rank, 'ranks'), localize(G.GAME.current_round.idol_card.suit, 'suits_plural'), colours = {G.C.SUITS[G.GAME.current_round.idol_card.suit]} } }
+    end,
+  
+    rarity = 1,
+    atlas = 'GarbJokers',
+    pos = { x = 4, y = 5 },
+    cost = 5,
+
+      unlocked = true, 
+      discovered = false, --whether or not it starts discovered
+      blueprint_compat = true, --can it be blueprinted/brainstormed/other
+      eternal_compat = true, --can it be eternal
+      perishable_compat = true, --can it be perishable
+
+    calculate = function(self,card,context)
+
+      if context.first_hand_drawn then
+        failed = false
+        local eval = function() return not failed end
+      end
+
+      if context.hand_drawn or context.discard then
+        for i = 1, #G.hand.cards do
+          if G.hand.cards[i]:get_id() == G.GAME.current_round.idol_card.id and 
+          G.hand.cards[i]:is_suit(G.GAME.current_round.idol_card.suit) then
+            if not failed then 
+              card_eval_status_text(card, 'extra', nil, nil, nil, {message = "Unlucky!"})
+              for i = 1, 4 do
+              play_sound('cancel', 0.7 + 0.05*i, 0.7)
+              delay(0.4/i)
+              end
+            end
+            failed = true
+          end
+        end
+      end
+    end,
+
+    calc_dollar_bonus = function(self, card)
+      local bonus = card.ability.extra.dollars
+      if not failed then return bonus end
+    end
+  
+  },
+
+  SMODS.Joker {
+    key = 'holywater',
+    loc_txt = {
+      name = 'Holy Water',
+      text = {
+        "If current blind is a {C:attention}Boss Blind{},",
+        "scored {C:attention}Pure{} cards",
+        "give {X:mult,C:white}X#1#{} Mult"
+      }
+    },
+    -- Extra is empty, because it only happens once. If you wanted to copy multiple cards, you'd need to restructure the code and add a for loop or something.
+    config = { extra = {Xmult = 1.5} },
+    rarity = 2,
+    atlas = 'GarbJokers',
+    pos = { x = 5, y = 6},
+    
+      unlocked = true, 
+      discovered = false, --whether or not it starts discovered
+      blueprint_compat = true, --can it be blueprinted/brainstormed/other
+      eternal_compat = true, --can it be eternal
+      perishable_compat = true, --can it be perishable
+      cost = 5,
+      loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue+1] = G.P_CENTERS.m_garb_pure
+      return { vars = { card.ability.extra.Xmult } }
+    end,
+      
+     calculate = function(self, card, context)
+     
+      if context.individual and context.cardarea == G.play and not context.blueprint and G.GAME.blind.boss then
+        if context.other_card.ability.name == 'm_garb_pure' then
+        return {
+          Xmult_mod = card.ability.extra.Xmult,
+          message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } }
+        }
+      end
+      end
+      
+    end
+  },
+
+  SMODS.Joker {
+    key = 'snap',
+    loc_txt = {
+      name = 'The Snap',
+      text = {
+        "Sell this card to",
+        "halve the current",
+        "Blind's {C:attention}score",
+        "{C:attention}requirement{}",
+        "{s:0.7,C:inactive}Currently: {s:0.7,V:1}#1#",
+    }
+    },
+    config = { extra = { difficulty = 0.5 } },
+    loc_vars = function(self, info_queue, card)
+      local activate_text = 'Inactive'
+      local activate_color = G.C.RED
+      if G.STATE == G.STATES.SELECTING_HAND then
+        activate_text = 'Active'
+        activate_color = G.C.GREEN
+      end
+    
+      return {vars = {activate_text,
+          colours = {activate_color} }}
+    end,
+  
+    rarity = 2,
+    atlas = 'GarbJokers',
+    pos = { x = 6, y = 6 },
+    cost = 5,
+  
+      unlocked = true, 
+      discovered = false, --whether or not it starts discovered
+      blueprint_compat = true, --can it be blueprinted/brainstormed/other
+      eternal_compat = true, --can it be eternal
+      perishable_compat = true, --can it be perishable
+      
+      calculate = function(self, card, context)
+        if context.selling_self and G.STATE == G.STATES.SELECTING_HAND then
+            local create_champion_event = function()
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    delay = 0.8,
+                    func = function()
+                        if G.hand_text_area.blind_chips then
+                            local new_chips = math.floor(G.GAME.blind.chips * card.ability.extra.difficulty)
+                            local mod_text = number_format(
+                                math.floor(G.GAME.blind.chips * card.ability.extra.difficulty) - G.GAME.blind.chips
+                            )
+                            G.GAME.blind.chips = new_chips
+                            G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
+    
+                            local chips_UI = G.hand_text_area.blind_chips
+                            G.FUNCS.blind_chip_UI_scale(G.hand_text_area.blind_chips)
+                            G.HUD_blind:recalculate()
+    
+                            attention_text({
+                                text = mod_text,
+                                scale = 0.8,
+                                hold = 0.7,
+                                cover = chips_UI.parent,
+                                cover_colour = G.C.RED,
+                                align = 'cm'
+                            })
+    
+                            chips_UI:juice_up()
+    
+                            play_sound('chips2')
+                        else
+                        return false --create_champion_event()
+                        end
+                        return true
+                    end
+                }))
+            end
+            create_champion_event()
+            play_sound('garb_snap', 1)
+            return {
+              message = "Snap!",
+              card = card
+          }
+        end
+    end,
+  },
+
+  SMODS.Joker {
+    key = 'goldcarrot',
+    loc_txt = {
+      name = 'Golden Carrot',
+      text = {
+        "{C:rare}Rare{} Jokers appear",
+        "{C:attention}3x{} as often"
+    }
+    },
+    config = { extra = {  } },
+    loc_vars = function(self, info_queue, card)
+      return {vars = {}}
+    end,
+    rarity = 3,
+    atlas = 'GarbJokers',
+    pos = { x = 0, y = 7 },
+    cost = 7,
+  
+      unlocked = true, 
+      discovered = false, --whether or not it starts discovered
+      blueprint_compat = true, --can it be blueprinted/brainstormed/other
+      eternal_compat = true, --can it be eternal
+      perishable_compat = true, --can it be perishable
+      
+  },
+
+  SMODS.Joker {
+    key = 'swapnote',
+    loc_txt = {
+      name = 'Swapnote',
+      text = {
+        "This Joker gains",
+        "{C:chips}+#1#{} Chips every time",
+        "a {C:stamp}Stamp{} card is used",
+        "{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)"
+      }
+    },
+    config = { extra = { chip_gain = 20, chips = 0} },
+    rarity = 1,
+    atlas = 'GarbJokers',
+    pos = { x = 1, y = 7 },
+    cost = 4,
+  
+    unlocked = true, 
+    discovered = false, --whether or not it starts discovered
+    blueprint_compat = true, --can it be blueprinted/brainstormed/other
+    eternal_compat = true, --can it be eternal
+    perishable_compat = true, --can it be perishable
+  
+    loc_vars = function(self, info_queue, card)
+      return { vars = { card.ability.extra.chip_gain, card.ability.extra.chips} }
+    end,
+  
+    calculate = function(self, card, context)
+      if context.using_consumeable and context.consumeable.ability.set == 'Stamp' and not context.blueprint then
+        card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_gain
+            return {
+              message = localize { type = 'variable', key = 'a_chips', vars = { card.ability.extra.chips } },
+              card = card
+            }
+      end
+  
+      if context.joker_main and card.ability.extra.chips > 1 then
+        return {
+          chip_mod = card.ability.extra.chips,
+          message = localize { type = 'variable', key = 'a_chips', vars = { card.ability.extra.chips } },
+          card = card
+        }
+      end
+  
+    end
+  },
+
+  SMODS.Joker {
+    key = 'vteller',
+    loc_txt = {
+      name = 'Two of Cups',
+      text = {
+        "Gains {X:mult,C:white} X#1# {} every time", 
+        "a {C:tarot}Tarot{} card is used,",
+        "resets if hand is played",
+        "with more than {C:money}$#2#{}",
+        "{C:inactive}(Currently: {X:mult,C:white} X#3# {C:inactive})"
+      },
+      unlock = {
+        "Have the {E:1,C:tarot}Vagabond{}",
+        "and {E:1,C:tarot}Fortune Teller{}",
+        "Jokers at the same time"
+      }
+    },
+    -- Extra is empty, because it only happens once. If you wanted to copy multiple cards, you'd need to restructure the code and add a for loop or something.
+    config = { extra = {Xmult_gain = 0.2, dollars = 4, Xmult = 1} },
+    rarity = 3,
+    atlas = 'GarbJokers',
+    pos = { x = 2, y = 7 },
+    
+      unlocked = false, 
+      discovered = false, --whether or not it starts discovered
+      blueprint_compat = true, --can it be blueprinted/brainstormed/other
+      eternal_compat = true, --can it be eternal
+      perishable_compat = true, --can it be perishable
+      cost = 5,
+      loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue+1] = {set = "Other", key = "sixty4suns", specific_vars = {}} 
+      return { vars = { card.ability.extra.Xmult_gain,card.ability.extra.dollars, card.ability.extra.Xmult} }
+    end,
+      
+    check_for_unlock = function(self, args)
+      if args.type == "vteller" then
+        return true
+      end
+    end,
+
+     calculate = function(self, card, context)
+      if context.using_consumeable and context.consumeable.ability.set == 'Tarot' and not context.blueprint then
+        card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_gain
+            return {
+              message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } },
+              card = card
+            }
+      end
+  
+      if context.before and G.GAME.dollars > card.ability.extra.dollars then
+        card.ability.extra.Xmult = 1
+        return {
+          message = localize('k_reset'),
+          colour = G.C.RED
+      }
+      end
+
+      if context.joker_main and card.ability.extra.Xmult > 1 then
+        return {
+          Xmult_mod = card.ability.extra.Xmult,
+          message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } },
+          card = card
+        }
+      end
+    end
+  },
+
+  SMODS.Joker {
+    key = 'hivemind',
+    loc_txt = {
+      name = 'The Hivemind',
+      text = {
+        "This Joker gains {X:mult,C:white} X#1# {} Mult",
+        "every time an {C:attention}Infected{} card",
+        "is destroyed",
+        "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)"
+}
+    },
+    -- Extra is empty, because it only happens once. If you wanted to copy multiple cards, you'd need to restructure the code and add a for loop or something.
+    config = { extra = {Xmult = 1, Xmult_gain = 0.5} },
+    rarity = 2,
+    atlas = 'GarbJokers',
+    pos = { x = 3, y = 7},
+    
+      unlocked = true, 
+      discovered = false, --whether or not it starts discovered
+      blueprint_compat = true, --can it be blueprinted/brainstormed/other
+      eternal_compat = true, --can it be eternal
+      perishable_compat = true, --can it be perishable
+      cost = 5,
+      loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue+1] = G.P_CENTERS.m_garb_infected
+      return { vars = { card.ability.extra.Xmult_gain, card.ability.extra.Xmult } }
+    end,
+      
+     calculate = function(self, card, context)
+      if context.remove_playing_cards then
+        local hive = 0
+        for k, v in ipairs(context.removed) do
+          if v.ability.name == 'm_garb_infected' then
+              hive = hive + 1
+          end
+        end
+
+        if hive > 0 then
+          G.E_MANAGER:add_event(Event({
+             func = function()
+          G.E_MANAGER:add_event(Event({
+             func = function()
+                card.ability.extra.Xmult = card.ability.extra.Xmult + hive*card.ability.extra.Xmult_gain
+                return true
+             end
+           }))
+         card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_xmult', vars = {card.ability.extra.Xmult + hive*card.ability.extra.Xmult_gain}}})
+         return true
+         end
+        }))
+        end
+      end  
+
+        if context.joker_main and card.ability.extra.Xmult > 1 then
+          return {
+            Xmult_mod = card.ability.extra.Xmult,
+            message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } },
+            card = card
+          }
+      end
+    end
+  },
 
    -- LEGENDARIES
    
@@ -1580,13 +2147,13 @@ SMODS.Joker {
       eternal_compat = true, --can it be eternal
       perishable_compat = true, --can it be perishable
   
-    config = { extra = {swag = 1} },
+    config = { extra = {swag = true} },
     rarity = 4,
     atlas = 'GarbJokers',
-    pos = { x = 3, y = 3 },
+    pos = { x = 1, y = 2 },
     
     -- soul_pos sets the soul sprite, only used in vanilla for legenedaries and Hologram.
-    soul_pos = { x = 0, y = 4 },
+    soul_pos = { x = 2, y = 2 },
     cost = 20,
     -- SMODS specific function, gives the returned value in dollars at the end of round, double checks that it's greater than 0 before returning.
     
@@ -1654,7 +2221,7 @@ SMODS.Joker {
     end
     
   },
-  
+
   SMODS.Joker {
     key = 'sara',
     loc_txt = {
@@ -1673,10 +2240,10 @@ SMODS.Joker {
     config = { extra = {} },
     rarity = 4,
     atlas = 'GarbJokers',
-    pos = { x = 2, y = 1 },
+    pos = { x = 6, y = 0 },
     
     -- soul_pos sets the soul sprite, only used in vanilla for legenedaries and Hologram.
-    soul_pos = { x = 3, y = 1 },
+    soul_pos = { x = 0, y = 1 },
     cost = 20,
   
     loc_vars = function(self, info_queue, card)
@@ -1697,7 +2264,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
   
       if context.repetition and context.cardarea == G.play and G.GAME.current_round.hands_played == 0 then
-                                      local card = context.other_card
+                          local card = context.other_card
                           -- if card == context.scoring_hand[no_retrigger] then return false end
                           
                           if card.ability.name == 'Glass Card' then
@@ -1716,23 +2283,24 @@ SMODS.Joker {
                                       return true
                                   end
                               })) 
-  
+
+                              card_eval_status_text(context.other_card, 'extra', nil, nil, nil, {message = localize('k_copied_ex')})
+
                               --[[
                               for i = 1, #context.scoring_hand do
                               if card == context.scoring_hand[i] then no_retrigger = i end
                               end
                               ]]--
+                              SMODS.calculate_context({playing_card_added = true, cards = {_card}})
+
                               return {
-                                  message = localize('k_copied_ex'),
-                                  colour = G.C.CHIPS,
                                   card = card,
-                                  playing_cards_created = {true}
-                              }
+                                  playing_cards_created = {_card}
+                                }
         end
       end
     end
-  },
-  
+  },  
   
   SMODS.Joker {
     key = 'garb777',
@@ -1751,10 +2319,10 @@ SMODS.Joker {
     config = { extra = {} },
     rarity = 4,
     atlas = 'GarbJokers',
-    pos = { x = 0, y = 1 },
+    pos = { x = 4, y = 0 },
     
     -- soul_pos sets the soul sprite, only used in vanilla for legenedaries and Hologram.
-    soul_pos = { x = 1, y = 1 },
+    soul_pos = { x = 5, y = 0 },
     cost = 20,
     
       unlocked = false, 
@@ -1764,7 +2332,7 @@ SMODS.Joker {
       perishable_compat = false, --can it be perishable
   
         add_to_deck = function(self, card)
-        check_for_unlock({ type = "discover_garb" })
+        check_for_unlock({ type = "discover_garb777" })
       end,
   
      calculate = function(self, card, context)
@@ -1809,10 +2377,10 @@ SMODS.Joker {
     config = { extra = {} },
     rarity = 4,
     atlas = 'GarbJokers',
-    pos = { x = 2, y = 6 },
+    pos = { x = 5, y = 3 },
     
     -- soul_pos sets the soul sprite, only used in vanilla for legenedaries and Hologram.
-    soul_pos = { x = 3, y = 6 },
+    soul_pos = { x = 6, y = 3 },
     cost = 20,
     
       unlocked = false, 
@@ -1963,8 +2531,8 @@ SMODS.Joker {
                 end
                 end
   
-                local enhancers = {"c_magician", "c_empress", "c_heirophant", "c_lovers", "c_chariot", "c_justice", "c_devil", "c_tower", "c_garb_hunger"}
-                local enhancements = {G.P_CENTERS.m_lucky, G.P_CENTERS.m_mult, G.P_CENTERS.m_bonus, G.P_CENTERS.m_wild, G.P_CENTERS.m_steel, G.P_CENTERS.m_glass, G.P_CENTERS.m_gold, G.P_CENTERS.m_stone, G.P_CENTERS.m_garb_infected}
+                local enhancers = {"c_magician", "c_empress", "c_heirophant", "c_lovers", "c_chariot", "c_justice", "c_devil", "c_tower", "c_garb_hunger", "c_garb_hope"}
+                local enhancements = {G.P_CENTERS.m_lucky, G.P_CENTERS.m_mult, G.P_CENTERS.m_bonus, G.P_CENTERS.m_wild, G.P_CENTERS.m_steel, G.P_CENTERS.m_glass, G.P_CENTERS.m_gold, G.P_CENTERS.m_stone, G.P_CENTERS.m_garb_infected, G.P_CENTERS.m_garb_pure}
                 for k, v in pairs(enhancers) do
                 if ut.config.center.key == v then
                   for i = 1, #context.scoring_hand do
@@ -2059,10 +2627,10 @@ SMODS.Joker {
     config = { extra = {Xmult = 1, Xmult_gain = 0.2} },
     rarity = 4,
     atlas = 'GarbJokers',
-    pos = { x = 3, y = 7 },
+    pos = { x = 3, y = 4 },
     
     -- soul_pos sets the soul sprite, only used in vanilla for legenedaries and Hologram.
-    soul_pos = { x = 0, y = 8 },
+    soul_pos = { x = 4, y = 4 },
     cost = 20,
   
     loc_vars = function(self, info_queue, card)
@@ -2133,6 +2701,171 @@ SMODS.Joker {
      end
   },
   
+  SMODS.Joker {
+    key = 'alain',
+    loc_txt = {
+      name = 'Alain',
+      text = {
+        "When hand is played", 
+        "creates a {C:planet}Planet{} card",
+        "for played {C:attention}poker hand",
+        "and a {C:dark_edition}Negative{} of it",
+      },
+      unlock = {
+        "{E:1,s:1.3}?????"
+      }
+    },
+    config = { extra = {} },
+    rarity = 4,
+    atlas = 'GarbJokers',
+    pos = { x = 0, y = 6 },
+    soul_pos = { x = 1, y = 6 },
+    cost = 20,
+
+    unlocked = false, 
+    discovered = false, --whether or not it starts discovered
+    blueprint_compat = true, --can it be blueprinted/brainstormed/other
+    eternal_compat = true, --can it be eternal
+    perishable_compat = true, --can it be perishable
+
+    add_to_deck = function(self, card)
+      check_for_unlock({ type = "discover_alain" })
+    end,
+
+    calculate = function(self, card, context)
+      if context.after and not context.debuffed_hand then
+        G.E_MANAGER:add_event(Event({
+          func = function()
+            for k, v in pairs(G.P_CENTER_POOLS.Planet) do
+              if v.config.hand_type == context.scoring_name then
+                _planet = v.key
+              end
+            end
+            local _card = SMODS.create_card{key = _planet or "c_jupiter", no_edition = true}
+            _card:set_edition('e_negative', true)
+            _card:add_to_deck()
+            G.consumeables:emplace(_card)
+            if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+            local _card2 = SMODS.create_card{key = _planet or "c_jupiter", no_edition = true}
+            _card2:add_to_deck()
+            G.consumeables:emplace(_card2)
+            end
+            return true
+          end
+        }))
+        return {
+          message = localize('k_plus_planet'),
+            colour = G.C.PLANET,
+            card = card or context.blueprint_card
+          }
+    end
+  end
+},
+  
+SMODS.Joker {
+  key = 'androsius',
+  loc_txt = {
+    name = 'Androsius',
+    text = {
+      "This Joker gains",
+      "{X:mult,C:white} X#1# {} Mult every time",
+      "a {C:stamp}Stamp{} card is used",
+      "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)"
+    },
+    unlock = {
+      "{E:1,s:1.3}?????"
+    }
+  },
+  config = { extra = { Xmult_gain = 1, Xmult = 1} },
+  rarity = 4,
+  atlas = 'GarbJokers',
+  pos = { x = 3, y = 6 },
+  soul_pos = { x = 4, y = 6 },
+  cost = 20,
+
+  unlocked = false, 
+  discovered = false, --whether or not it starts discovered
+  blueprint_compat = true, --can it be blueprinted/brainstormed/other
+  eternal_compat = true, --can it be eternal
+  perishable_compat = true, --can it be perishable
+
+  loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.Xmult_gain, card.ability.extra.Xmult} }
+  end,
+
+
+  add_to_deck = function(self, card)
+    check_for_unlock({ type = "discover_androsius" })
+  end,
+
+  calculate = function(self, card, context)
+    if context.using_consumeable and context.consumeable.ability.set == 'Stamp' and not context.blueprint then
+      card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_gain
+          return {
+            message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } },
+            card = card
+          }
+    end
+
+    if context.joker_main and card.ability.extra.Xmult > 1 then
+      return {
+        Xmult_mod = card.ability.extra.Xmult,
+        message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } },
+        card = card
+      }
+    end
+
+  end
+},
+
+SMODS.Joker {
+  key = 'albero',
+  loc_txt = {
+    name = 'Albero',
+    text = {
+      "Retrigger all played",
+      "{C:attention}enhanced{} cards",
+      "{C:attention}#1#{} additional times"
+    },
+    unlock = {
+      "{E:1,s:1.3}?????"
+    }
+  },
+  config = { extra = { retriggers = 2 } },
+  rarity = 4,
+  atlas = 'GarbJokers',
+  pos = { x = 4, y = 7 },
+  soul_pos = { x = 5, y = 7 },
+  cost = 20,
+
+  unlocked = false, 
+  discovered = false, --whether or not it starts discovered
+  blueprint_compat = true, --can it be blueprinted/brainstormed/other
+  eternal_compat = false, --can it be eternal
+  perishable_compat = false, --can it be perishable
+
+  loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.retriggers } }
+  end,
+
+  add_to_deck = function(self, card)
+    check_for_unlock({ type = "discover_albero" })
+  end,
+
+  calculate = function(self, card, context)
+    if context.cardarea == G.play and context.repetition and not context.repetition_only then
+      if context.other_card.ability.set == 'Enhanced' then
+        return {
+          message = 'Again!',
+          message_card = context.blueprint_card or card,
+          repetitions = card.ability.extra.retriggers,
+          card = context.other_card
+        }
+      end
+    end
+  end
+},
+
 -- TITLE JOKERS
 
 SMODS.Joker {
@@ -2154,8 +2887,8 @@ SMODS.Joker {
 
     rarity = 1,
     atlas = 'GarbJokers',
-    pos = { x = 0, y = 1 },
-    soul_pos = {x = 1, y = 1},
+    pos = { x = 4, y = 0 },
+    soul_pos = {x = 5, y = 0},
     cost = 5,
       no_collection = true,
       unlocked = true, 
@@ -2184,7 +2917,7 @@ SMODS.Joker {
 
         rarity = 1,
         atlas = 'GarbJokers',
-        pos = { x = 0, y = 6 },
+        pos = { x = 3, y = 3 },
         cost = 5,
           no_collection = true,
           unlocked = true, 
@@ -2213,7 +2946,7 @@ SMODS.Joker {
 
             rarity = 1,
             atlas = 'GarbJokers',
-            pos = { x = 1, y = 4 },
+            pos = { x = 3, y = 2 },
             cost = 5,
               no_collection = true,
               unlocked = true, 
