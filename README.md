@@ -14,6 +14,9 @@ There's also a few consumables and enhancements, more of that coming soon too, s
 
 Check the repository every once in a while for updates :33
 
+![Title Screen](https://github.com/user-attachments/assets/172379c9-fa6a-4af8-ba96-0fc226ce0ebe)
+
+
 ## Contents
 - 45 Jokers (8 Legendaries)
 - 2 Tarots
