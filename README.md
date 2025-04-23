@@ -3,7 +3,7 @@
 ## ![Garb's Soul Sprite](https://github.com/Gainumki/GARBSHIT/blob/main/garb.png) > Hi! I'm Garb! I mod Balala!
 
 ## The Mod
-Every Joker and art in this mod is made by me unless stated otherwise
+![Title Screen](https://github.com/user-attachments/assets/172379c9-fa6a-4af8-ba96-0fc226ce0ebe)
 
 I make these Jokers (And misc stuff too as of now) for myself but i figure people might enjoy them, so they're available to download!
 
@@ -14,8 +14,7 @@ There's also a few consumables and enhancements, more of that coming soon too, s
 
 Check the repository every once in a while for updates :33
 
-![Title Screen](https://github.com/user-attachments/assets/172379c9-fa6a-4af8-ba96-0fc226ce0ebe)
-
+Every Joker and art in this mod is made by me unless stated otherwise
 
 ## Contents
 - 45 Jokers (8 Legendaries)
