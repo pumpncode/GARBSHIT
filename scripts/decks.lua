@@ -125,12 +125,14 @@ return {
         loc_vars = function(self, info_queue, card)
             return {vars = {localize{type = 'name_text', key = 'v_garb_postcard', set = 'Voucher'}, localize{type = 'name_text', key = 'c_garb_mascot', set = 'Stamp'}}}
         end,
+        unlock_condition = {type = 'win_deck', deck = 'b_garb_garbdeck'},
         check_for_unlock = function(self, args)
-            if args.type == "doodle_deck" then
-              return true
+            if args.type == "win_deck" then
+                if get_deck_win_stake(self.unlock_condition.deck) > 0 then
+                    return true
+                end
             end
-          end,    
+        end,    
 
-        unlock_condition = {type = 'win_deck', deck = 'b_garb_garbdeck'}
     }),
 }
