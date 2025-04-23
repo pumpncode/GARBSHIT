@@ -17,6 +17,72 @@ return {
 			},
         },
 
+        Sleeve = {
+			sleeve_garb_tangerine = {
+                name = "Tangerine Sleeve",
+                text = {                     
+                "{C:attention}GARBSHIT{} Jokers appear",
+                "{C:attention}3x{} more often",
+                }
+            },
+			sleeve_garb_tangerine_alt = {
+				name = "Tangerine Sleeve",
+				text = {
+                    "{C:attention}GARBSHIT{} Jokers appear",
+                    "{C:attention}11x{} more often",
+                    },
+			},
+            sleeve_garb_albert = {
+                name = "Albert's Sleeve",
+                text = {
+                    "Start run with a",
+                    "{E:1,C:legendary}Legendary{} Joker",
+                    "{C:red}X#1#{} base Blind size",
+                },
+            },
+			sleeve_garb_albert_alt = {
+				name = "Albert's Sleeve",
+                text = {
+                    "Start run with another",
+                    "{E:1,C:legendary}Legendary{} Joker",
+                    "{C:chips}#2#{} Hands per round",
+                },
+			},
+            sleeve_garb_doodle = {
+                name = "Doodle Sleeve",
+                text = {
+                    "Start run with the",
+                    "{C:stamp,T:v_garb_postcard}#1#{} voucher",
+                    "and a {C:stamp,T:c_garb_mascot}#2#{} card"
+                },
+            },
+			sleeve_garb_doodle_alt = {
+				name = "Doodle Sleeve",
+                text = {
+                    "Start run with the",
+                    "{C:stamp,T:v_garb_guano}#1#{} voucher",
+                },
+			},
+            sleeve_garb_cycle = {
+                name = "Epoch Sleeve",
+                text = {
+                    "At the start of each {C:attention}Ante{},",
+                    "set money to {C:money}$#1#{} and",
+                    "{C:red}destroy{} all {C:attention}Joker{} and",
+                    "{C:attention}Consumable{} cards",
+                },
+            },
+			sleeve_garb_cycle_alt = {
+				name = "Epoch Sleeve",
+                text = {
+                    "At the start of each {C:attention}Ante{},",
+                    "set money to {C:money}$#1#{} and",
+                    "{C:red}reset{} all poker hand {C:attention}levels{}",
+                },
+			},
+
+        },
+
         Other = {
             p_garb_stamp_booster = {
                 name = "Postal Pack",

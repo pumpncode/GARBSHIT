@@ -116,9 +116,20 @@ target = "functions/common_events.lua"
 pattern = "_pool[#_pool + 1] = v.key"
 position = "before"
 payload = '''
-if G.GAME.selected_back and G.GAME.selected_back.effect.center.key == "b_garb_garbdeck" then
+if G.GAME.selected_back and G.GAME.selected_back.effect.center.key == "b_garb_garbdeck" or 
+    (G.GAME.selected_sleeve and G.GAME.selected_sleeve == "sleeve_garb_tangerine") then
     if string.sub(v.key, 1, 6) == 'j_garb' then
         for i=1, 2 do
+            _pool[#_pool + 1] = v.key
+            _pool_size = _pool_size + 1
+        end
+    end
+end
+
+if G.GAME.selected_back and G.GAME.selected_back.effect.center.key == "b_garb_garbdeck" and 
+    (G.GAME.selected_sleeve and G.GAME.selected_sleeve == "sleeve_garb_tangerine") then
+    if string.sub(v.key, 1, 6) == 'j_garb' then
+        for i=1, 32 do
             _pool[#_pool + 1] = v.key
             _pool_size = _pool_size + 1
         end

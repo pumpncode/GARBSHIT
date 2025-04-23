@@ -160,3 +160,7 @@ assert(SMODS.load_file('scripts/boosters.lua'))()
 assert(SMODS.load_file('scripts/tags.lua'))()
 assert(SMODS.load_file('scripts/vouchers.lua'))()
 
+if next(SMODS.find_mod("CardSleeves")) then
+  assert(SMODS.load_file('scripts/sleeves.lua'))()
+end
+

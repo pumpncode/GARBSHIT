@@ -7,7 +7,7 @@
 	"prefix": "garb",
 	"main_file": "garbpack.lua",
     "version": "2.0",
-    "priority": -10,
+    "priority": 0,
     "dependencies": [
         "Steamodded (>=1.0.0~ALPHA-1418a)"
     ]
