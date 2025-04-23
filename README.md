@@ -27,7 +27,8 @@ Check the repository every once in a while for updates :33
 - 12 Stamps
 - 1 New Booster Type
 - 1 Tag
-
+- 4 Sleeves (Cross-mod content for [CardSleeves](https://github.com/larswijn/CardSleeves/releases/latest))
+  
 ## Special Thanks
 Special thanks to Localthunk for making Balatro and to the Balatro discord (especially the people over on #modding-dev) for helping me whenever I had any issues, y'all the best >8]
 
