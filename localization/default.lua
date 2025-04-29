@@ -15,6 +15,13 @@ return {
 					"Can't be debuffed"
 				},
 			},
+            m_garb_jump = {
+				name = "Jump Card",
+				text = {
+					"Can be used as any",
+                    "rank in Straights"
+				},
+			},
         },
 
         Other = {
