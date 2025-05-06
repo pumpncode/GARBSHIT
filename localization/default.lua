@@ -237,6 +237,14 @@ return {
                     "and a {C:stamp,T:c_garb_mascot}#2#{} card"
                 },
             },
+            b_garb_byss = {
+                name = "Byss Deck",
+                text = {
+                    "Start with {C:attention}1{} Joker slot",
+                    "Gain {C:attention}+#1#{} Joker slot",
+                    "at the end of each Ante"
+                },
+            },
         },
     
     

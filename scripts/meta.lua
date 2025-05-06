@@ -158,6 +158,13 @@ SMODS.Atlas{
         }
         },
 
+        SMODS.Sound {
+            key = "bisso",
+            path = {
+                ["default"] = "bisso.ogg"
+            }
+            },
+        
     SMODS.Sound {
         key = "music_stamps",
         path = {
