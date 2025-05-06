@@ -157,7 +157,7 @@ return {
                 G.jokers.config.card_limit = G.jokers.config.card_limit + 1
                 play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
                 play_sound('garb_bisso')    
-                card_eval_status_text(G.deck, 'extra', nil, nil, nil, {message = "+1 Slots!", colour = G.C.DARK_EDITION})                    
+                card_eval_status_text(G.jokers, 'extra', nil, nil, nil, {message = "+1 Slots!", colour = G.C.DARK_EDITION})                    
             end
         end,
         unlock_condition = {type = 'win_deck', deck = 'b_garb_cycle'},

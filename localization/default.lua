@@ -87,6 +87,22 @@ return {
                     "{C:red}reset{} all poker hand {C:attention}levels{}",
                 },
 			},
+            sleeve_garb_byss = {
+                name = "Byss Sleeve",
+                text = {
+                    "Start with {C:attention}1{} Joker slot",
+                    "Gain {C:attention}+#1#{} Joker slot",
+                    "at the end of each Ante"
+                },
+            },
+			sleeve_garb_byss_alt = {
+				name = "Byss Sleeve",
+                text = {
+                    "Gain {C:attention}+#1#{} hand size",
+                    "at the end of each Ante"
+                },
+			},
+
 
         },
 
