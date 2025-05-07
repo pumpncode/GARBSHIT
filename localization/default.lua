@@ -15,6 +15,13 @@ return {
 					"Can't be debuffed"
 				},
 			},
+            m_garb_jump = {
+				name = "Jump Card",
+				text = {
+					"Can be used as any",
+                    "rank in Straights"
+				},
+			},
         },
 
         Sleeve = {
@@ -80,6 +87,22 @@ return {
                     "{C:red}reset{} all poker hand {C:attention}levels{}",
                 },
 			},
+            sleeve_garb_byss = {
+                name = "Byss Sleeve",
+                text = {
+                    "Start with {C:attention}1{} Joker slot",
+                    "Gain {C:attention}+#1#{} Joker slot",
+                    "at the end of each Ante"
+                },
+            },
+			sleeve_garb_byss_alt = {
+				name = "Byss Sleeve",
+                text = {
+                    "Gain {C:attention}+#1#{} hand size",
+                    "at the end of each Ante"
+                },
+			},
+
 
         },
 
@@ -294,6 +317,14 @@ return {
                     "Start run with the",
                     "{C:stamp,T:v_garb_postcard}#1#{} voucher",
                     "and a {C:stamp,T:c_garb_mascot}#2#{} card"
+                },
+            },
+            b_garb_byss = {
+                name = "Byss Deck",
+                text = {
+                    "Start with {C:attention}1{} Joker slot",
+                    "Gain {C:attention}+#1#{} Joker slot",
+                    "at the end of each Ante"
                 },
             },
         },
