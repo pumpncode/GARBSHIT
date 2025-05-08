@@ -155,6 +155,13 @@ return {
                 }
             }, 
 
+            omegaflowey18 = {
+                name = "Credits",
+                text = {
+                    "Art and idea by",
+                    "{E:1,C:attention}omegaflowey18"
+                }
+            }, 
      
             talisman_warning = {
                 name = "WARNING!",
