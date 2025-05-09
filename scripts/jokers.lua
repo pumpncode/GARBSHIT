@@ -1644,10 +1644,10 @@ SMODS.Joker {
         clock = nil
       end
 
-      if context.post_joker and not context.blueprint and not context.debuffed_hand then
+      if context.after and not context.blueprint and not context.debuffed_hand then
         card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_gain
         return {
-          message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } },
+          message = 'Upgraded!',
           card = card
         }
       end
@@ -2125,6 +2125,94 @@ SMODS.Joker {
       end
     end
   },
+
+  SMODS.Joker {
+    key = 'eyeofrah',
+    loc_txt = {
+      name = 'Eye of Rah',
+      text = {
+        "If {C:attention}Boss Blind{} is won in {C:attention}1{} hand,",
+        "create a {C:tarot}Charm Tag{}",
+      }
+    },
+    -- Extra is empty, because it only happens once. If you wanted to copy multiple cards, you'd need to restructure the code and add a for loop or something.
+    config = { extra = {} },
+    rarity = 2,
+    atlas = 'GarbJokers',
+    pos = { x = 0, y = 8 },
+    
+      unlocked = true, 
+      discovered = false, --whether or not it starts discovered
+      blueprint_compat = true, --can it be blueprinted/brainstormed/other
+      eternal_compat = true, --can it be eternal
+      perishable_compat = true, --can it be perishable
+      cost = 2,
+      loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = {set = "Tag", key = "tag_charm", specific_vars = {}}
+        return { vars = { card.ability.extra.mult } }
+    end,
+      
+      calculate = function(self, card, context)
+        if context.end_of_round and G.GAME.blind.boss and context.main_eval and G.GAME.current_round.hands_played == 1 then
+          add_tag(Tag('tag_charm'))
+          play_sound('garb_gong', 0.9 + math.random()*0.1, 0.8)
+          return {
+              card = card,
+              message = 'Rah!',
+              colour = G.C.TAROT
+          }
+        end
+      end
+  },
+
+  SMODS.Joker {
+    key = 'showoff',
+    loc_txt = {
+      name = 'Showoff',
+      text = {
+        "If final {C:attention}hand{} of round",
+        "causes the score to {C:attention}catch fire{}",
+        "this Joker gains {X:mult,C:white} X#2# {} Mult",
+        "{C:inactive}(Currently {X:mult,C:white} X#1# {} {C:inactive}Mult)"
+      }
+    },
+    -- Extra is empty, because it only happens once. If you wanted to copy multiple cards, you'd need to restructure the code and add a for loop or something.
+    config = { extra = {Xmult = 1, Xmult_gain = 0.75} },
+    rarity = 2,
+    atlas = 'GarbJokers',
+    pos = { x = 6, y = 7 },
+    
+      unlocked = true, 
+      discovered = false, --whether or not it starts discovered
+      blueprint_compat = true, --can it be blueprinted/brainstormed/other
+      eternal_compat = true, --can it be eternal
+      perishable_compat = true, --can it be perishable
+      cost = 2,
+      loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = {set = "Other", key = "omegaflowey18", specific_vars = {}} 
+        return { vars = { card.ability.extra.Xmult, card.ability.extra.Xmult_gain } }
+    end,
+      
+      calculate = function(self, card, context)
+        if context.end_of_round and context.main_eval and G.GAME.current_round.hands_left == 0 then
+          card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_gain
+          return {
+              card = card,
+              message = 'Upgraded!'
+          }
+        end
+
+      if context.joker_main and card.ability.extra.Xmult > 1 then
+        return {
+          Xmult_mod = card.ability.extra.Xmult,
+          message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } },
+          card = card      
+        }
+      end
+    end
+
+  },
+
 
    -- LEGENDARIES
    
