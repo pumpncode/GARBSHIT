@@ -3,6 +3,46 @@ version = "2.0"
 dump_lua = true
 priority = 27
 
+# Flame On (Stolen from CardSauce)
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "if G.ARGS.score_intensity.earned_score >= G.ARGS.score_intensity.required_score and G.ARGS.score_intensity.required_score > 0 then"
+position = "after"
+payload = '''
+if G.STATE == G.STATES.HAND_PLAYED and not G.GAME.FLAME_ON then
+    G.GAME.FLAME_ON = true
+end
+'''
+match_indent = true
+overwrite = false
+
+# Flame Off
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "_F.intensity = 0"
+position = "after"
+payload = '''
+G.GAME.FLAME_ON = false
+'''
+match_indent = true
+overwrite = false
+
+
+# Valoky Tags
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "G.GAME.round_resets.blind_tags.Big = get_next_tag_key()"
+position = "at"
+payload = '''
+G.GAME.round_resets.blind_tags.Small = next(SMODS.find_card("j_garb_valoky")) and 'tag_garb_carnival' or get_next_tag_key() 
+'''
+match_indent = true
+times = 1
+overwrite = true
+
 # Jump Cards
 [[patches]]
 [patches.pattern]
