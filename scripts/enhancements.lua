@@ -86,7 +86,7 @@ SMODS.Enhancement {
   end
 },
 
-SMODS.Enhancement {
+--[[ SMODS.Enhancement {
 	key = "jump",
 	atlas = "GarbEnhancements",
 	pos = {x = 2, y = 0},
@@ -101,6 +101,6 @@ SMODS.Enhancement {
 	loc_vars = function(self, info_queue, card)
         return { vars = {  }}
     end,
-}
+}]]
 
 }
