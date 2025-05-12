@@ -2194,7 +2194,7 @@ SMODS.Joker {
     end,
       
       calculate = function(self, card, context)
-        if context.end_of_round and context.main_eval and G.GAME.current_round.hands_left == 0 then
+        if context.after and G.GAME.current_round.hands_left == 0 and G.GAME.FLAME_ON then
           card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_gain
           return {
               card = card,
@@ -2210,6 +2210,53 @@ SMODS.Joker {
         }
       end
     end
+
+  },
+
+  SMODS.Joker {
+    key = 'eviolite',
+    loc_txt = {
+      name = 'Eviolite',
+      text = {
+        "{C:attention}+1{} hand size for each",
+        "empty {C:attention}Joker{} slot",
+        "{s:0.8}Eviolite included",
+        "{C:inactive}(Currently {C:attention}+#1#{C:inactive})"
+
+    }
+    },
+    config = { extra = { h_size = 1, ini_h_size = 8 } },
+    loc_vars = function(self, info_queue, card)
+      return {vars = {}}
+    end,
+    rarity = 2,
+    atlas = 'GarbJokers',
+    pos = { x = 2, y = 8 },
+    cost = 7,
+  
+      unlocked = true, 
+      discovered = false, --whether or not it starts discovered
+      blueprint_compat = true, --can it be blueprinted/brainstormed/other
+      eternal_compat = true, --can it be eternal
+      perishable_compat = true, --can it be perishable
+
+    loc_vars = function(self, info_queue, card)
+      return { vars = { card.ability.extra.h_size } }
+    end,
+
+    update = function(self, card, dt)
+        if card.area and card.area == G.jokers then
+            local new_limit = G.jokers.config.card_limit - #G.jokers.cards + #SMODS.find_card("j_garb_eviolite")
+            if new_limit ~= card.ability.extra.h_size then
+                G.hand:change_size(new_limit - card.ability.extra.h_size)
+                card.ability.extra.h_size = new_limit
+            end
+        end
+    end,
+
+    remove_from_deck = function(self, card, from_debuff)
+        G.hand:change_size(-card.ability.extra.h_size)
+    end,
 
   },
 
@@ -2953,6 +3000,44 @@ SMODS.Joker {
     end
   end
 },
+
+SMODS.Joker {
+  key = 'valoky',
+  loc_txt = {
+    name = 'Valoky',
+    text = {
+      "First {C:attention}Skip Tag{} of",
+      "ante is always a",
+      "{C:attention}Carnival Tag"
+    },
+    unlock = {
+      "{E:1,s:1.3}?????"
+    }
+  },
+  config = { extra = { } },
+  rarity = 4,
+  atlas = 'GarbJokers',
+  pos = { x = 3, y = 8 },
+  soul_pos = { x = 4, y = 8 },
+  cost = 20,
+
+  unlocked = false, 
+  discovered = false, --whether or not it starts discovered
+  blueprint_compat = true, --can it be blueprinted/brainstormed/other
+  eternal_compat = false, --can it be eternal
+  perishable_compat = false, --can it be perishable
+
+  loc_vars = function(self, info_queue, card)
+    info_queue[#info_queue+1] = {set = "Tag", key = "tag_garb_carnival", specific_vars = {}}
+    return { vars = { } }
+  end,
+
+  add_to_deck = function(self, card)
+    G.GAME.round_resets.blind_tags.Small = 'tag_garb_carnival'
+    check_for_unlock({ type = "discover_valoky" })
+  end,
+},
+
 
 -- TITLE JOKERS
 
