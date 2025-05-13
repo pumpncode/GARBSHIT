@@ -18,8 +18,8 @@ SMODS.Atlas({
 SMODS.Atlas({
 	key = "GarbTags",
 	path = "tags.png",
-	px = 32,
-	py = 32,
+	px = 34,
+	py = 34,
 }),
 
 SMODS.Atlas({
