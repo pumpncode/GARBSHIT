@@ -10,6 +10,9 @@ return {
         },
         atlas = 'GarbTags', 
         pos = { x = 0, y = 0 },
+        in_pool = function()
+		    return (G.GAME.round_resets.ante > 1)
+	    end,
         apply = function(self, tag, context)
               if context.type == "new_blind_choice" then
                   tag:yep("+", G.C.ATTENTION, function()
@@ -47,6 +50,9 @@ return {
         },
         atlas = 'GarbTags', 
         pos = { x = 1, y = 0 },
+        in_pool = function()
+		    return (G.GAME.round_resets.ante > 1)
+	    end,
         apply = function(self, tag, context)
 		if context.type == "store_joker_create" then
             local keys = {}
