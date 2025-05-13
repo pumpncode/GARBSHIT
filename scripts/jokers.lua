@@ -2146,7 +2146,7 @@ SMODS.Joker {
       blueprint_compat = true, --can it be blueprinted/brainstormed/other
       eternal_compat = true, --can it be eternal
       perishable_compat = true, --can it be perishable
-      cost = 2,
+      cost = 4,
       loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = {set = "Tag", key = "tag_charm", specific_vars = {}}
         return { vars = { card.ability.extra.mult } }
@@ -2187,7 +2187,7 @@ SMODS.Joker {
       blueprint_compat = true, --can it be blueprinted/brainstormed/other
       eternal_compat = true, --can it be eternal
       perishable_compat = true, --can it be perishable
-      cost = 2,
+      cost = 6,
       loc_vars = function(self, info_queue, card)
         info_queue[#info_queue+1] = {set = "Other", key = "omegaflowey18", specific_vars = {}} 
         return { vars = { card.ability.extra.Xmult, card.ability.extra.Xmult_gain } }
