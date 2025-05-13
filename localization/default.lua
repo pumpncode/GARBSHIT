@@ -22,6 +22,14 @@ return {
                     "rank in Straights"
 				},
 			},
+            m_garb_royal = {
+				name = "Royal Card",
+				text = {
+					"{C:attention}+1{} hand size",
+                    "{C:red}Discarded{} after any",
+                    "hand is played"
+				},
+			},
         },
 
         Sleeve = {
