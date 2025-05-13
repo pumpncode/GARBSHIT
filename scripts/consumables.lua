@@ -627,15 +627,15 @@ SMODS.Consumable{
     loc_txt = {
       name = 'Hope',
       text = {
-        "Enhances {C:attention}#1#{} selected",
-        "card into a",
-        "{C:attention}#2#"
+        "Enhances {C:attention}#1#{}",
+        "selected cards to",
+        "{C:attention}#2#s"
 }
     },
   
     atlas = 'GarbConsumables', pos = { x = 0, y = 1 },
   
-      config = {extra = { max_highlighted = 1, enhancement = "Pure Card" }},
+      config = {extra = { max_highlighted = 2, enhancement = "Pure Card" }},
       
       loc_vars = function(self, info_queue, card)
           info_queue[#info_queue+1] = G.P_CENTERS.m_garb_pure
