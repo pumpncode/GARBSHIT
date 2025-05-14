@@ -2248,7 +2248,7 @@ SMODS.Joker {
         if card.area and card.area == G.jokers then
             local new_limit = G.jokers.config.card_limit - #G.jokers.cards + #SMODS.find_card("j_garb_eviolite")
             if new_limit ~= card.ability.extra.h_size then
-                G.hand:change_size(new_limit - card.ability.extra.h_size)
+                G.hand:change_size(new_limit - card.ability.extra.h_size + 1)
                 card.ability.extra.h_size = new_limit
             end
         end
