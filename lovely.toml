@@ -61,8 +61,9 @@ target = '=[SMODS _ "src/overrides.lua"]'
 pattern = '''table.sort(ret, function(a,b) return #a > #b end)'''
 position = "at"
 payload = '''
-if jumps < 4 then
+if #jumps < 4 then
     table.sort(ret, function(a,b) return #a > #b end)
+    if ret[1] then for k,v in ipairs(jumps) do table.insert(ret[1], v) end end
 else
     ret = {hand}
 end
