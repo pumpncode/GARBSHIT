@@ -9,6 +9,13 @@ SMODS.UndiscoveredSprite{
 },
 
 SMODS.Atlas({
+	key = "GarbPartner",
+	path = "partners.png",
+	px = 46,
+	py = 58,
+}),
+
+SMODS.Atlas({
 	key = "modicon",
 	path = "garb_icon.png",
 	px = 32,

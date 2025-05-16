@@ -1,5 +1,14 @@
 return {
     descriptions = {
+        Partner = {
+            pnr_garb_minigarbo = {
+                name = "Lil Garb",
+				text = {
+					"Gain {C:money}$#1#{} when a {C:attention}Lucky{} card",
+                    "{C:green}successfully{} triggers",
+				},
+            }
+        },
         Enhanced = {
 			m_garb_infected = {
 				name = "Infected Card",
@@ -393,6 +402,29 @@ return {
         dictionary = {
             stamp_booster = "Postal Pack",
             ph_mr_bones = "Saved by Joker effect",
-        }
+        },
+        quips={
+            pnr_garb_1={
+                "Hiii!!!"
+            },
+            pnr_garb_2={
+                "Hell yeah!!"
+            },
+            pnr_garb_3={
+                ":3"
+            },
+            pnr_garb_4={
+                "I'm proud of you!",
+                "Keep it up!"
+            },
+            pnr_garb_5={
+                "jokey pokey",
+                "balala"
+            },
+            pnr_garb_6={
+                "A tiny desk concert,",
+                "just for you!"
+            },
+        },
     },
 }

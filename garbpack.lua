@@ -175,3 +175,7 @@ if next(SMODS.find_mod("CardSleeves")) then
   assert(SMODS.load_file('scripts/sleeves.lua'))()
 end
 
+if next(SMODS.find_mod("partner")) then
+  assert(SMODS.load_file('scripts/partners.lua'))()
+end
+
