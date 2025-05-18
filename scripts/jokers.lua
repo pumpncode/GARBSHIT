@@ -1509,20 +1509,25 @@ SMODS.Joker {
         
     calculate = function(self, card, context)
     if context.blind and not context.blueprint then
-        archived = {}
-            for k, v in pairs(G.playing_cards) do
-                if v.ability.set == 'Enhanced' then
-                    archived[#archived+1] = v
-                    v.destroyme = true
-                    v:start_dissolve(nil, _first_dissolve)
-                    _first_dissolve = true
-                    card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_gain
-                end
-            end
-        if #archived > 0 then
+		  G.garb_archived = CardArea(
+			  G.deck.T.x,
+			  G.deck.T.y,
+			  G.deck.T.w,
+			  G.deck.T.h,
+			  { type = "discard", card_limit = 1e100 }
+		  )
+      local hand_count = #G.deck.cards
+		  for i = 1, hand_count do
+        if G.deck.cards[i].ability.set == 'Enhanced' then
+			    draw_card(G.deck, G.garb_archived, i * 100 / hand_count, "up", nil, G.deck.cards[i], 0.035)
+          card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_gain
+          archived = true
+		    end
+      end
+        if archived then
           card_eval_status_text(card, 'extra', nil, nil, nil, {message = "Archived!"})
         end
-        local eval = function() return #archived > 0 or false end
+        local eval = function() return #G.garb_archived.cards > 0 or false end
         juice_card_until(card, eval, true)
     end
 
@@ -1537,29 +1542,17 @@ SMODS.Joker {
     end
 
     if context.post_joker then
-        for i = 1, #archived do
-        local _card = copy_card(archived[i], nil, nil, G.playing_card)
-        _card:add_to_deck()
-        G.deck.config.card_limit = G.deck.config.card_limit + 1
-        table.insert(G.playing_cards, _card)
-        G.deck:emplace(_card)
-        _card.states.visible = nil
+      archived = false
+      returned = false
+      card.ability.extra.Xmult = 1
+      for k, v in pairs(G.garb_archived.cards) do
+			  draw_card(G.garb_archived, G.deck, k * 100 / #G.garb_archived.cards, "up", nil, v, 0.035)
         returned = true
-        card.ability.extra.Xmult = 1
       end
       if returned then
         card_eval_status_text(card, 'extra', nil, nil, nil, {message = "Returned!"})
-        archived = {}
-        returned = false
       end
     end
-
-    if context.destroying_card and context.destroying_card.destroyme and not context.blueprint then
-      return{
-          remove = true,
-      }
-  end
-
   end
 },
 
