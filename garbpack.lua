@@ -5,9 +5,8 @@ local mod = SMODS.current_mod
 config = mod.config
 garb_enabled = copy_table(config)
 
-local function garb_batch_load(txt, list) 
+local function garb_batch_load(txt) 
     local joker_files = NFS.getDirectoryItems(mod.path.."data/"..txt)
-    local list = list or joker_files
     sendInfoMessage(mod.path.."data/"..txt)
     local txt = txt..'/'
     for _, file in pairs(joker_files) do
@@ -175,11 +174,32 @@ SMODS.current_mod.description_loc_vars = function()
   return { background_colour = G.C.CLEAR, text_colour = G.C.WHITE, scale = 1.2 }
 end
 
-garb_batch_load("jokers", joker_list)
+SMODS.ConsumableType{
+    key = 'Stamp',
+    primary_colour = HEX("73A557"),
+    secondary_colour = HEX("73A557"),
+    loc_txt = {
+        name = 'Stamp', -- used on card type badges
+        collection = 'Stamp Cards', -- label for the button to access the collection
+        undiscovered = { -- description for undiscovered cards in the collection
+            name = 'Not Discovered',
+            text = {
+                "Purchase or use",
+                "this card in an",
+                "unseeded run to",
+                "learn what it does"
+            }       
+        },
+    },
+    shop_rate = 0.0,
+    default = "c_garb_fruit"
+}
+
+garb_batch_load("jokers")
+garb_batch_load("consumables")
 assert(SMODS.load_file("scripts/achievements.lua"))()
 assert(SMODS.load_file("scripts/meta.lua"))()
 assert(SMODS.load_file("scripts/pokerhands.lua"))()
-assert(SMODS.load_file("scripts/consumables.lua"))()
 assert(SMODS.load_file("scripts/enhancements.lua"))()
 assert(SMODS.load_file('scripts/unleashed_tarots.lua'))()
 assert(SMODS.load_file('scripts/decks.lua'))()
