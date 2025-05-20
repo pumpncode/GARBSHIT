@@ -1,8 +1,24 @@
 ----------------------------------------------
 ------------MOD CODE -------------------------
 
-config = SMODS.current_mod.config
+local mod = SMODS.current_mod
+config = mod.config
 garb_enabled = copy_table(config)
+
+local function garb_batch_load(txt, list) 
+    local joker_files = NFS.getDirectoryItems(mod.path.."data/"..txt)
+    local list = list or joker_files
+    sendInfoMessage(mod.path.."data/"..txt)
+    local txt = txt..'/'
+    for _, file in pairs(joker_files) do
+        sendInfoMessage(file)
+        if string.find(file, ".lua") then
+          assert(SMODS.load_file("data/"..txt..file))()
+        end
+    end
+    sendInfoMessage("FINISHED BATCH LOAD FOR "..txt)
+    return true
+end
 
 to_big = to_big or function(x, y)
   return x
@@ -159,12 +175,12 @@ SMODS.current_mod.description_loc_vars = function()
   return { background_colour = G.C.CLEAR, text_colour = G.C.WHITE, scale = 1.2 }
 end
 
+garb_batch_load("jokers", joker_list)
 assert(SMODS.load_file("scripts/achievements.lua"))()
 assert(SMODS.load_file("scripts/meta.lua"))()
 assert(SMODS.load_file("scripts/pokerhands.lua"))()
 assert(SMODS.load_file("scripts/consumables.lua"))()
 assert(SMODS.load_file("scripts/enhancements.lua"))()
-assert(SMODS.load_file('scripts/jokers.lua'))()
 assert(SMODS.load_file('scripts/unleashed_tarots.lua'))()
 assert(SMODS.load_file('scripts/decks.lua'))()
 assert(SMODS.load_file('scripts/boosters.lua'))()
