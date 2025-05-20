@@ -30,13 +30,6 @@ return {
         
     calculate = function(self, card, context)
     if context.blind and not context.blueprint then
-		  G.garb_archived = CardArea(
-			  G.deck.T.x,
-			  G.deck.T.y,
-			  G.deck.T.w,
-			  G.deck.T.h,
-			  { type = "discard", card_limit = 1e100 }
-		  )
       local hand_count = #G.deck.cards
 		  for i = 1, hand_count do
         if G.deck.cards[i].ability.set == 'Enhanced' then
@@ -67,7 +60,7 @@ return {
       returned = false
       card.ability.extra.Xmult = 1
       for k, v in pairs(G.garb_archived.cards) do
-			  draw_card(G.garb_archived, G.deck, k * 100 / #G.garb_archived.cards, "up", nil, v, 0.035)
+			  draw_card(G.garb_archived, G.deck, k * 100 / #G.garb_archived.cards, "down", nil, v, 0.035)
         returned = true
       end
       if returned then

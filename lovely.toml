@@ -3,13 +3,41 @@ version = "2.0"
 dump_lua = true
 priority = 27
 
+# Archives cardarea
+[[patches]]
+[patches.pattern]
+target = 'game.lua'
+match_indent = true
+position = 'before'
+pattern = 'self.hand = CardArea('
+payload = '''
+G.garb_archived = CardArea(
+	G.deck.T.x,
+    G.deck.T.y,
+	G.deck.T.w,
+    G.deck.T.h,
+  { type = "discard", card_limit = 1e100 }
+)
+'''
+
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+match_indent = true
+position = 'after'
+pattern = 'G.deck.T.y = G.TILE_H - G.deck.T.h'
+payload = '''
+G.garb_archived.T.x = G.TILE_W - G.deck.T.w - 0.5
+G.garb_archived.T.y = G.TILE_H - G.deck.T.h
+'''
+
 # Poker Hand display can have enhancements
 # This patch was made by MathIsFun0
 # https://github.com/MathIsFun0/Cryptid/blob/00bdde94b2aa4554147c65a792d404585dde167c/lovely/Misc.toml#L394
 [[patches]]
 [patches.pattern]
 target = "functions/UI_definitions.lua"
-pattern = '''local card = Card(0,0, 0.5*G.CARD_W, 0.5*G.CARD_H, G.P_CARDS[v[1]], G.P_CENTERS.c_base)'''
+pattern = '''local card = Card(0,0, 0.5*G.CARD_W, 0.5*G.CARD_H, G.P_CARDS[v[1]], G.P_CENTERS[v.enhancement or 'c_base'])'''
 position = "at"
 payload = '''local card = Card(0,0, 0.5*G.CARD_W, 0.5*G.CARD_H, G.P_CARDS[v[1]], G.P_CENTERS[v[3] or 'c_base'])'''
 match_indent = true
