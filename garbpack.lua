@@ -212,4 +212,3 @@ end
 if next(SMODS.find_mod("partner")) then
   garb_batch_load("cross-mod/partners")
 end
-

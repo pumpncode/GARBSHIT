@@ -73,7 +73,7 @@ overwrite = false
 [[patches]]
 [patches.pattern]
 target = "functions/button_callbacks.lua"
-pattern = "G.GAME.round_resets.blind_tags.Big = get_next_tag_key()"
+pattern = "G.GAME.round_resets.blind_tags.Small = get_next_tag_key()"
 position = "at"
 payload = '''
 G.GAME.round_resets.blind_tags.Small = next(SMODS.find_card("j_garb_valoky")) and 'tag_garb_carnival' or get_next_tag_key() 

@@ -19,7 +19,7 @@ return {
             local keys = {}
             if G.jokers then
                 for k, v in pairs(G.jokers.cards) do
-                    if v.ability.set == 'Joker' and not (type(v.config.center.rarity) == "number" and v.config.center.rarity >= 4) then
+                    if type(v.config.center.rarity) == "number" and v.ability.set == 'Joker' and not (type(v.config.center.rarity) == "number" and v.config.center.rarity >= 4) then
                         table.insert(keys, v.config.center.key)
                     end
                 end  
