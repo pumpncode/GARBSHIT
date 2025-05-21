@@ -29,10 +29,14 @@ end
 
 local getstraighter = get_straight
 function get_straight(hand, min_length, skip, wrap)
+    total_jumps = 0
     min_length = min_length or 5
     jumps =  {}
     for i = 1, #hand do
-      if SMODS.has_enhancement(hand[i], 'm_garb_jump') then jumps[#jumps+1] = hand[i] end
+      if SMODS.has_enhancement(hand[i], 'm_garb_jump') then 
+        jumps[#jumps+1] = hand[i] 
+        total_jumps = total_jumps + 1
+      end
     end
     if #hand >= min_length then jumps = jumps else jumps = {} end
     return getstraighter(hand, min_length-#jumps, skip, wrap)
