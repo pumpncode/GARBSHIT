@@ -195,16 +195,13 @@ SMODS.ConsumableType{
     default = "c_garb_fruit"
 }
 
-assert(SMODS.load_file("scripts/achievements.lua"))()
-assert(SMODS.load_file("scripts/meta.lua"))()
-assert(SMODS.load_file('scripts/unleashed_tarots.lua'))()
-
 garb_batch_load("jokers")
 garb_batch_load("consumables")
 garb_batch_load("boosters")
 garb_batch_load("enhancements")
 garb_batch_load("decks")
 garb_batch_load("tags")
+garb_batch_load("misc")
 
 assert(SMODS.load_file('scripts/vouchers.lua'))()
 assert(SMODS.load_file("scripts/pokerhands.lua"))()
