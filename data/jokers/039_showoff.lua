@@ -4,15 +4,15 @@ return {
     loc_txt = {
       name = 'Showoff',
       text = {
-        "If final {C:attention}hand{} of round",
+        "If played {C:attention}hand{}",
         "causes the score to {C:attention}catch fire{}",
         "this Joker gains {X:mult,C:white} X#2# {} Mult",
         "{C:inactive}(Currently {X:mult,C:white} X#1# {} {C:inactive}Mult)"
       }
     },
     -- Extra is empty, because it only happens once. If you wanted to copy multiple cards, you'd need to restructure the code and add a for loop or something.
-    config = { extra = {Xmult = 1, Xmult_gain = 0.75} },
-    rarity = 2,
+    config = { extra = {Xmult = 1, Xmult_gain = 0.5} },
+    rarity = 3,
     atlas = 'GarbJokers',
     pos = { x = 6, y = 7 },
     

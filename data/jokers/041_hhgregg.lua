@@ -31,8 +31,14 @@ return {
       if context.starting_shop or context.reroll_shop and not context.blueprint then
         for k, v in pairs(G.shop_jokers.cards) do
           G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.5, func = function()
-          if v.cost > 0 then
+          if v.cost - card.ability.extra.discount >= 0 then
             v.cost = v.cost - card.ability.extra.discount
+            _card = context.blueprint_card or card
+            _card:juice_up()
+            v:juice_up()
+            play_sound("coin1", 1.2)
+          elseif v.cost > 0 then
+            v.cost = 0
             _card = context.blueprint_card or card
             _card:juice_up()
             v:juice_up()
