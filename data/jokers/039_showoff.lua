@@ -4,8 +4,8 @@ return {
     loc_txt = {
       name = 'Showoff',
       text = {
-        "If played {C:attention}hand{}",
-        "causes the score to {C:attention}catch fire{}",
+        "If played {C:attention}hand{} causes",
+        "the score to {C:attention}catch fire{}",
         "this Joker gains {X:mult,C:white} X#2# {} Mult",
         "{C:inactive}(Currently {X:mult,C:white} X#1# {} {C:inactive}Mult)"
       }
@@ -28,7 +28,7 @@ return {
     end,
       
       calculate = function(self, card, context)
-        if context.after and G.GAME.current_round.hands_left == 0 and G.GAME.FLAME_ON then
+        if context.after and G.GAME.FLAME_ON then
           card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_gain
           return {
               card = card,
