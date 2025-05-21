@@ -197,17 +197,17 @@ SMODS.ConsumableType{
 
 assert(SMODS.load_file("scripts/achievements.lua"))()
 assert(SMODS.load_file("scripts/meta.lua"))()
-assert(SMODS.load_file("scripts/pokerhands.lua"))()
 assert(SMODS.load_file('scripts/unleashed_tarots.lua'))()
 
 garb_batch_load("jokers")
 garb_batch_load("consumables")
 garb_batch_load("boosters")
 garb_batch_load("enhancements")
+garb_batch_load("decks")
 
-assert(SMODS.load_file('scripts/decks.lua'))()
 assert(SMODS.load_file('scripts/tags.lua'))()
 assert(SMODS.load_file('scripts/vouchers.lua'))()
+assert(SMODS.load_file("scripts/pokerhands.lua"))()
 
 if next(SMODS.find_mod("CardSleeves")) then
   assert(SMODS.load_file('scripts/sleeves.lua'))()
