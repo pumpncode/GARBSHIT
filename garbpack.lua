@@ -202,15 +202,14 @@ garb_batch_load("enhancements")
 garb_batch_load("decks")
 garb_batch_load("tags")
 garb_batch_load("vouchers")
+garb_batch_load("poker_hands")
 garb_batch_load("misc")
 
-assert(SMODS.load_file("scripts/pokerhands.lua"))()
-
 if next(SMODS.find_mod("CardSleeves")) then
-  assert(SMODS.load_file('scripts/sleeves.lua'))()
+  garb_batch_load("cross-mod/cardsleeves")
 end
 
 if next(SMODS.find_mod("partner")) then
-  assert(SMODS.load_file('scripts/partners.lua'))()
+  garb_batch_load("cross-mod/partners")
 end
 

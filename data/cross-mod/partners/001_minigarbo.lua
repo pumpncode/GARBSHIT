@@ -2,7 +2,7 @@ if not Partner_API then return false else return
 {
     Partner_API.Partner{
     key = "minigarbo",
-    name = "Lil Garb",
+    name = "Mini Garb",
     unlocked = true,
     discovered = true,
     pos = {x = 0, y = 0},
