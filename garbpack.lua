@@ -204,8 +204,8 @@ garb_batch_load("consumables")
 garb_batch_load("boosters")
 garb_batch_load("enhancements")
 garb_batch_load("decks")
+garb_batch_load("tags")
 
-assert(SMODS.load_file('scripts/tags.lua'))()
 assert(SMODS.load_file('scripts/vouchers.lua'))()
 assert(SMODS.load_file("scripts/pokerhands.lua"))()
 
