@@ -56,6 +56,20 @@ end
 match_indent = true
 overwrite = false
 
+# Flame On (FUCK TALISMAN)
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "if to_big(G.ARGS.score_intensity.earned_score) >= to_big(G.ARGS.score_intensity.required_score) and to_big(G.ARGS.score_intensity.required_score) > to_big(0) then"
+position = "after"
+payload = '''
+if G.STATE == G.STATES.HAND_PLAYED and not G.GAME.FLAME_ON then
+    G.GAME.FLAME_ON = true
+end
+'''
+match_indent = true
+overwrite = false
+
 # Flame Off
 [[patches]]
 [patches.pattern]

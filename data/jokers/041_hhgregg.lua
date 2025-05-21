@@ -19,7 +19,7 @@ return {
   
       unlocked = true, 
       discovered = false, --whether or not it starts discovered
-      blueprint_compat = true, --can it be blueprinted/brainstormed/other
+      blueprint_compat = false, --can it be blueprinted/brainstormed/other
       eternal_compat = true, --can it be eternal
       perishable_compat = true, --can it be perishable
 
@@ -28,7 +28,7 @@ return {
     end,
 
     calculate = function(self, card, context)
-      if context.starting_shop or context.reroll_shop then
+      if context.starting_shop or context.reroll_shop and not context.blueprint then
         for k, v in pairs(G.shop_jokers.cards) do
           G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.5, func = function()
           if v.cost > 0 then
