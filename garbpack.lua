@@ -12,6 +12,7 @@ SMODS.current_mod.optional_features = function()
   return { cardareas = { discard = true, deck = true } }
 end
 
+--[[
 local getstraighter = get_straight
 function get_straight(hand, min_length, skip, wrap)
     jumps = 0
@@ -21,6 +22,7 @@ function get_straight(hand, min_length, skip, wrap)
     if #hand >= min_length then jumps = jumps else jumps = 0 end
     return getstraighter(hand, min_length-jumps, skip, wrap)
 end
+]]
 
 local function config_matching()
 	for k, v in pairs(garb_enabled) do

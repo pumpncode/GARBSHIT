@@ -43,34 +43,6 @@ match_indent = true
 times = 1
 overwrite = true
 
-# Jump Cards
-[[patches]]
-[patches.pattern]
-target = '=[SMODS _ "src/overrides.lua"]'
-pattern = '''local id = card:get_id()'''
-position = "at"
-payload = '''
-local id = SMODS.has_enhancement(card, 'm_garb_jump') and 0 or card:get_id()
-'''
-match_indent = true
-overwrite = true
-
-[[patches]]
-[patches.pattern]
-target = '=[SMODS _ "src/overrides.lua"]'
-pattern = '''table.sort(ret, function(a,b) return #a > #b end)'''
-position = "at"
-payload = '''
-if jumps < 4 then
-    table.sort(ret, function(a,b) return #a > #b end)
-else
-    ret = {hand}
-end
-'''
-match_indent = true
-overwrite = true
-
-
 # Golden Carrot
 [[patches]]
 [patches.pattern]

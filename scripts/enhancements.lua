@@ -86,6 +86,7 @@ SMODS.Enhancement {
   end
 },
 
+--[[
 SMODS.Enhancement {
 	key = "jump",
 	atlas = "GarbEnhancements",
@@ -102,4 +103,5 @@ SMODS.Enhancement {
         return { vars = {  }}
     end
 }
+]]
 }
