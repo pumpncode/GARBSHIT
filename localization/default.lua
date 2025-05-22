@@ -7,6 +7,19 @@ return {
 					"Gain {C:money}$#1#{} when a {C:attention}Lucky{} card",
                     "{C:green}successfully{} triggers",
 				},
+            },
+            pnr_garb_pearto = {
+                name = "Pearto",
+                text = {
+                    "All scored {C:hearts}Kings of Hearts{}",
+                    "give {X:mult,C:white} X#1# {} Mult",
+                    "{s:0.8}i fucking love kasane pearto{}"
+                },
+                unlock = {
+                    "Download and enable the",
+                    "{E:1,C:attention}Vocaloid Card Set{}",
+                    "or {E:1,C:attention}Vocalatro{} mods"
+                }
             }
         },
         Enhanced = {
@@ -156,30 +169,14 @@ return {
                 },
             },            
             
-            lamborghiniofficial = {
+            credits = {
                 name = "Credits",
                 text = {
                     "Art and idea by",
-                    "{E:1,C:attention}lamborghiniofficial"
+                    "{E:1,C:attention}#1#"
                 }
             }, 
 
-            sixty4suns = {
-                name = "Credits",
-                text = {
-                    "Art and idea by",
-                    "{E:1,C:attention}64suns"
-                }
-            }, 
-
-            omegaflowey18 = {
-                name = "Credits",
-                text = {
-                    "Art and idea by",
-                    "{E:1,C:attention}omegaflowey18"
-                }
-            }, 
-     
             talisman_warning = {
                 name = "WARNING!",
                 text = {
@@ -368,6 +365,7 @@ return {
                 "{s:1.25,C:attention,E:2}Joker Contributions:",
                 "{C:dark_edition,E:2}lamborghiniofficial{} - Backtrack",
                 "{C:dark_edition,E:2}64suns{} - Two of Cups",
+                "{C:dark_edition,E:2}Valoky{} - Obsession",
                 " ",
                 "{s:1.5,C:attention,E:2}Also Try:",
                 "{C:dark_edition,E:1}Rofflatro, Victin's Collection, Aikoyori's Shenanigans{}",
@@ -405,27 +403,30 @@ return {
             ph_mr_bones = "Saved by Joker effect",
         },
         quips={
-            pnr_garb_1={
+            pnr_garb_minigarbo_1={
                 "Hiii!!!"
             },
-            pnr_garb_2={
+            pnr_garb_minigarbo_2={
                 "Hell yeah!!"
             },
-            pnr_garb_3={
+            pnr_garb_minigarbo_3={
                 ":3"
             },
-            pnr_garb_4={
+            pnr_garb_minigarbo_4={
                 "I'm proud of you!",
                 "Keep it up!"
             },
-            pnr_garb_5={
+            pnr_garb_minigarbo_5={
                 "jokey pokey",
                 "balala"
             },
-            pnr_garb_6={
-                "A tiny desk concert,",
+            pnr_garb_minigarbo_6={
+                "A tiny desk garbi,",
                 "just for you!"
             },
+            pnr_garb_pearto_1={
+                "i am a pear"
+            }
         },
     },
 }

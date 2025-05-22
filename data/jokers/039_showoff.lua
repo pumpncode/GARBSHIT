@@ -23,7 +23,7 @@ return {
       perishable_compat = true, --can it be perishable
       cost = 6,
       loc_vars = function(self, info_queue, card)
-        info_queue[#info_queue+1] = {set = "Other", key = "omegaflowey18", specific_vars = {}} 
+        info_queue[#info_queue+1] = {set = "Other", key = "credits", specific_vars = {"omegaflowey18"}} 
         return { vars = { card.ability.extra.Xmult, card.ability.extra.Xmult_gain } }
     end,
       

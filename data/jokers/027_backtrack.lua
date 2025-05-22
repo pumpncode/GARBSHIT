@@ -11,7 +11,7 @@ return {
     },
     config = { extra = {  } },
     loc_vars = function(self, info_queue, card)
-      info_queue[#info_queue+1] = {set = "Other", key = "lamborghiniofficial", specific_vars = {}} 
+      info_queue[#info_queue+1] = {set = "Other", key = "credits", specific_vars = {"lamborghiniofficial"}} 
       return { vars = {  } }
     end,
   

@@ -5,11 +5,12 @@ if not Partner_API then return false else return
     name = "Mini Garb",
     unlocked = true,
     discovered = true,
+    individual_quips = true,
     pos = {x = 0, y = 0},
     soul_pos =  {x = 1, y = 0},
     loc_txt = {},
     atlas = "GarbPartner",
-    config = {extra = {related_card = "j_garb_garb777", money = 5, benefits = 1, quip_key = "garb"}},
+    config = {extra = {related_card = "j_garb_garb777", money = 5, benefits = 1}},
     loc_vars = function(self, info_queue, card)
         return { vars = {card.ability.extra.money*card.ability.extra.benefits} }
     end,
