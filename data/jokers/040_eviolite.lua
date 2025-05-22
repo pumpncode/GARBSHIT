@@ -11,7 +11,7 @@ return {
 
     }
     },
-    config = { extra = { h_size = 1, ini_h_size = 8 } },
+    config = { extra = { h_size = 0, ini_h_size = 8 } },
     loc_vars = function(self, info_queue, card)
       return {vars = {}}
     end,
@@ -27,14 +27,14 @@ return {
       perishable_compat = true, --can it be perishable
 
     loc_vars = function(self, info_queue, card)
-      return { vars = { card.ability.extra.h_size } }
+      return { vars = { G.jokers and card.ability.extra.h_size or 5 } }
     end,
 
     update = function(self, card, dt)
         if card.area and card.area == G.jokers then
             local new_limit = G.jokers.config.card_limit - #G.jokers.cards + #SMODS.find_card("j_garb_eviolite")
             if new_limit ~= card.ability.extra.h_size then
-                G.hand:change_size(new_limit - card.ability.extra.h_size + 1)
+                G.hand:change_size(new_limit - card.ability.extra.h_size)
                 card.ability.extra.h_size = new_limit
             end
         end

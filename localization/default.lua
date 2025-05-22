@@ -2,7 +2,7 @@ return {
     descriptions = {
         Partner = {
             pnr_garb_minigarbo = {
-                name = "Lil Garb",
+                name = "Mini Garb",
 				text = {
 					"Gain {C:money}$#1#{} when a {C:attention}Lucky{} card",
                     "{C:green}successfully{} triggers",
@@ -363,7 +363,7 @@ return {
                 " ",
                 "{s:1.5,C:attention,E:2}Credits:",
                 "{C:dark_edition,E:2}garb{} - Lead, Art, Code",
-                "{C:dark_edition,E:2}ejwu2{} - Jump Cards implementation",
+                "{C:dark_edition,E:2}ejwu{} - Jump Cards implementation",
                 " ",
                 "{s:1.25,C:attention,E:2}Joker Contributions:",
                 "{C:dark_edition,E:2}lamborghiniofficial{} - Backtrack",
