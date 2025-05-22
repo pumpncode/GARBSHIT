@@ -96,57 +96,6 @@ match_indent = true
 times = 1
 overwrite = true
 
-# Jump Cards
-[[patches]]
-[patches.pattern]
-target = '=[SMODS _ "src/overrides.lua"]'
-pattern = '''local id = card:get_id()'''
-position = "at"
-payload = '''
-local id = SMODS.has_enhancement(card, 'm_garb_jump') and 0 or card:get_id()
-'''
-match_indent = true
-overwrite = true
-
-[[patches]]
-[patches.pattern]
-target = '=[SMODS _ "src/overrides.lua"]'
-pattern = '''if skip and (wrap or not SMODS.Ranks[v].straight_edge) then'''
-position = "at"
-payload = '''
-if total_jumps and total_jumps > 0 or skip and (wrap or not SMODS.Ranks[v].straight_edge) then
-'''
-match_indent = true
-overwrite = true
-
-[[patches]]
-[patches.pattern]
-target = '=[SMODS _ "src/overrides.lua"]'
-pattern = '''for _,w in ipairs(SMODS.Ranks[v].next) do'''
-position = "after"
-payload = '''
-total_jumps = total_jumps and (total_jumps - 1) or 0
-'''
-match_indent = true
-
-
-[[patches]]
-[patches.pattern]
-target = '=[SMODS _ "src/overrides.lua"]'
-pattern = '''table.sort(ret, function(a,b) return #a > #b end)'''
-position = "at"
-payload = '''
-if #jumps < 4 then
-    table.sort(ret, function(a,b) return #a > #b end)
-    if ret[1] then for k,v in ipairs(jumps) do table.insert(ret[1], v) end end
-else
-    ret = {hand}
-end
-'''
-match_indent = true
-overwrite = true
-
-
 # Golden Carrot
 [[patches]]
 [patches.pattern]

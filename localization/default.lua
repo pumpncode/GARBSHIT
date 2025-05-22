@@ -363,6 +363,7 @@ return {
                 " ",
                 "{s:1.5,C:attention,E:2}Credits:",
                 "{C:dark_edition,E:2}garb{} - Lead, Art, Code",
+                "{C:dark_edition,E:2}ejwu2{} - Jump Cards implementation",
                 " ",
                 "{s:1.25,C:attention,E:2}Joker Contributions:",
                 "{C:dark_edition,E:2}lamborghiniofficial{} - Backtrack",
@@ -370,7 +371,7 @@ return {
                 " ",
                 "{s:1.5,C:attention,E:2}Also Try:",
                 "{C:dark_edition,E:1}Rofflatro, Victin's Collection, Aikoyori's Shenanigans{}",
-                "{C:dark_edition,E:1}Revo's Vault{}",
+                "{C:dark_edition,E:1}Revo's Vault, Prism{}",
                 " ",
                 "{s:0.9}Special thanks to the {C:attention,s:0.9}Balatro Discord!{}"
             }

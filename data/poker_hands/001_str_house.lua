@@ -22,7 +22,8 @@ return {
     visible = false,
     evaluate = function(parts, hand)
         if next(parts._3) and next(parts._2) and next(parts._straight) then
-            return {hand}
+            if #parts._3 < 1 or #parts._2 < 2 then return {} end
+            return parts._all_pairs
         end
     end,
   },
