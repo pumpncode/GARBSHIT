@@ -3,8 +3,8 @@ return {
     key = 'str_five',
     chips = 145,
     mult = 16,
-    l_chips = 55,
-    l_mult = 5,
+    l_chips = 50,
+    l_mult = 4,
     example = {
         { 'S_A', true, "m_garb_jump" },
         { 'D_A', true, "m_garb_jump" },

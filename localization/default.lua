@@ -387,6 +387,8 @@ return {
             ach_garb_rocking = "You Got Me Rocking",
             ach_garb_snowedin = "Snowed In",
             ach_garb_jimboss = "JIMBO MUST DIE",
+            ach_garb_str_flush_five = "OH FFS (Flush Five Straight).",
+
         },
         achievement_descriptions = {
             ach_garb_regicide = "Guillotine the Baron",
@@ -397,6 +399,7 @@ return {
             ach_garb_rocking = "Create 25 Stone cards in the same run using Rolling Stone",
             ach_garb_snowedin = "Have Snowball give more than 5000 Chips at once",
             ach_garb_jimboss = "Defeat Jimboss 5 times in the same run",
+            ach_garb_str_flush_five = "Form a Flush Five Straight",
         },
         dictionary = {
             stamp_booster = "Postal Pack",

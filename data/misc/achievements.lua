@@ -66,21 +66,6 @@ SMODS.Achievement({
 	end
 }),
 
---[[
-SMODS.Achievement({
-	key = "criticalfail",
-	bypass_all_unlocked = true,
-	atlas = "garb_achievements",
-	-- reset_on_startup = true,
-	unlock_condition = function(self, args)
-		if args.type == "criticalfail" then
-			return true
-		end
-	end
-}),
-
---]]
-
 SMODS.Achievement({
 	key = "regicide",
 	bypass_all_unlocked = true,
@@ -95,20 +80,18 @@ SMODS.Achievement({
 		end
 	end
 }),
---[[
+
 SMODS.Achievement({
-	key = "neverpunished",
+	key = "str_flush_five",
 	bypass_all_unlocked = true,
 	atlas = "garb_achievements",
-	pos = { x = 2, y = 0 },
 	-- reset_on_startup = true,
 	hidden_name = true,
 	hidden_text = true,
 	unlock_condition = function(self, args)
-		if args.type == "nvpunished" then
+		if args.type == "str_flush_five" then
 			return true
 		end
 	end
 }),
-]]--
 }

@@ -187,6 +187,15 @@ SMODS.Atlas{
         },
 	    volume = 0.5
 	    },
+
+    SMODS.Sound {
+        key = "gunshot",
+        path = {
+            ["default"] = "gunshot.ogg"
+        },
+        volume = 0.4
+	    },
+
         
     SMODS.Sound {
         key = "music_stamps",

@@ -8,7 +8,7 @@ return {
         "are {C:attention}discounted{} by {C:money}$#1#"
     }
     },
-    config = { extra = { discount = 1 } },
+    config = { extra = { discount = 2 } },
     loc_vars = function(self, info_queue, card)
       return {vars = {}}
     end,
@@ -33,14 +33,12 @@ return {
           G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.5, func = function()
           if v.cost - card.ability.extra.discount >= 0 then
             v.cost = v.cost - card.ability.extra.discount
-            _card = context.blueprint_card or card
-            _card:juice_up()
+            if context.blueprint_card then context.blueprint_card:juice_up() else card:juice_up() end            
             v:juice_up()
             play_sound("coin1", 1.2)
           elseif v.cost > 0 then
             v.cost = 0
-            _card = context.blueprint_card or card
-            _card:juice_up()
+            if context.blueprint_card then context.blueprint_card:juice_up() else card:juice_up() end
             v:juice_up()
             play_sound("coin1", 1.2)
           end

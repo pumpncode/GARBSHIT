@@ -3,7 +3,7 @@ return {
     key = 'str_four',
     chips = 140,
     mult = 12,
-    l_chips = 50,
+    l_chips = 45,
     l_mult = 4,
     example = {
         { 'S_A', true, "m_garb_jump" },

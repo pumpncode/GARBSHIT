@@ -4,7 +4,7 @@ return {
     chips = 200,
     mult = 18,
     l_chips = 60,
-    l_mult = 6,
+    l_mult = 5,
     example = {
         { 'S_A', true, "m_garb_jump" },
         { 'S_A', true, "m_garb_jump" },
@@ -21,8 +21,9 @@ return {
     },
     visible = false,
     evaluate = function(parts, hand)
-        if next(parts._3) and next(parts._2) and not next(parts._4) and next(parts._straight) and next(parts._flush) then
-            return {hand}
+        if next(parts._3) and next(parts._2) and next(parts._straight) and next(parts._flush) then
+            if #parts._3 < 1 or #parts._2 < 2 then return {} end
+            return parts._all_pairs
         end
     end,
   },

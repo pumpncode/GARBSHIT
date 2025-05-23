@@ -14,8 +14,8 @@ return {
     
       unlocked = true, 
       discovered = false, --whether or not it starts discovered
-      blueprint_compat = true, --can it be blueprinted/brainstormed/other
-      eternal_compat = true, --can it be eternal
+      blueprint_compat = false, --can it be blueprinted/brainstormed/other
+      eternal_compat = false, --can it be eternal
       perishable_compat = true, --can it be perishable
   
     config = { extra = { first_hand = "" } },
@@ -39,7 +39,7 @@ return {
         if val_obsessed and card.ability.extra.first_hand ~= context.scoring_name then val_obsessed = false end
       end
 
-      if context.game_over and val_obsessed then
+      if context.game_over and val_obsessed and not context.blueprint then
         G.E_MANAGER:add_event(Event({
           func = function()
             G.hand_text_area.blind_chips:juice_up()
