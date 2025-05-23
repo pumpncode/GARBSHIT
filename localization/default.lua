@@ -423,8 +423,7 @@ return {
                 ":3"
             },
             pnr_garb_minigarbo_4={
-                "I'm proud of you!",
-                "Keep it up!"
+                "Garb from Garbshit!",
             },
             pnr_garb_minigarbo_5={
                 "jokey pokey",
@@ -435,8 +434,23 @@ return {
                 "just for you!"
             },
             pnr_garb_pearto_1={
-                "i am a pear"
-            }
+                "I am a pear"
+            },
+            pnr_garb_pearto_2={
+                "I am a little pear"
+            },
+            pnr_garb_pearto_3={
+                "dnfjwnfknfl"
+            },
+            pnr_garb_pearto_4={
+                "kasane peto"
+            },
+            pnr_garb_pearto_5={
+                "Wait I'm goated"
+            },
+            pnr_garb_pearto_6={
+                "kasane balateto"
+            },
         },
     },
 }
