@@ -11,7 +11,9 @@ return {
     },
     config = { extra = {  } },
     loc_vars = function(self, info_queue, card)
-      info_queue[#info_queue+1] = {set = "Other", key = "credits", specific_vars = {"lamborghiniofficial"}} 
+      if config.on_card_credits then
+        info_queue[#info_queue+1] = {set = "Other", key = "credits", specific_vars = {"lamborghiniofficial"}} 
+      end
       return { vars = {  } }
     end,
   
