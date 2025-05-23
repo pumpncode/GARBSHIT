@@ -1,8 +1,23 @@
 ----------------------------------------------
 ------------MOD CODE -------------------------
 
-config = SMODS.current_mod.config
+local mod = SMODS.current_mod
+config = mod.config
 garb_enabled = copy_table(config)
+
+local function garb_batch_load(txt) 
+    local joker_files = NFS.getDirectoryItems(mod.path.."data/"..txt)
+    sendInfoMessage(mod.path.."data/"..txt)
+    local txt = txt..'/'
+    for _, file in pairs(joker_files) do
+        sendInfoMessage(file)
+        if string.find(file, ".lua") then
+          assert(SMODS.load_file("data/"..txt..file))()
+        end
+    end
+    sendInfoMessage("FINISHED BATCH LOAD FOR "..txt)
+    return true
+end
 
 to_big = to_big or function(x, y)
   return x
@@ -11,18 +26,6 @@ end
 SMODS.current_mod.optional_features = function()
   return { cardareas = { discard = true, deck = true } }
 end
-
---[[
-local getstraighter = get_straight
-function get_straight(hand, min_length, skip, wrap)
-    jumps = 0
-    for i = 1, #hand do
-      if SMODS.has_enhancement(hand[i], 'm_garb_jump') then jumps = jumps + 1 end
-    end
-    if #hand >= min_length then jumps = jumps else jumps = 0 end
-    return getstraighter(hand, min_length-jumps, skip, wrap)
-end
-]]
 
 local function config_matching()
 	for k, v in pairs(garb_enabled) do
@@ -46,7 +49,7 @@ SMODS.current_mod.config_tab = function()
     {n=G.UIT.O, config={object = DynaText({string = "Options:", colours = {G.C.WHITE}, shadow = true, scale = 0.4})}},
   }},create_toggle({label = "Teto Joker Music (Fukkireta)", ref_table = config, ref_value = "fukkireta",
   }),create_toggle({label = "Custom Title Screen (Requires Restart)", ref_table = config, ref_value = "title", callback = G.FUNCS.garb_restart,
-})
+}),create_toggle({label = "On-Card Credits", ref_table = config, ref_value = "on_card_credits"})
 }
   return {
     n = G.UIT.ROOT,
@@ -160,19 +163,41 @@ SMODS.current_mod.description_loc_vars = function()
   return { background_colour = G.C.CLEAR, text_colour = G.C.WHITE, scale = 1.2 }
 end
 
-assert(SMODS.load_file("scripts/achievements.lua"))()
-assert(SMODS.load_file("scripts/meta.lua"))()
-assert(SMODS.load_file("scripts/pokerhands.lua"))()
-assert(SMODS.load_file("scripts/consumables.lua"))()
-assert(SMODS.load_file("scripts/enhancements.lua"))()
-assert(SMODS.load_file('scripts/jokers.lua'))()
-assert(SMODS.load_file('scripts/unleashed_tarots.lua'))()
-assert(SMODS.load_file('scripts/decks.lua'))()
-assert(SMODS.load_file('scripts/boosters.lua'))()
-assert(SMODS.load_file('scripts/tags.lua'))()
-assert(SMODS.load_file('scripts/vouchers.lua'))()
+SMODS.ConsumableType{
+    key = 'Stamp',
+    primary_colour = HEX("73A557"),
+    secondary_colour = HEX("73A557"),
+    loc_txt = {
+        name = 'Stamp', -- used on card type badges
+        collection = 'Stamp Cards', -- label for the button to access the collection
+        undiscovered = { -- description for undiscovered cards in the collection
+            name = 'Not Discovered',
+            text = {
+                "Purchase or use",
+                "this card in an",
+                "unseeded run to",
+                "learn what it does"
+            }       
+        },
+    },
+    shop_rate = 0.0,
+    default = "c_garb_fruit"
+}
+
+garb_batch_load("jokers")
+garb_batch_load("consumables")
+garb_batch_load("boosters")
+garb_batch_load("enhancements")
+garb_batch_load("decks")
+garb_batch_load("tags")
+garb_batch_load("vouchers")
+garb_batch_load("poker_hands")
+garb_batch_load("misc")
 
 if next(SMODS.find_mod("CardSleeves")) then
-  assert(SMODS.load_file('scripts/sleeves.lua'))()
+  garb_batch_load("cross-mod/cardsleeves")
 end
 
+if next(SMODS.find_mod("partner")) then
+  garb_batch_load("cross-mod/partners")
+end

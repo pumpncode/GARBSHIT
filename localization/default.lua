@@ -1,5 +1,27 @@
 return {
     descriptions = {
+        Partner = {
+            pnr_garb_minigarbo = {
+                name = "Mini Garb",
+				text = {
+					"Gain {C:money}$#1#{} when a {C:attention}Lucky{} card",
+                    "{C:green}successfully{} triggers",
+				},
+            },
+            pnr_garb_pearto = {
+                name = "Pearto",
+                text = {
+                    "All scored {C:hearts}Kings of Hearts{}",
+                    "give {X:mult,C:white} X#1# {} Mult",
+                    "{s:0.8}i fucking love kasane pearto{}"
+                },
+                unlock = {
+                    "Download and enable the",
+                    "{E:1,C:attention}Vocaloid Card Set{}",
+                    "or {E:1,C:attention}Vocalatro{} mods"
+                }
+            }
+        },
         Enhanced = {
 			m_garb_infected = {
 				name = "Infected Card",
@@ -20,6 +42,14 @@ return {
 				text = {
 					"Can be used as any",
                     "rank in Straights"
+				},
+			},
+            m_garb_royal = {
+				name = "Royal Card",
+				text = {
+					"{C:attention}+1{} hand size",
+                    "{C:red}Discarded{} after any",
+                    "hand is played"
 				},
 			},
         },
@@ -139,30 +169,14 @@ return {
                 },
             },            
             
-            lamborghiniofficial = {
+            credits = {
                 name = "Credits",
                 text = {
                     "Art and idea by",
-                    "{E:1,C:attention}lamborghiniofficial"
+                    "{E:1,C:attention}#1#"
                 }
             }, 
 
-            sixty4suns = {
-                name = "Credits",
-                text = {
-                    "Art and idea by",
-                    "{E:1,C:attention}64suns"
-                }
-            }, 
-
-            omegaflowey18 = {
-                name = "Credits",
-                text = {
-                    "Art and idea by",
-                    "{E:1,C:attention}omegaflowey18"
-                }
-            }, 
-     
             talisman_warning = {
                 name = "WARNING!",
                 text = {
@@ -346,14 +360,16 @@ return {
                 " ",
                 "{s:1.5,C:attention,E:2}Credits:",
                 "{C:dark_edition,E:2}garb{} - Lead, Art, Code",
+                "{C:dark_edition,E:2}ejwu{} - Jump Cards implementation",
                 " ",
                 "{s:1.25,C:attention,E:2}Joker Contributions:",
                 "{C:dark_edition,E:2}lamborghiniofficial{} - Backtrack",
                 "{C:dark_edition,E:2}64suns{} - Two of Cups",
+                "{C:dark_edition,E:2}Valoky{} - Obsession",
                 " ",
                 "{s:1.5,C:attention,E:2}Also Try:",
                 "{C:dark_edition,E:1}Rofflatro, Victin's Collection, Aikoyori's Shenanigans{}",
-                "{C:dark_edition,E:1}Revo's Vault{}",
+                "{C:dark_edition,E:1}Revo's Vault, Prism{}",
                 " ",
                 "{s:0.9}Special thanks to the {C:attention,s:0.9}Balatro Discord!{}"
             }
@@ -371,6 +387,11 @@ return {
             ach_garb_rocking = "You Got Me Rocking",
             ach_garb_snowedin = "Snowed In",
             ach_garb_jimboss = "JIMBO MUST DIE",
+            ach_garb_str_flush_five = "OH FFS! (Flush Five Straight)",
+            ach_garb_valoky = "Ohhhh, that's who she is!",
+            ach_garb_shot = "My Trump Card",
+            ach_garb_doubleornothing = "Double or Nothing",
+
         },
         achievement_descriptions = {
             ach_garb_regicide = "Guillotine the Baron",
@@ -381,10 +402,55 @@ return {
             ach_garb_rocking = "Create 25 Stone cards in the same run using Rolling Stone",
             ach_garb_snowedin = "Have Snowball give more than 5000 Chips at once",
             ach_garb_jimboss = "Defeat Jimboss 5 times in the same run",
+            ach_garb_str_flush_five = "Form a Flush Five Straight",
+            ach_garb_valoky = "Have Obsession and Valoky at the same time",
+            ach_garb_shot = "Shoot the Dealer to reset your deck",
+            ach_garb_doubleornothing = "Duplicate Showman using a Carnival Tag"
+
         },
         dictionary = {
             stamp_booster = "Postal Pack",
-            ph_mr_bones = "Saved by Joker effect",
-        }
+            ph_mr_bones = "Saved by a Joker's effect",
+        },
+        quips={
+            pnr_garb_minigarbo_1={
+                "Hiii!!!"
+            },
+            pnr_garb_minigarbo_2={
+                "Hell yeah!!"
+            },
+            pnr_garb_minigarbo_3={
+                ":3"
+            },
+            pnr_garb_minigarbo_4={
+                "Garb from Garbshit!",
+            },
+            pnr_garb_minigarbo_5={
+                "jokey pokey",
+                "balala"
+            },
+            pnr_garb_minigarbo_6={
+                "A tiny desk garbi,",
+                "just for you!"
+            },
+            pnr_garb_pearto_1={
+                "I am a pear"
+            },
+            pnr_garb_pearto_2={
+                "I am a little pear"
+            },
+            pnr_garb_pearto_3={
+                "dnfjwnfknfl"
+            },
+            pnr_garb_pearto_4={
+                "kasane peto"
+            },
+            pnr_garb_pearto_5={
+                "Wait I'm goated"
+            },
+            pnr_garb_pearto_6={
+                "kasane balateto"
+            },
+        },
     },
 }
