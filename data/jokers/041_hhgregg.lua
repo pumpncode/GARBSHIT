@@ -27,6 +27,26 @@ return {
       return { vars = { card.ability.extra.discount } }
     end,
 
+    add_to_deck = function(self, card, from_debuff)
+      if G.STATE == G.STATES.SHOP then
+        for k, v in pairs(G.shop_jokers.cards) do
+          G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.5, func = function()
+          if v.cost - card.ability.extra.discount >= 0 then
+            v.cost = v.cost - card.ability.extra.discount
+            card:juice_up()            
+            v:juice_up()
+            play_sound("coin1", 1.2)
+          elseif v.cost > 0 then
+            v.cost = 0
+            card:juice_up()
+            v:juice_up()
+            play_sound("coin1", 1.2)
+          end
+          return true end}))
+        end
+      end
+    end,
+
     calculate = function(self, card, context)
       if context.starting_shop or context.reroll_shop and not context.blueprint then
         for k, v in pairs(G.shop_jokers.cards) do
