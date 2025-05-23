@@ -50,7 +50,9 @@ return {
   
                 play_sound('garb_scopacane')
                 ut:juice_up(0.3, 0.5)
-  
+
+                -- TARGET: Patch your Scopacane effects for custom tarots here
+
                 local fool_c = G.GAME.last_tarot_planet or nil
                 if ut.config.center.key == "c_fool" and fool_c ~= "c_fool" and fool_c ~= nil then
                   local _card = SMODS.create_card{key = G.GAME.last_tarot_planet}
@@ -171,8 +173,8 @@ return {
                 end
                 end
   
-                local enhancers = {"c_magician", "c_empress", "c_heirophant", "c_lovers", "c_chariot", "c_justice", "c_devil", "c_tower", "c_garb_hunger", "c_garb_hope", "c_garb_adjustment"}
-                local enhancements = {G.P_CENTERS.m_lucky, G.P_CENTERS.m_mult, G.P_CENTERS.m_bonus, G.P_CENTERS.m_wild, G.P_CENTERS.m_steel, G.P_CENTERS.m_glass, G.P_CENTERS.m_gold, G.P_CENTERS.m_stone, G.P_CENTERS.m_garb_infected, G.P_CENTERS.m_garb_pure, G.P_CENTERS.m_garb_royal}
+                local enhancers = {"c_magician", "c_empress", "c_heirophant", "c_lovers", "c_chariot", "c_justice", "c_devil", "c_tower", "c_garb_hunger", "c_garb_hope", "c_garb_adjustment", "c_garb_art"}
+                local enhancements = {G.P_CENTERS.m_lucky, G.P_CENTERS.m_mult, G.P_CENTERS.m_bonus, G.P_CENTERS.m_wild, G.P_CENTERS.m_steel, G.P_CENTERS.m_glass, G.P_CENTERS.m_gold, G.P_CENTERS.m_stone, G.P_CENTERS.m_garb_infected, G.P_CENTERS.m_garb_pure, G.P_CENTERS.m_garb_jump, G.P_CENTERS.m_garb_royal}
                 for k, v in pairs(enhancers) do
                 if ut.config.center.key == v then
                   for i = 1, #context.scoring_hand do
