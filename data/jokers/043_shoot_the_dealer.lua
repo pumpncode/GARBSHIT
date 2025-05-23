@@ -28,6 +28,7 @@ return {
     
      calculate = function(self, card, context)
       if context.game_over and not context.blueprint then
+        check_for_unlock({ type = "shot" })
         G.E_MANAGER:add_event(Event({
           func = function()
             local cards = {}

@@ -27,6 +27,7 @@ return {
             if not keys[1] then return false end
 			local card
             local curKey = pseudorandom_element(keys, pseudoseed('JohnBalatro')) or "j_joker"
+            if curKey == "j_ring_master" then check_for_unlock({ type = "doubleornothing" }) end
 			card = create_card("Joker", context.area, nil, nil, nil, nil, curKey)
 			create_shop_card_ui(card, "Joker", context.area)
 			card.states.visible = false

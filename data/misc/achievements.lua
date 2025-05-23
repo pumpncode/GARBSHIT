@@ -67,6 +67,44 @@ SMODS.Achievement({
 }),
 
 SMODS.Achievement({
+	key = "valoky",
+	bypass_all_unlocked = true,
+	atlas = "garb_achievements",
+	-- reset_on_startup = true,
+	unlock_condition = function(self, args)
+		if next(SMODS.find_card("j_garb_valoky")) and next(SMODS.find_card("j_garb_obsession")) then
+			return true
+		end
+	end
+}),
+
+SMODS.Achievement({
+	key = "shot",
+	bypass_all_unlocked = true,
+	atlas = "garb_achievements",
+	-- reset_on_startup = true,
+	unlock_condition = function(self, args)
+		if args.type == "shot" then
+			return true
+		end
+	end
+}),
+
+SMODS.Achievement({
+	key = "doubleornothing",
+	bypass_all_unlocked = true,
+	atlas = "garb_achievements",
+	-- reset_on_startup = true,
+	unlock_condition = function(self, args)
+		if args.type == "doubleornothing" then
+			return true
+		end
+	end
+}),
+
+
+
+SMODS.Achievement({
 	key = "regicide",
 	bypass_all_unlocked = true,
 	atlas = "garb_achievements",

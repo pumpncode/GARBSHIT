@@ -387,7 +387,10 @@ return {
             ach_garb_rocking = "You Got Me Rocking",
             ach_garb_snowedin = "Snowed In",
             ach_garb_jimboss = "JIMBO MUST DIE",
-            ach_garb_str_flush_five = "OH FFS (Flush Five Straight).",
+            ach_garb_str_flush_five = "OH FFS! (Flush Five Straight)",
+            ach_garb_valoky = "Ohhhh, that's who she is!",
+            ach_garb_shot = "My Trump Card",
+            ach_garb_doubleornothing = "Double or Nothing",
 
         },
         achievement_descriptions = {
@@ -400,10 +403,14 @@ return {
             ach_garb_snowedin = "Have Snowball give more than 5000 Chips at once",
             ach_garb_jimboss = "Defeat Jimboss 5 times in the same run",
             ach_garb_str_flush_five = "Form a Flush Five Straight",
+            ach_garb_valoky = "Have Obsession and Valoky at the same time",
+            ach_garb_shot = "Shoot the Dealer to reset your deck",
+            ach_garb_doubleornothing = "Duplicate Showman using a Carnival Tag"
+
         },
         dictionary = {
             stamp_booster = "Postal Pack",
-            ph_mr_bones = "Saved by Joker effect",
+            ph_mr_bones = "Saved by a Joker's effect",
         },
         quips={
             pnr_garb_minigarbo_1={
