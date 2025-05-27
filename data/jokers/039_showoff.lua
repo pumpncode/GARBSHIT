@@ -23,9 +23,15 @@ return {
       perishable_compat = true, --can it be perishable
       cost = 6,
       loc_vars = function(self, info_queue, card)
-      if config.on_card_credits then
-        info_queue[#info_queue+1] = {set = "Other", key = "credits", specific_vars = {"omegaflowey18"}} 
-      end
+        self.pos = {x = 6, y = 7}
+        if config.on_card_credits then
+          info_queue[#info_queue+1] = {set = "Other", key = "credits", specific_vars = {"omegaflowey18"}} 
+       end
+       if card.config.center.discovered then
+        if card.edition and card.edition.key == "e_negative" then
+          self.pos = {x = 1, y = 9}
+        end
+       end
         return { vars = { card.ability.extra.Xmult, card.ability.extra.Xmult_gain } }
     end,
       

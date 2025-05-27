@@ -66,6 +66,16 @@ SMODS.current_mod.config_tab = function()
   }  
 end
 
+local draw_ref = Card.draw
+function Card:draw(layer)
+    if self.config.center.key == 'j_garb_showoff' and (self.edition and self.edition.negative) and self.config.center.discovered then
+        self.children.center:set_sprite_pos({x=1,y=9})
+    elseif self.config.center.key == 'j_garb_showoff' and self.config.center.discovered then
+        self.children.center:set_sprite_pos({x=6,y=7})
+    end
+    draw_ref(self,layer)
+end
+
 local use_consumeable_old = Card.use_consumeable
 local quadrant_hands = {"garb_blush", "garb_caliginous", "garb_ashen", "garb_pale"}
 function Card:use_consumeable(area, copier)
