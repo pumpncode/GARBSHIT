@@ -3,6 +3,27 @@ version = "2.0"
 dump_lua = true
 priority = 27
 
+#Jimmy Calculations
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = '''-- context.final_scoring_step calculations'''
+position = "before"
+payload = '''
+        if G.GAME.jimmies then
+            for i = 1, #G.GAME.jimmies do
+                local jimmy = G.GAME.jimmies[i]
+                local ret = jimmy:calculate_partner({full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, partner_main = true})
+                if ret then
+                    SMODS.trigger_effects({{individual = ret}}, jimmy)
+
+                end
+            end
+        end
+'''
+match_indent = false
+overwrite = false
+
 # Archives cardarea
 [[patches]]
 [patches.pattern]
