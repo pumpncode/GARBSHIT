@@ -12,7 +12,21 @@ return {
         atlas = 'GarbTags', 
         pos = { x = 1, y = 0 },
         in_pool = function()
-		    return (G.GAME.round_resets.ante > 1)
+            if G.jokers then
+                local dup_keys = {}
+                local dupes = false
+                for k, v in pairs(G.jokers.cards) do
+                    dup_keys[k] = v.config.center.key
+                    for i, j in pairs(dup_keys) do
+                        if i ~= k then
+                            if j == v.config.center.key then 
+                                dupes = true 
+                            end
+                        end
+                    end
+                end  
+            end
+		    return (G.GAME.round_resets.ante > 1 and not dupes)
 	    end,
         apply = function(self, tag, context)
 		if context.type == "store_joker_create" then

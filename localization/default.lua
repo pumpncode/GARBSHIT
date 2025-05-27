@@ -20,7 +20,16 @@ return {
                     "{E:1,C:attention}Vocaloid Card Set{}",
                     "or {E:1,C:attention}Vocalatro{} mods"
                 }
-            }
+            },
+            pnr_garb_handshake = {
+                name = "Handshake",
+				text = {
+					"{C:attention}Click{} this partner to gain",
+                    "{C:money}#1#${} and add a {C:red}Debuffed{}",
+                    "{C:attention}Stone{} Card to Deck",
+                    "{C:inactive}(Max of {C:attention}#2#{C:inactive} each round)"
+			    },
+            },
         },
         Enhanced = {
 			m_garb_infected = {
