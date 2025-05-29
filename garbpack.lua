@@ -76,6 +76,51 @@ function Card:draw(layer)
     draw_ref(self,layer)
 end
 
+local click_ref = Card.click
+function Card:click()
+  if G.GAME.jimmies then
+  for k, v in pairs(G.GAME.jimmies) do
+    if v == self then
+        if self.children.speech_bubble then
+            self:remove_partner_speech_bubble()
+        elseif not G.GAME.partner_click_deal then
+            G.GAME.partner_click_deal = true
+            local ret = v:calculate_partner({partner_click = true})
+            if ret then
+                SMODS.trigger_effects({{individual = ret}}, v)
+            end
+            G.E_MANAGER:add_event(Event({func = function()
+                G.GAME.partner_click_deal = nil
+            return true end}))
+        end
+    end
+  end
+end
+  click_ref(self)
+end
+
+local Rclick_ref = Card.partner_R_click
+function Card:partner_R_click()
+  if G.GAME.jimmies then
+  for k, v in pairs(G.GAME.jimmies) do
+    if v == self then
+        if not G.GAME.partner_R_click_deal then
+	          G.GAME.partner_R_click_deal = true
+            local ret = v:calculate_partner({partner_R_click = true})
+            if ret then
+                SMODS.trigger_effects({{individual = ret}}, v)
+            end
+            G.E_MANAGER:add_event(Event({func = function()
+                G.GAME.partner_R_click_deal = nil
+            return true end}))
+        end
+    end
+  end
+end
+  click_ref(self)
+end
+
+
 local use_consumeable_old = Card.use_consumeable
 local quadrant_hands = {"garb_blush", "garb_caliginous", "garb_ashen", "garb_pale"}
 function Card:use_consumeable(area, copier)

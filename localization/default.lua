@@ -25,10 +25,21 @@ return {
                 name = "Handshake",
 				text = {
 					"{C:attention}Click{} this partner to gain",
-                    "{C:money}#1#${} and add a {C:red}Debuffed{}",
+                    "{C:money}$#1#{} and add a {C:red}Debuffed{}",
                     "{C:attention}Stone{} Card to Deck",
                     "{C:inactive}(Max of {C:attention}#2#{C:inactive} each round)"
 			    },
+        },
+            pnr_garb_jimmy = {
+                name = "Jimmy",
+				text = {
+                    "{X:mult,C:white} X#3# {} Mult",
+					"{C:attention}Left-Click{} this partner to buy",
+                    "a {C:red}Jimmy{} for {C:money}$#1#{}",
+                    "{C:attention}Right-Click{} this partner to sell",
+                    "all {C:red}Jimmies{} for {C:money}$#2#{} each",
+			    },
+
             },
         },
         Enhanced = {
