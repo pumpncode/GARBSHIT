@@ -11,7 +11,7 @@ return {
         "at the end of the {C:attention}shop",
       }
     },
-    config = { extra = { odds = 4 } },
+    config = { extra = { odds = 3 } },
     loc_vars = function(self, info_queue, card)
       return { vars = { G.GAME.probabilities.normal, card.ability.extra.odds }}
     end,
