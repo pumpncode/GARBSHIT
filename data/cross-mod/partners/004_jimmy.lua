@@ -33,7 +33,7 @@ if not Partner_API then return false else return
           table.insert(G.GAME.jimmies, _card)
         end
 
-        if context.partner_R_click then
+        if context.partner_R_click and #G.GAME.jimmies > 0 then
           local first_dissolve = false
           local cashback = card.ability.extra.cost*#G.GAME.jimmies/2
           ease_dollars(cashback)

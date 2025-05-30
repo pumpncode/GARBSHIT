@@ -66,6 +66,82 @@ SMODS.current_mod.config_tab = function()
   }  
 end
 
+function get_straight(hand, min_length, skip, wrap)
+    min_length = min_length or 5
+    if min_length < 2 then min_length = 2 end
+    if #hand < min_length then return {} end
+    local ranks = {}
+    local jumps = {}
+    for k,_ in pairs(SMODS.Ranks) do ranks[k] = {} end
+    for _,card in ipairs(hand) do
+        local id = card:get_id()
+        if SMODS.has_enhancement(card, 'm_garb_jump') then
+            id = 0
+            table.insert(jumps, card)
+        end
+        if id > 0 then
+            for k,v in pairs(SMODS.Ranks) do
+                if v.id == id then table.insert(ranks[k], card); break end
+            end
+        end
+    end
+    local function next_ranks(key, start)
+        local rank = SMODS.Ranks[key]
+        local ret = {}
+		if not start and not wrap and rank.straight_edge then return ret end
+        for _,v in ipairs(rank.next) do
+            ret[#ret+1] = v
+            if skip and (wrap or not SMODS.Ranks[v].straight_edge) then
+                for _,w in ipairs(SMODS.Ranks[v].next) do
+                    ret[#ret+1] = w
+                end
+            end
+        end
+        return ret
+    end
+    local tuples = {}
+    local ret = {}
+    for _,k in ipairs(SMODS.Rank.obj_buffer) do
+        if next(ranks[k]) or #jumps >= 1 then
+            tuples[#tuples+1] = {k}
+            tuples[#tuples].jumps_remaining = #jumps - (next(ranks[k]) and 0 or 1)
+        end
+    end
+    for i = 2, #hand+1 do
+        local new_tuples = {}
+        for _, tuple in ipairs(tuples) do
+            local any_tuple
+            if i + tuple.jumps_remaining ~= #hand+1 then
+                for _,l in ipairs(next_ranks(tuple[i-1], i == 2)) do
+                    if next(ranks[l]) or #jumps >= 1 then
+                        local new_tuple = {}
+                        new_tuple.jumps_remaining = tuple.jumps_remaining - (next(ranks[l]) and 0 or 1)
+                        for _,v in ipairs(tuple) do new_tuple[#new_tuple+1] = v end
+                        new_tuple[#new_tuple+1] = l
+                        new_tuples[#new_tuples+1] = new_tuple
+                        any_tuple = true
+                    end
+                end
+            end
+            if i + tuple.jumps_remaining > min_length and not any_tuple then
+                local straight = {}
+                for _,v in ipairs(tuple) do
+                    for _,card in ipairs(ranks[v]) do
+                        straight[#straight+1] = card
+                    end
+                end
+                for _, card in ipairs(jumps) do
+                    straight[#straight+1] = card
+                end
+                ret[#ret+1] = straight
+            end
+        end
+        tuples = new_tuples
+    end
+    table.sort(ret, function(a,b) return #a > #b end)
+    return ret
+end
+
 local draw_ref = Card.draw
 function Card:draw(layer)
     if self.config.center.key == 'j_garb_showoff' and (self.edition and self.edition.negative) and self.config.center.discovered then
@@ -117,7 +193,7 @@ function Card:partner_R_click()
     end
   end
 end
-  click_ref(self)
+  Rclick_ref(self)
 end
 
 
