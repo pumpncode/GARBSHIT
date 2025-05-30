@@ -117,6 +117,36 @@ match_indent = true
 times = 1
 overwrite = true
 
+# The Seat Apparition
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''G.FUNCS.reroll_shop = function(e)'''
+position = "after"
+payload = '''
+if pseudorandom('ohheyitstheseat') < 1/500 then
+    local new_card = SMODS.create_card{key = "j_garb_seat", no_edition = true}
+    new_card:add_to_deck()
+    G.jokers:emplace(new_card)
+    new_card:start_materialize()
+    play_sound('timpani')
+    card_eval_status_text(new_card, "extra", nil, nil, nil, {message = "???", colour = G.C.DARK_EDITION})
+end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''badges[#badges + 1] = create_badge(((card.ability.name == 'Pluto' or card.ability.name == 'Ceres' or card.ability.name == 'Eris') and localize('k_dwarf_planet')) or (card.ability.name == 'Planet X' and localize('k_planet_q') or card_type),card_type_colour, nil, 1.2)'''
+position = "at"
+payload = '''
+badges[#badges + 1] = create_badge(((card.ability.name == 'Pluto' or card.ability.name == 'Ceres' or card.ability.name == 'Eris') and localize('k_dwarf_planet')) or (card.ability.name == 'Planet X' and localize('k_planet_q') or (card.config.center.key == 'j_garb_seat' and "???") or card_type),card_type_colour, nil, 1.2)
+'''
+match_indent = true
+
+
+
 # Golden Carrot
 [[patches]]
 [patches.pattern]

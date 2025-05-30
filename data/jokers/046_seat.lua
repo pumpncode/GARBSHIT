@@ -7,31 +7,69 @@ return {
         "Turn all owned {C:attention}consumables{}",
         "{C:dark_edition}Negative{} at end of round",
         "{C:green}#1# in #2#{} chance to {C:red}disappear",
-        "{C:inactive,s:0.7,E:1}(Where did this come from?)"
+        "{C:inactive,s:0.8,E:1}(Where did this come from?)"
       }
     },
-    config = { extra = { odds = 4 } },
+    config = { extra = { odds = 10 } },
     loc_vars = function(self, info_queue, card)
       return { vars = { G.GAME.probabilities.normal, card.ability.extra.odds }}
     end,
   
-    rarity = 3,
+    rarity = 4,
     atlas = 'GarbJokers',
     pos = { x = 2, y = 9 },
     soul_pos = { x = 3, y = 9 },
     cost = 4,
 
-      unlocked = true, 
+      unlocked = false, 
       discovered = false, --whether or not it starts discovered
       blueprint_compat = false, --can it be blueprinted/brainstormed/other
       eternal_compat = true, --can it be eternal
       perishable_compat = true, --can it be perishable
       
+    in_pool = function()
+      return false
+    end,
+
     set_ability = function(self, card)
-      if card.edition ~= "e_negative" then card:set_edition('e_negative', true, true) end
+      card:set_edition('e_negative', true, true)
     end,
 
     calculate = function(self, card, context)
+      if context.end_of_round and context.main_eval then
+        local first_dissolve = false
+        for k,v in pairs(G.consumeables.cards) do
+          if (v.edition and not v.edition.negative) or (not v.edition) then
+            v:set_edition('e_negative', true, first_dissolve)
+            v:juice_up()
+            first_dissolve = true
+          end
+        end
+        if first_dissolve then card_eval_status_text(card, "extra", nil, nil, nil, {message = "Negative!", colour = G.C.DARK_EDITION}) end
+        if pseudorandom('bruhwheretheseatgo') < G.GAME.probabilities.normal/card.ability.extra.odds then
+          G.E_MANAGER:add_event(Event({
+            func = function()
+              play_sound('tarot1')
+              card.T.r = -0.2
+              card:juice_up(0.3, 0.4)
+              card.states.drag.is = true
+              card.children.center.pinch.x = true
+              G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                func = function()
+                  G.jokers:remove_card(card)
+                  card:remove()
+                  card = nil
+              return true; end})) 
+            return true
+            end
+          })) 
+          return {
+            message = "What Seat?",
+            colour = G.C.DARK_EDITION
+          }
+
+        end
+      end
     end
   },
 
