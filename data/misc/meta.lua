@@ -195,6 +195,13 @@ SMODS.Atlas{
         },
         volume = 0.4
 	    },
+    
+    SMODS.Sound {
+        key = "bubble",
+        path = {
+            ["default"] = "bubble.ogg"
+        },
+	    },
 
         
     SMODS.Sound {
