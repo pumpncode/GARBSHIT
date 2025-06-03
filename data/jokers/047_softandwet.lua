@@ -5,7 +5,8 @@ return {
       name = 'Soft & Wet',
       text = {
         "{C:attention}Steal{} a random card",
-        "from each {C:attention}Booster Pack{} opened",
+        "from each {C:attention}Booster Pack{}",
+        "opened",
         "{C:inactive}(Must have room)"
       }
     },
@@ -19,7 +20,7 @@ return {
     pos = { x = 5, y = 9 },
     cost = 10,
 
-      unlocked = false, 
+      unlocked = true, 
       discovered = false, --whether or not it starts discovered
       blueprint_compat = false, --can it be blueprinted/brainstormed/other
       eternal_compat = true, --can it be eternal
@@ -48,6 +49,7 @@ return {
               G.E_MANAGER:add_event(Event({ func = function() play_sound('garb_bubble', 0.94, 0.3) card:juice_up();return true end })) 
               card_eval_status_text(c1, 'extra', nil, nil, nil, {message = "Plundered!"})
               G.deck.config.card_limit = G.deck.config.card_limit + 1
+              table.insert(G.playing_cards, c1)
             end
             c1.stolen = true
           end

@@ -3,7 +3,29 @@ version = "2.0"
 dump_lua = true
 priority = 27
 
-#Jimmy Calculations
+# giulis
+[[patches]]
+[patches.pattern]
+target = '''functions/common_events.lua'''
+pattern = '''if _c.rarity and _c.rarity == 4 and specific_vars and not specific_vars.not_hidden then'''
+position = "at"
+payload = '''
+if _c.rarity and _c.rarity == 4 and not _c.config.center.key == "j_garb_seat" and specific_vars and not specific_vars.not_hidden then
+'''
+match_indent = true
+
+# giulis
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/utils.lua"]'''
+pattern = '''            card_eval_status_text(card, 'debuff')'''
+position = "after"
+payload = '''
+SMODS.score_card(card, context)
+'''
+match_indent = true
+
+# Jimmy Calculations
 [[patches]]
 [patches.pattern]
 target = "functions/state_events.lua"

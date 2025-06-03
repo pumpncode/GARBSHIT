@@ -8,6 +8,9 @@ return {
         "{C:dark_edition}Negative{} at end of round",
         "{C:green}#1# in #2#{} chance to {C:red}disappear",
         "{C:inactive,s:0.8,E:1}(Where did this come from?)"
+      },
+      unlock = {
+        "{E:1,s:1.3,C:dark_edition}?????"
       }
     },
     config = { extra = { odds = 10 } },

@@ -28,7 +28,7 @@ return {
       perishable_compat = true, --can it be perishable
 
     calculate = function(self, card, context)
-      if context.ending_shop and pseudorandom('garb_and_perky') < G.GAME.probabilities.normal/card.ability.extra.odds then
+      if G.consumeables.cards[1] and context.ending_shop and pseudorandom('garb_and_perky') < G.GAME.probabilities.normal/card.ability.extra.odds then
         G.E_MANAGER:add_event(Event({
         func = function()
           local card = copy_card(pseudorandom_element(G.consumeables.cards, pseudoseed('perky')), nil)
