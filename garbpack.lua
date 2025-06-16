@@ -66,6 +66,18 @@ SMODS.current_mod.config_tab = function()
   }  
 end
 
+function card_transform(card, key)
+  G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() card:flip();play_sound('card1');card:juice_up(0.3, 0.3);return true end }))
+  G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
+  card:remove_from_deck()
+  card.config.center = G.P_CENTERS[key]
+  card:set_ability(card.config.center.key,true)
+  card:add_to_deck()
+  return true 
+  end}))
+  G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() card:flip();play_sound('tarot2');card:juice_up(0.3, 0.3);return true end }))
+end
+
 function get_straight(hand, min_length, skip, wrap)
     min_length = min_length or 5
     if min_length < 2 then min_length = 2 end
@@ -142,6 +154,18 @@ function get_straight(hand, min_length, skip, wrap)
     return ret
 end
 
+create_card_ref = create_card
+function create_card(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append)
+  local _card = create_card_ref(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append)
+  if _card.config.center.key == "j_garb_zoroark" then
+    local evil_pool = get_current_pool('Joker')
+    local _key = pseudorandom_element(evil_pool,pseudoseed('zoroark'))
+    _card.disguised = "j_garb_zoroark"
+    card_transform(_card, _key)
+  end
+  return _card
+end
+
 local draw_ref = Card.draw
 function Card:draw(layer)
     if self.config.center.key == 'j_garb_showoff' and (self.edition and self.edition.negative) and self.config.center.discovered then
@@ -149,6 +173,13 @@ function Card:draw(layer)
     elseif self.config.center.key == 'j_garb_showoff' and self.config.center.discovered then
         self.children.center:set_sprite_pos({x=6,y=7})
     end
+
+    if self.config.center.key == 'j_garb_zoroark' and (self.edition and self.edition.negative) and self.config.center.discovered then
+        self.children.center:set_sprite_pos({x=2,y=10})
+    elseif self.config.center.key == 'j_garb_zoroark' and self.config.center.discovered then
+        self.children.center:set_sprite_pos({x=1,y=10})
+    end
+
     draw_ref(self,layer)
 end
 

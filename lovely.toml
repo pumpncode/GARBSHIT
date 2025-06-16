@@ -3,7 +3,37 @@ version = "2.0"
 dump_lua = true
 priority = 27
 
-# giulis
+# Zoroark Fade Disguise
+[[patches]]
+[patches.pattern]
+target = '''card.lua'''
+pattern = '''elseif context.end_of_round then'''
+position = "before"
+payload = '''
+elseif context.starting_shop then
+if self.disguised and self.disguised ~= self.config.center.key then 
+    card_transform(self, self.disguised)
+    card_eval_status_text(self, 'extra', nil, nil, nil, { message = "Faded!" })
+end
+'''
+match_indent = true
+
+# Zoroark Fade Disguise on bought
+[[patches]]
+[patches.pattern]
+target = '''functions/button_callbacks.lua'''
+pattern = '''local c1 = e.config.ref_table'''
+position = "after"
+payload = '''
+if c1.disguised then
+    card_transform(c1, c1.disguised)
+    card_eval_status_text(c1, 'extra', nil, nil, nil, { message = "Faded!" })
+end
+'''
+match_indent = true
+
+
+# Seat Rarity Badge
 [[patches]]
 [patches.pattern]
 target = '''functions/common_events.lua'''
@@ -14,7 +44,7 @@ if _c.rarity and _c.rarity == 4 and not _c.config.center.key == "j_garb_seat" an
 '''
 match_indent = true
 
-# giulis
+# Giulis Score Debuffed Card
 [[patches]]
 [patches.pattern]
 target = '''=[SMODS _ "src/utils.lua"]'''
