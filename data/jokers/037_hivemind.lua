@@ -30,10 +30,8 @@ return {
      calculate = function(self, card, context)
       if context.remove_playing_cards then
         local hive = 0
-        for k, v in ipairs(context.removed) do
-          if v.ability.name == 'm_garb_infected' then
-              hive = hive + 1
-          end
+        if context.infected then
+          hive = hive + 1
         end
 
         if hive > 0 then
