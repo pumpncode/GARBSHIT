@@ -16,11 +16,15 @@ return {
       },
       config = { extra = { Xmult = 2 } },
       loc_vars = function(self, info_queue, card)
+        if config.on_card_credits and not config.oldteto then
+          info_queue[#info_queue+1] = {set = "Other", key = "credits2", specific_vars = {"Heaven"}} 
+        end
+
         return { vars = { card.ability.extra.Xmult } }
       end,
       rarity = 3,
       atlas = 'GarbJokers',
-      pos = { x = 0, y = 4 },
+      pos = config.oldteto and { x = 0, y = 4 } or { x = 3, y = 10 },
       cost = 7,
   
       check_for_unlock = function(self, args)

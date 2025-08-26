@@ -4,7 +4,7 @@ return {
     loc_txt = {
       name = 'Alain',
       text = {
-        "Sell a non-negative {C:planet}Planet{} card to",        
+        "{C:attention}Sell{} a non-negative {C:planet}Planet{} card to",        
         "create two {C:dark_edition}Negative{} copies of it",
       },
       unlock = {

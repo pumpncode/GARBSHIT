@@ -13,7 +13,7 @@ return {
         { 'H_K', true, "m_garb_jump" },
     },
     loc_txt = {
-            name = 'Straight House',
+            name = config.gay and 'Gay House' or 'Straight House',
             description = {
               "Full House + Straight",
               "(Requires Jump Cards)"

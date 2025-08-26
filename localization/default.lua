@@ -197,6 +197,15 @@ return {
                 }
             }, 
 
+            credits2 = {
+                name = "Credits",
+                text = {
+                    "Art by",
+                    "{E:1,C:attention}#1#"
+                }
+            }, 
+
+
             talisman_warning = {
                 name = "WARNING!",
                 text = {
