@@ -27,6 +27,7 @@ return {
       perishable_compat = true, --can it be perishable
       
     update = function(self, card)
+      -- hacky way to do this, there will be bugs, don't care enough to fix
       if G.pack_cards and G.pack_cards.cards and #G.pack_cards.cards > 0 and not card.booster_opened and card.area and card.area == G.jokers then 
         card.booster_opened = true
         G.E_MANAGER:add_event(Event({

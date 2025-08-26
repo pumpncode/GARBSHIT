@@ -7,6 +7,7 @@ return {
         "Turn all owned {C:attention}consumables{}",
         "{C:dark_edition}Negative{} at end of round",
         "{C:green}#1# in #2#{} chance to {C:red}disappear",
+        "after ability activates",
         "{C:inactive,s:0.8,E:1}(Where did this come from?)"
       },
       unlock = {

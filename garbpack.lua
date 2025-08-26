@@ -70,6 +70,7 @@ function card_transform(card, key)
   G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() card:flip();play_sound('card1');card:juice_up(0.3, 0.3);return true end }))
   G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
   card:remove_from_deck()
+  if G.P_CENTERS[key] then key = key else key = "j_joker" end
   card.config.center = G.P_CENTERS[key]
   card:set_ability(card.config.center.key,true)
   card:add_to_deck()
@@ -77,6 +78,18 @@ function card_transform(card, key)
   end}))
   G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() card:flip();play_sound('tarot2');card:juice_up(0.3, 0.3);return true end }))
 end
+
+function card_transform_shop(card, key)
+  G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() card:flip();play_sound('card1');card:juice_up(0.3, 0.3);return true end }))
+  G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
+  if G.P_CENTERS[key] then key = key else key = "j_joker" end
+  card.config.center = G.P_CENTERS[key]
+  card:set_ability(card.config.center.key,true)
+  return true 
+  end}))
+  G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() card:flip();play_sound('tarot2');card:juice_up(0.3, 0.3);return true end }))
+end
+
 
 function get_straight(hand, min_length, skip, wrap)
     min_length = min_length or 5
@@ -161,7 +174,7 @@ function create_card(_type, area, legendary, _rarity, skip_materialize, soulable
     local evil_pool = get_current_pool('Joker')
     local _key = pseudorandom_element(evil_pool,pseudoseed('zoroark'))
     _card.disguised = "j_garb_zoroark"
-    card_transform(_card, _key)
+    card_transform_shop(_card, _key)
   end
   return _card
 end
