@@ -377,6 +377,15 @@ return {
                     "at the end of each Ante"
                 },
             },
+            b_garb_kaleido = {
+                name = "Kaleidoscope Deck",
+                text = {
+                    "Start run with a",
+                    "{E:1,C:legendary}Rainbow{} Joker",
+                    "{C:inactive,S:1.5}(#1#){}",
+                },
+            },
+
         },
     
     
