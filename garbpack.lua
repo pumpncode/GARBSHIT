@@ -5,6 +5,15 @@ local mod = SMODS.current_mod
 config = mod.config
 garb_enabled = copy_table(config)
 
+local drawhook = love.draw
+function love.draw()
+    drawhook()
+    if blackout then
+        love.graphics.setColor(0, 0, 0, 1)
+        love.graphics.rectangle("fill", -1000,-1000, 5000,5000)
+    end
+end
+
 local function garb_batch_load(txt) 
     local joker_files = NFS.getDirectoryItems(mod.path.."data/"..txt)
     sendInfoMessage(mod.path.."data/"..txt)
