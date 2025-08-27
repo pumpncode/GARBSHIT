@@ -157,6 +157,13 @@ return {
         },
 
         Other = {
+            p_garb_rainbow_booster = {
+                name = "Kaleidoscope Deck",
+                text = {
+                    "Choose a Rainbow Joker"
+                },
+            },       
+
             p_garb_stamp_booster = {
                 name = "Postal Pack",
                 text = {
@@ -448,6 +455,7 @@ return {
         },
         dictionary = {
             stamp_booster = "Postal Pack",
+            rainbow_booster = "Kaleidoscope Deck",
             ph_mr_bones = "Saved by a Joker's effect",
         },
         quips={

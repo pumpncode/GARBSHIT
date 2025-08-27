@@ -219,6 +219,22 @@ SMODS.Atlas{
         end
     },
 
+        SMODS.Sound {
+        key = "music_rainbow",
+        path = {
+            ["default"] = "music_3dsfunk.ogg"
+        },
+        sync = true,
+        pitch = 1,
+        select_music_track = function()
+          return G.pack_cards
+          and G.pack_cards.cards
+          and G.pack_cards.cards[1]
+          and G.pack_cards.cards[1].config.center.rarity == "garb_rainbow"
+        end
+    },
+
+
   SMODS.Sound {
     key = "music_fukkireta",
     path = {

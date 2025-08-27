@@ -12,16 +12,10 @@ return {
         end,
         apply = function(self, back)
             G.E_MANAGER:add_event(Event({
-                func = function()
-                    if G.jokers then
-                        local card = create_card("Joker", G.jokers, false, "garb_rainbow", nil, nil, nil, "gay")
-                        card:add_to_deck()
-                        card:start_materialize()
-                        G.jokers:emplace(card)
+                    func = (function()
+                        add_tag(Tag('tag_garb_rainbow'))
                         return true
-                    end
-                end,
-            }))
+                    end)}))
             end,
         check_for_unlock = function(self, args)
                 if args.type == "kaleido_deck" then
