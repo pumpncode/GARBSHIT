@@ -17,7 +17,7 @@ return {
       rarity = "garb_rainbow",
       atlas = 'GarbJokers',
       pos = {x = 1, y = 11},
-      cost = 7,
+      cost = 10,
       
         unlocked = true, 
         discovered = false, --whether or not it starts discovered
