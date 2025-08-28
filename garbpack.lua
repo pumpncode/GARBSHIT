@@ -5,6 +5,19 @@ local mod = SMODS.current_mod
 config = mod.config
 garb_enabled = copy_table(config)
 
+function jimboReturned()
+if pseudorandom('ohheyitsthegun') > 0.80 and G.GAME.objectivelysold and ( #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit) then
+    local new_card = SMODS.create_card{key = "j_garb_objectively", no_edition = true}
+    new_card:add_to_deck()
+    G.jokers:emplace(new_card)
+    new_card:start_materialize()
+    play_sound('timpani')
+    play_sound('garb_ping')
+    card_eval_status_text(new_card, "extra", nil, nil, nil, {message = "!!"})
+    G.GAME.objectivelysold = false
+end
+end
+
 local drawhook = love.draw
 function love.draw()
     drawhook()

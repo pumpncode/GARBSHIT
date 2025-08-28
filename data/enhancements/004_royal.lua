@@ -13,6 +13,7 @@ return {
   update = function(self, card)
     if not card.R_active and not card.debuff and card.area and card.area == G.hand then 
       G.hand:change_size(1)
+      draw_card(G.deck,G.hand, 90,'up', true)
       card.R_active = true
     end
 

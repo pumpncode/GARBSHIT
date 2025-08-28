@@ -203,6 +203,13 @@ SMODS.Atlas{
         },
 	    },
 
+    SMODS.Sound {
+       key = "ping",
+        path = {
+            ["default"] = "ping.ogg"
+        }
+        },
+
         
     SMODS.Sound {
         key = "music_stamps",

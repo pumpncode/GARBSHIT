@@ -3,6 +3,88 @@ version = "2.0"
 dump_lua = true
 priority = 27
 
+# Objectively funnier returns (rerolling shop)
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''G.FUNCS.reroll_shop = function(e)'''
+position = "after"
+payload = '''
+jimboReturned()
+'''
+match_indent = true
+
+# Objectively funnier returns (using card)
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''  G.FUNCS.use_card = function(e, mute, nosave)'''
+position = "after"
+payload = '''
+jimboReturned()
+'''
+match_indent = true
+
+# Objectively funnier returns (selling joker)
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''card:sell_card()'''
+position = "before"
+payload = '''
+if card.config.center.set == 'Joker' then
+jimboReturned()
+end
+'''
+match_indent = true
+
+# Objectively funnier returns (buying joker)
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''local c1 = e.config.ref_table'''
+position = "after"
+payload = '''
+if c1.config.center.set == 'Joker' and pseudorandom('ohheyitsthegun') > 0.80 and G.GAME.objectivelysold then
+    card_transform(c1, "j_garb_objectively")
+end
+'''
+match_indent = true
+
+# Objectively funnier returns (starting blind)
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''G.FUNCS.select_blind = function(e)'''
+position = "after"
+payload = '''
+jimboReturned()
+'''
+match_indent = true
+
+# Objectively funnier returns (skipping booster)
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''G.FUNCS.skip_booster = function(e)'''
+position = "after"
+payload = '''
+jimboReturned()
+'''
+match_indent = true
+
+# Objectively funnier returns (skipping blind)
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''G.FUNCS.skip_blind = function(e)'''
+position = "after"
+payload = '''
+jimboReturned()
+'''
+match_indent = true
+
+
 # Zoroark Fade Disguise
 [[patches]]
 [patches.pattern]
