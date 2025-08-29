@@ -24,7 +24,7 @@ SMODS.Atlas({
 
 SMODS.Atlas({
 	key = "GarbTags",
-	path = "tags.png",
+	path = (config.repainted and "repainted/" or "").."tags.png",
 	px = 34,
 	py = 34,
 }),
@@ -46,14 +46,14 @@ SMODS.Atlas({
 
 SMODS.Atlas{
     key = 'GarbJokers', --atlas key
-    path = 'Jokers.png', --atlas' path in (yourMod)/assets/1x or (yourMod)/assets/2x
+    path = (config.repainted and "repainted/" or "")..'Jokers.png', --atlas' path in (yourMod)/assets/1x or (yourMod)/assets/2x
     px = 71, --width of one card
     py = 95 -- height of one card
 },
 
 SMODS.Atlas{
     key = 'GarbBoosters', --atlas key
-    path = 'Boosters.png', --atlas' path in (yourMod)/assets/1x or (yourMod)/assets/2x
+    path = (config.repainted and "repainted/" or "")..'Boosters.png', --atlas' path in (yourMod)/assets/1x or (yourMod)/assets/2x
     px = 71, --width of one card
     py = 95 -- height of one card
 },
@@ -67,7 +67,7 @@ SMODS.Atlas{
 
 SMODS.Atlas{
   key = 'GarbConsumables', --atlas key
-  path = 'Consumables.png', --atlas' path in (yourMod)/assets/1x or (yourMod)/assets/2x
+  path = (config.repainted and "repainted/" or "")..'Consumables.png', --atlas' path in (yourMod)/assets/1x or (yourMod)/assets/2x
   px = 71, --width of one card
   py = 95 -- height of one card
 },
@@ -81,7 +81,7 @@ SMODS.Atlas{
 
 SMODS.Atlas{
   key = 'GarbEnhancements', --atlas key
-  path = 'Enhancements.png', --atlas' path in (yourMod)/assets/1x or (yourMod)/assets/2x
+  path = (config.repainted and "repainted/" or "")..'Enhancements.png', --atlas' path in (yourMod)/assets/1x or (yourMod)/assets/2x
   px = 71, --width of one card
   py = 95 -- height of one card
 },

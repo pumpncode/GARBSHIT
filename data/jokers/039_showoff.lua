@@ -24,7 +24,7 @@ return {
       cost = 6,
       loc_vars = function(self, info_queue, card)
         self.pos = {x = 6, y = 7}
-        if config.on_card_credits then
+        if config.on_card_credits and not config.repainted then
           info_queue[#info_queue+1] = {set = "Other", key = "credits", specific_vars = {"omegaflowey18"}} 
        end
        if card.config.center.discovered then
@@ -36,7 +36,7 @@ return {
     end,
       
       calculate = function(self, card, context)
-        if context.after and G.GAME.FLAME_ON then
+        if (context.after or context.end_of_round) and G.GAME.FLAME_ON then
           card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_gain
           return {
               card = card,

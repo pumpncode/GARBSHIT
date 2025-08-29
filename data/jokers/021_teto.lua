@@ -16,7 +16,7 @@ return {
       },
       config = { extra = { Xmult = 2 } },
       loc_vars = function(self, info_queue, card)
-        if config.on_card_credits and not config.oldteto then
+        if config.on_card_credits and not (config.oldteto or config.repainted) then
           info_queue[#info_queue+1] = {set = "Other", key = "credits2", specific_vars = {"Heaven"}} 
         end
 

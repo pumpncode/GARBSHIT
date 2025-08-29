@@ -2,7 +2,7 @@ return {
  SMODS.Joker {
     key = 'jimboss',
     loc_txt = {
-      name = 'Jimboss',
+      name = config.repainted and 'Garboss' or 'Jimboss',
       text = {
       "{X:chips,C:white} HP: {C:attention} #1# {}/{C:attention} #3#{}",
       "{C:money}+#2#${} when {C:attention}defeated{}",

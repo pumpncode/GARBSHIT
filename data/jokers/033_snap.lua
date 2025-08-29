@@ -2,7 +2,7 @@ return {
  SMODS.Joker {
     key = 'snap',
     loc_txt = {
-      name = 'The Snap',
+      name = config.repainted and 'The Guy from Fortnite' or 'The Snap',
       text = {
         "Sell this card to",
         "halve the current",

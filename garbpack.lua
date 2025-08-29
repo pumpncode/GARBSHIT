@@ -73,6 +73,7 @@ SMODS.current_mod.config_tab = function()
   }),create_toggle({label = "Custom Title Screen (Requires Restart)", ref_table = config, ref_value = "title", callback = G.FUNCS.garb_restart, 
   }),create_toggle({label = "On-Card Credits", ref_table = config, ref_value = "on_card_credits"
   }),create_toggle({label = "Gay Poker Hands (Requires Restart)", ref_table = config, ref_value = "gay", callback = G.FUNCS.garb_restart
+  }),create_toggle({label = "GARBSHIT Repainted (Requires Restart)", ref_table = config, ref_value = "repainted", callback = G.FUNCS.garb_restart
   })
 
 }
@@ -319,7 +320,7 @@ end
 if config.title and not next(SMODS.find_mod("Cryptid")) then
   SMODS.Atlas({
     key = "balatro",
-    path = "Logo.png",
+    path = (config.repainted and "repainted/" or "").."Logo.png",
     px = 333,
     py = 216,
     prefix_config = { key = false }
@@ -400,4 +401,8 @@ end
 
 if next(SMODS.find_mod("partner")) then
   garb_batch_load("cross-mod/partners")
+end
+
+if next(SMODS.find_mod("malverk")) then
+  garb_batch_load("cross-mod/malverk")
 end

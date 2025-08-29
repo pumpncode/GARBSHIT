@@ -3,7 +3,7 @@ return {
   key = 'eternity',
   set = 'Spectral',
   loc_txt = {
-    name = 'Eternity',
+    name = config.repainted and 'Flashback' or 'Eternity',
     text = {
       "Exchange selected Joker",
       "for {E:1,C:legendary}-1 Ante"

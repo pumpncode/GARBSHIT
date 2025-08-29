@@ -2,7 +2,7 @@ return {
  SMODS.Joker {
     key = 'garb777',
     loc_txt = {
-      name = 'Garb',
+      name = config.repainted and 'John Garbshit' or 'Garb',
       text = {
       "On {C:attention}first hand{} of round,",
         "all listed probabilities are",

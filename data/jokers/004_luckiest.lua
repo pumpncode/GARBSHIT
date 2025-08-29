@@ -2,7 +2,7 @@ return {
  SMODS.Joker {
     key = 'luckiest',
     loc_txt = {
-      name = 'Golden Lucky Cat',
+      name = config.repainted and 'el gato balatro dorado' or 'Golden Lucky Cat',
       text = {
         "{C:green}#3# in #2#{} chance for",
         "{C:attention}Lucky{} cards held in hand",

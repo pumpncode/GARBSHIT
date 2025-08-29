@@ -2,7 +2,7 @@ return {
  SMODS.Joker {
     key = 'mercante',
     loc_txt = {
-      name = 'Mercante in Fiera',
+      name = config.repainted and 'Suspicious 50 Dollar Steam Gift Card Link' or 'Mercante in Fiera',
       text = {
         "Earn {C:money}$#1#{} if",
         "{C:attention}#2#{} of {V:1}#3#{} hasn't",

@@ -4,4 +4,5 @@ return {
 	["title"] = true,
 	["on_card_credits"] = true,
 	["gay"] = false,
+	["repainted"] = false
 }

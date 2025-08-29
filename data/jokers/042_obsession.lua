@@ -24,7 +24,7 @@ return {
     pos = { x = 1, y = 8 },
     cost = 6,
     loc_vars = function(self, info_queue, card)
-      if config.on_card_credits then
+      if config.on_card_credits and not config.repainted then
         info_queue[#info_queue+1] = {set = "Other", key = "credits", specific_vars = {"Valoky"}} 
       end
       return { vars = { } }
