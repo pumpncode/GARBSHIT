@@ -6,7 +6,7 @@ return {
         group_key = "rainbow_booster",
         pos = {x = 10, y = 0},
         config = {
-            extra = 3,
+            extra = 5,
             choose = 1
         },
         cost = 4,

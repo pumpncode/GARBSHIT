@@ -14,7 +14,7 @@ return {
           "or {E:1,C:attention}Vocalatro{} mods"
         }
       },
-      config = { extra = { Xmult = 3 } },
+      config = { extra = { Xmult = 6.66 } },
       loc_vars = function(self, info_queue, card)
         return { vars = { card.ability.extra.Xmult } }
       end,
