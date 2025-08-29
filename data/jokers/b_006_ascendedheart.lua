@@ -4,10 +4,9 @@ return {
       loc_txt = {
         name = 'Ascended Heart',
         text = {
-          "If played poker hand is a {C:hearts}Hearts{} {C:attention}Flush",
-          "create a {C:dark_edition,E:1}Legendary{} Joker and turn all",
-          "{C:hearts}Heart{} cards in the deck",
-          "into {C:attention}different suits",
+          "If played poker hand is a {C:hearts}Hearts{} {C:attention}Flush,",
+          "create a {C:dark_edition,E:1}Legendary{} Joker and change the",
+          "{C:attention}suit{} of all {C:hearts}Heart{} cards in the deck",
           "{C:inactive,s:0.7}(Wild Cards are exploded instead)",
           "{C:inactive}(Must have room)"
           },
