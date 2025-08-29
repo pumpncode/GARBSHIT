@@ -4,8 +4,8 @@ return {
       loc_txt = {
         name = 'Objectively Funnier Joker',
         text = {
-          "{C:attention}Sell{} this Joker to {C:attention}randomize{} the deck",
-          "{C:attention}Randomized{} cards may have {C:attention}Enhancements{},",
+          "{C:attention}Sell{} this Joker to {C:garb_color_rainbow}randomize{} the deck",
+          "{C:garb_color_rainbow}Randomized{} cards may have {C:attention}Enhancements{},",
           "{C:attention}Seals{} or {C:attention}Editions",
           "{C:red}May come back at any time after being sold",
           },

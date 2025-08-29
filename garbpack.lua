@@ -68,7 +68,7 @@ end
 
 SMODS.current_mod.config_tab = function()
   garb_nodes = {{n=G.UIT.R, config={align = "cm"}, nodes={{n=G.UIT.O, config={object = DynaText({string = "Options:", colours = {G.C.WHITE}, shadow = true, scale = 0.4})}},
-  }},create_toggle({label = "Teto Joker Music (Fukkireta)", ref_table = config, ref_value = "fukkireta",
+  }},create_toggle({label = "Joker Music (Fukkireta and Yababaina)", ref_table = config, ref_value = "fukkireta",
   }),create_toggle({label = "Old Teto Sprite (Requires Restart)", ref_table = config, ref_value = "oldteto", callback = G.FUNCS.garb_restart
   }),create_toggle({label = "Custom Title Screen (Requires Restart)", ref_table = config, ref_value = "title", callback = G.FUNCS.garb_restart, 
   }),create_toggle({label = "On-Card Credits", ref_table = config, ref_value = "on_card_credits"

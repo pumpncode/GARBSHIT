@@ -13,6 +13,7 @@ return {
       },
       config = { extra = { Xmult = 1, Xmult_gain = 0.5 } },
       loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue + 1] = G.P_CENTERS['j_jolly']
         return { vars = { card.ability.extra.Xmult, card.ability.extra.Xmult_gain } }
       end,
       rarity = "garb_rainbow",

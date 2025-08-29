@@ -199,47 +199,6 @@ position = "at"
 payload = '''local card = Card(0,0, 0.5*G.CARD_W, 0.5*G.CARD_H, G.P_CARDS[v[1]], G.P_CENTERS[v[3] or 'c_base'])'''
 match_indent = true
 
-# Flame On (Stolen from CardSauce)
-[[patches]]
-[patches.pattern]
-target = "functions/button_callbacks.lua"
-pattern = "if G.ARGS.score_intensity.earned_score >= G.ARGS.score_intensity.required_score and G.ARGS.score_intensity.required_score > 0 then"
-position = "after"
-payload = '''
-if G.STATE == G.STATES.HAND_PLAYED and not G.GAME.FLAME_ON then
-    G.GAME.FLAME_ON = true
-end
-'''
-match_indent = true
-overwrite = false
-
-# Flame On (FUCK TALISMAN)
-[[patches]]
-[patches.pattern]
-target = "functions/button_callbacks.lua"
-pattern = "if to_big(G.ARGS.score_intensity.earned_score) >= to_big(G.ARGS.score_intensity.required_score) and to_big(G.ARGS.score_intensity.required_score) > to_big(0) then"
-position = "after"
-payload = '''
-if G.STATE == G.STATES.HAND_PLAYED and not G.GAME.FLAME_ON then
-    G.GAME.FLAME_ON = true
-end
-'''
-match_indent = true
-overwrite = false
-
-# Flame Off
-[[patches]]
-[patches.pattern]
-target = "functions/button_callbacks.lua"
-pattern = "_F.intensity = 0"
-position = "after"
-payload = '''
-G.GAME.FLAME_ON = false
-'''
-match_indent = true
-overwrite = false
-
-
 # Valoky Tags
 [[patches]]
 [patches.pattern]
