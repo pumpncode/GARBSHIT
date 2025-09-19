@@ -114,18 +114,6 @@ end
 '''
 match_indent = true
 
-
-# Seat Rarity Badge
-[[patches]]
-[patches.pattern]
-target = '''functions/common_events.lua'''
-pattern = '''if _c.rarity and _c.rarity == 4 and specific_vars and not specific_vars.not_hidden then'''
-position = "at"
-payload = '''
-if _c.rarity and _c.rarity == 4 and not _c.config.center.key == "j_garb_seat" and specific_vars and not specific_vars.not_hidden then
-'''
-match_indent = true
-
 # Giulis Score Debuffed Card
 [[patches]]
 [patches.pattern]
