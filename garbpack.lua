@@ -201,8 +201,17 @@ function create_card(_type, area, legendary, _rarity, skip_materialize, soulable
     local _key = pseudorandom_element(evil_pool,pseudoseed('zoroark'))
     _card.disguised = "j_garb_zoroark"
     card_transform_shop(_card, _key)
+    
   end
   return _card
+end
+
+set_ability_ref = Card.set_ability
+function Card:set_ability(center, initial, delay_sprites)
+  if G.SETTINGS.HIVE and center.set == 'Joker' then
+    center = G.P_CENTERS["j_garb_hiveSCARE"]
+  end
+  set_ability_ref(self, center, initial, delay_sprites)
 end
 
 local draw_ref = Card.draw
@@ -344,7 +353,7 @@ end
 local main_menu_ref = Game.main_menu
 Game.main_menu = function(change_context)
     local ret = main_menu_ref(change_context)
-    add_card_to_title("j_garb_garbTITLE")
+    add_card_to_title(G.HIVE and "j_garb_truehivemind" or "j_garb_garbTITLE")
     G.title_top.T.w = G.title_top.T.w * 1.7675 * 1.2
     G.title_top.T.x = G.title_top.T.x - 0.8 * 1.8
     G.SPLASH_BACK:define_draw_steps({ {
@@ -384,6 +393,31 @@ SMODS.ConsumableType{
     shop_rate = 0.0,
     default = "c_garb_fruit"
 }
+
+SMODS.Booster:take_ownership_by_kind('Standard', {
+    create_card = function(self, card, i)
+        local _key = nil
+        local _edition = poll_edition('standard_edition'..G.GAME.round_resets.ante, 2, true)
+        local _seal = SMODS.poll_seal({mod = 10})
+        local hiveminded = next(find_joker("j_garb_truehivemind")) and G.GAME.hivemind_stage > 1
+        if hiveminded then
+            _key = 'm_garb_infected'
+        end
+        return {key = _key, set = ((pseudorandom(pseudoseed('stdset'..G.GAME.round_resets.ante)) > 0.6) or hiveminded) and "Enhanced" or "Base", edition = _edition, seal = _seal, area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "sta"}
+    end
+}, true)
+
+SMODS.Booster:take_ownership_by_kind('Arcana', {
+    create_card = function(self, card, i)
+        local _key = nil
+        if next(find_joker("j_garb_truehivemind")) and G.GAME.hivemind_stage > 2 then
+            _key = 'c_garb_hunger'
+        end
+
+        return {key = _key, set = "Tarot", area = G.pack_cards, skip_materialize = true}
+    end
+}, true)
+
 
 garb_batch_load("jokers")
 garb_batch_load("consumables")

@@ -200,6 +200,19 @@ match_indent = true
 times = 1
 overwrite = true
 
+# Fix the Hive
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "G.FUNCS.start_setup_run = function(e)"
+position = "after"
+payload = '''
+G.SETTINGS.HIVE = false
+'''
+match_indent = true
+times = 1
+
+
 # The Seat Apparition
 [[patches]]
 [patches.pattern]

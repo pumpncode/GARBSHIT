@@ -42,6 +42,76 @@ return {
 
             },
         },
+        Joker = {
+            j_garb_truehivemind_1 = {
+                name = "True Hivemind",
+                text = {
+                "{C:attention}Infected{} Cards give {X:mult,C:white} X#1# {} Mult when scored",
+                "Gains {X:mult,C:white} X#2# {} Mult every {C:attention}ante{}",
+                }
+            },
+
+            j_garb_truehivemind_2 = {
+                name = "True Hivemind",
+                text = {
+                "{C:attention}Infected{} Cards give {X:mult,C:white} X#1# {} Mult when scored",
+                "Gains {X:mult,C:white} X#2# {} Mult every {C:attention}ante{}",
+                "{C:attention}Standard{} Packs are {C:red}compromised"
+                }
+            },
+
+            j_garb_truehivemind_3 = {
+                name = "True Hivemind",
+                text = {
+                "{C:attention}Infected{} Cards give {X:mult,C:white} X#1# {} Mult when scored",
+                "Gains {X:mult,C:white} X#2# {} Mult every {C:attention}ante{}",
+                "{C:attention}Standard{} Packs are {C:red}compromised",
+                "{C:tarot}Tarot{} Packs are {C:red}compromised",
+                }
+            },
+
+            j_garb_truehivemind_4 = {
+                name = "True Hivemind",
+                text = {
+                "{C:attention}Infected{} Cards give {X:mult,C:white} X#1# {} Mult when scored",
+                "Gains {X:mult,C:white} X#2# {} Mult every {C:attention}ante{}",
+                "{C:attention}Standard{} Packs are {C:red}compromised",
+                "{C:tarot}Tarot{} Packs are {C:red}compromised",
+                "{C:attention}Skip Tags{} are {C:red}compromised",
+                }
+            },
+
+            j_garb_truehivemind_5 = {
+                name = "True Hivemind",
+                text = {
+                "{C:attention}Infected{} Cards give {X:mult,C:white} X#1# {} Mult when scored",
+                "Gains {X:mult,C:white} X#2# {} Mult every {C:attention}ante{}",
+                "{C:attention}Standard{} Packs are {C:red}compromised",
+                "{C:tarot}Tarot{} Packs are {C:red}compromised",
+                "{C:attention}Skip Tags{} are {C:red}compromised",
+                "{C:attention}The Deck{} is {C:red}compromised",
+                }
+            },
+
+            j_garb_truehivemind_6 = {
+                name = "True Hivemind",
+                text = {
+                "{C:attention}Infected{} Cards give {X:mult,C:white} X#1# {} Mult when scored",
+                "Gains {X:mult,C:white} X#2# {} Mult every {C:attention}ante{}",
+                "{C:attention}Standard{} Packs are {C:red}compromised",
+                "{C:tarot}Tarot{} Packs are {C:red}compromised",
+                "{C:attention}Skip Tags{} are {C:red}compromised",
+                "{C:attention}The Deck{} is {C:red}compromised",
+                "{C:attention}The Shop{} is {C:red}compromised",
+                }
+            },
+            j_garb_truehivemind_7 = {
+                name = "True Hivemind",
+                text = {
+                "{s:1.5,C:attention}The Game{} is {C:red}compromised",
+                }
+            },
+        },
         Enhanced = {
 			m_garb_infected = {
 				name = "Infected Card",
