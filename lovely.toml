@@ -200,6 +200,18 @@ match_indent = true
 times = 1
 overwrite = true
 
+# Fix Tags
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "if G.FORCE_TAG then return G.FORCE_TAG end"
+position = "before"
+payload = '''
+G.FORCE_TAG = G.GAME.hivemind_stage and (G.GAME.hivemind_stage > 3) and "tag_standard" or nil
+'''
+match_indent = true
+times = 1
+
 # Fix the Hive
 [[patches]]
 [patches.pattern]

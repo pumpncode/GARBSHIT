@@ -45,7 +45,7 @@ return {
           end
 
           if G.GAME.hivemind_stage > 2 then
-            card.eternal = true
+            card:set_eternal(true)
           end
 
           if G.GAME.hivemind_stage > 4 then
