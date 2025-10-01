@@ -6,7 +6,7 @@ return {
         text = {
             "Scored {C:attention}Enhanced{} cards create",
             "random {C:dark_edition}Negative{} consumables",
-            "Using {C:dark_edition}Negative{} consumables {C:red}destroys{}",
+            "Using {C:dark_edition}Negative{} consumables {C:red}explodes{}",
             "all other {C:dark_edition}Negative{} consumables"
         },
       },
@@ -49,7 +49,7 @@ return {
         if context.using_consumeable and context.consumeable.edition and context.consumeable.edition.key == "e_negative" then
             for k, v in pairs(G.consumeables.cards) do 
                 if v.edition and v.edition.key == "e_negative" then
-                    v:start_dissolve()
+                    v:explode()
                 end
             end
         end

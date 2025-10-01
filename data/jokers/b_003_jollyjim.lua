@@ -55,8 +55,7 @@ return {
               delay = 0.6,
               func = (function()
                   v:juice_up(1)
-                  v:start_dissolve()
-                  play_sound('garb_explosion', 1, 0.6)
+                  v:explode()
                   card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_gain
                 return true
             end)}))

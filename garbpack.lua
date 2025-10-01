@@ -228,6 +228,11 @@ function Card:draw(layer)
         self.children.center:set_sprite_pos({x=1,y=10})
     end
 
+    if self.config.center.key == 'j_garb_blank' and (self.antimattered) and self.config.center.discovered then
+        self.children.center:set_sprite_pos({x=2,y=12})
+    elseif self.config.center.key == 'j_garb_blank' and self.config.center.discovered then
+        self.children.center:set_sprite_pos({x=4,y=11})
+    end
     draw_ref(self,layer)
 end
 

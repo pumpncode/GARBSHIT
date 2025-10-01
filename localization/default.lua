@@ -43,6 +43,20 @@ return {
             },
         },
         Joker = {
+            j_garb_blank = {
+                name = "Blank Joker",
+                text = {
+                    "{C:inactive}Does nothing?"
+                },
+            },
+            j_garb_blank_alt = {
+                name = "Antimatter Joker",
+                text = {
+                    "{C:dark_edition}100{} Joker slots",
+                    "Blinds {C:attention}scale{} based",
+                    "on {C:attention}amount{} of Joker slots used",
+                },
+            },
             j_garb_truehivemind_1 = {
                 name = "True Hivemind",
                 text = {

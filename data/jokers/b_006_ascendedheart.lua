@@ -50,10 +50,7 @@ return {
                 if v:is_suit('Hearts') then v:change_suit(pseudorandom_element(suits)) end
                   if v.config.center == G.P_CENTERS.m_wild then 
                     v.destroyme = true
-                    v:juice_up()
-                    v:start_dissolve(nil, _first_dissolve)
-                    play_sound('garb_explosion', 1, not _first_dissolve and 0.6 or 0)
-				           _first_dissolve = true
+                    v:explode()
                   end
               end
             else

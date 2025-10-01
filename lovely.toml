@@ -200,6 +200,23 @@ match_indent = true
 times = 1
 overwrite = true
 
+# eXPLOSION
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "play_sound('explosion_release1')"
+position = "at"
+payload = '''
+if self.config.center and self.config.center.set and (self.config.center.set == "Joker" or self.config.center.set == "Enhanced" or self.config.center.consumeable) then
+    play_sound('garb_explosion')
+else
+    play_sound('explosion_release1')   
+end
+'''
+match_indent = true
+times = 1
+overwrite = true
+
 # Fix Tags
 [[patches]]
 [patches.pattern]
