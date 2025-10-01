@@ -1,0 +1,62 @@
+return {
+ SMODS.Joker {
+      key = 'kirby',
+      loc_txt = {
+        name = 'Kirby',
+        text = {
+            "When selecting blind,",
+            "{C:attention}eats{} Joker to the right",
+            "and {C:attention}copies{} it with",
+            "{C:dark_edition}boosted{} values"
+          },
+      },
+      config = { extra = {  } },
+      loc_vars = function(self, info_queue, card)
+        if G.garb_kirby.cards[1] then
+          local copy_ability = copy_table(G.garb_kirby.cards[1].config.center)
+          info_queue[#info_queue + 1] = DeepScale(copy_ability)
+        end
+      end,
+      rarity = "garb_rainbow",
+      atlas = 'GarbJokers',
+      pos = {x = 0, y = 12},
+      soul_pos = {x = 1, y = 12},
+      cost = 10,
+      
+        unlocked = true, 
+        discovered = false, --whether or not it starts discovered
+        blueprint_compat = true, --can it be blueprinted/brainstormed/other
+        eternal_compat = true, --can it be eternal
+        perishable_compat = true, --can it be perishable
+  
+
+      calculate = function(self, card, context)
+        if context.setting_blind then
+          if G.garb_kirby.cards[1] then G.garb_kirby.cards[1]:start_dissolve(nil, true) end
+          local index
+          for k, v in pairs(G.jokers.cards) do
+            if v == card then index = k+1 end
+          end
+          if not index then return false end
+          play_sound("garb_kirby_powerup")
+          G.jokers.cards[index]:juice_up(1, 0.3)
+          draw_card(G.jokers, G.garb_kirby, 100, "left", nil, G.jokers.cards[index], 0.035)
+          G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            func = (function() 
+              G.garb_kirby.cards[1].ability = DeepScale(G.garb_kirby.cards[1].ability) 
+              return true end)
+            }))
+          card:juice_up()
+          return {message = "Copied!"}
+          end
+
+        local ret = SMODS.blueprint_effect(card, G.garb_kirby.cards[1], context)
+        if ret then return ret end
+      end,
+
+      remove_from_deck = function(self, card, from_debuff)
+      end
+    },
+  
+  }

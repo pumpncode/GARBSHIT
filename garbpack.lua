@@ -423,6 +423,23 @@ SMODS.Booster:take_ownership_by_kind('Arcana', {
     end
 }, true)
 
+-- do not copy or reference this code, it's a mistake, trust me.
+function DeepScale(t)
+  if not t then return false end
+  -- print("initial check success")
+  for k, v in pairs(t) do
+    if type(v) == "table" then
+      -- print("recursing")
+      t[k] = DeepScale(v)
+    elseif type(v) == "number" then
+      if (t.x_mult or t.Xmult) and (t.x_mult == 1 or t.Xmult  == 1) then t.x_mult, t.Xmult = 0.25 end
+      t[k] = v*4
+      -- print(t[k])
+    end
+  end
+  -- print(tprint(t))
+  return t
+end
 
 garb_batch_load("jokers")
 garb_batch_load("consumables")

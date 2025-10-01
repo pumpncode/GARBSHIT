@@ -165,6 +165,28 @@ G.garb_archived = CardArea(
 )
 '''
 
+# Add off-screen Stack area
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''G.SPLASH_BACK = Sprite(-30, -6, G.ROOM.T.w+60, G.ROOM.T.h+12, G.ASSET_ATLAS["ui_1"], {x = 2, y = 0})'''
+position = "before"
+payload = '''
+
+G.garb_kirby_W = 4.9*G.CARD_W
+G.garb_kirby_H = 0.95*G.CARD_H
+
+G.garb_kirby = CardArea(
+    G.jokers.T.x,
+    G.jokers.T.y - (G.jokers.T.h*2), 
+    G.garb_kirby_W, 
+    G.garb_kirby_H, 
+    {card_limit = 1, type = 'cs_stack', highlight_limit = 0}
+)
+'''
+match_indent = true
+
+
 [[patches]]
 [patches.pattern]
 target = 'functions/common_events.lua'

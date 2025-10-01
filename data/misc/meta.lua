@@ -212,11 +212,19 @@ SMODS.Sound {
 	    },
 
     SMODS.Sound {
+       key = "kirby_powerup",
+        path = {
+            ["default"] = "kirby_powerup.ogg"
+        }
+        },
+
+    SMODS.Sound {
        key = "ping",
         path = {
             ["default"] = "ping.ogg"
         }
         },
+
 
         
     SMODS.Sound {
