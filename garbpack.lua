@@ -329,7 +329,7 @@ end
 if config.title and not next(SMODS.find_mod("Cryptid")) then
   SMODS.Atlas({
     key = "balatro",
-    path = (config.repainted and "repainted/" or "").."Logo.png",
+    path = G.SETTINGS.HIVE and "Logo_HIVE.png" or (config.repainted and "repainted/" or "").."Logo.png",
     px = 333,
     py = 216,
     prefix_config = { key = false }
@@ -361,8 +361,8 @@ Game.main_menu = function(change_context)
         send = {
             { name = 'time',       ref_table = G.TIMERS, ref_value = 'REAL_SHADER' },
             { name = 'vort_speed', val = 0.4 },
-            { name = 'colour_1',   ref_table = G.C,      ref_value = 'GARB_T2' },
-            { name = 'colour_2',   ref_table = G.C,      ref_value = 'GARB_T1' },
+            { name = 'colour_1',   ref_table = G.C,      ref_value = G.SETTINGS.HIVE and 'BLACK' or 'GARB_T2' },
+            { name = 'colour_2',   ref_table = G.C,      ref_value = G.SETTINGS.HIVE and 'GREY' or 'GARB_T1' },
         }
     } }) 
     return ret

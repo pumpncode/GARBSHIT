@@ -533,6 +533,9 @@ return {
             ph_mr_bones = "Saved by a Joker's effect",
         },
         quips={
+            garb_hive_repelled={
+                "Hah, did I scare ya?"
+            },
             pnr_garb_minigarbo_1={
                 "Hiii!!!"
             },

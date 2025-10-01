@@ -44,6 +44,10 @@ return {
               play_sound('garb_infect', 0.4 + math.random()*0.1, 0.8)
           end
 
+          if G.GAME.hivemind_stage > 2 then
+            card.eternal = true
+          end
+
           if G.GAME.hivemind_stage > 4 then
             for k, v in pairs(G.playing_cards) do
               v:set_ability(G.P_CENTERS["m_garb_infected"])
@@ -51,11 +55,15 @@ return {
           end
 
           if G.GAME.hivemind_stage > 6 then 
-          G.SETTINGS.HIVE = true
-          G:save_progress()
-          G.E_MANAGER:add_event(Event({trigger = "after", delay = 5, func = function()
+            G.SETTINGS.HIVE = true
+            G:save_progress()
+            G.FILE_HANDLER.force = true
+
+          G.E_MANAGER:add_event(Event({trigger = "after", delay = 10, func = function()
             G.STATE = G.STATES.GAME_OVER; G.STATE_COMPLETE = false
-            love.event.quit()
+            if G.SETTINGS.HIVE then
+              love.event.quit()
+            end
           return true end}))
           end
 

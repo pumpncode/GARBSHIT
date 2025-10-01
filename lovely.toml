@@ -204,10 +204,36 @@ overwrite = true
 [[patches]]
 [patches.pattern]
 target = "functions/button_callbacks.lua"
-pattern = "G.FUNCS.start_setup_run = function(e)"
+pattern = "G.FUNCS.select_blind = function(e)"
 position = "after"
 payload = '''
-G.SETTINGS.HIVE = false
+if G.SETTINGS.HIVE then
+
+    G.SETTINGS.HIVE = false
+    G.GAME.HIVE = true
+    G:save_progress()
+    G.FILE_HANDLER.force = true
+
+    for i = 1, 200 do
+        local xpos = G.play.T.x + pseudorandom("pos", -5, 20)
+        local ypos = G.play.T.y + pseudorandom("pos", -5, 20)
+        local _card = Card(xpos-G.CARD_W*0.6, ypos-G.CARD_H*1.6, G.CARD_W, G.CARD_H, G.P_CARDS.empty, G.P_CENTERS.j_garb_hiveSCARE)
+        _card:start_materialize()
+    end
+
+    play_sound('garb_honk', 1, 0.8)
+
+    play_sound('garb_infect', 0.4 + math.random()*0.1, 0.8)
+    play_sound('garb_infect', 0.4 + math.random()*0.1, 0.8)
+    play_sound('garb_infect', 0.4 + math.random()*0.1, 0.8)
+    play_sound('garb_infect', 0.4 + math.random()*0.1, 0.8)
+
+
+    G.E_MANAGER:add_event(Event({trigger = "after", delay = 5, func = function()
+        G.STATE = G.STATES.GAME_OVER; G.STATE_COMPLETE = false
+        love.event.quit()
+    return true end}))
+end
 '''
 match_indent = true
 times = 1

@@ -166,6 +166,14 @@ SMODS.Atlas{
 	volume = 0.5
 	},
 
+SMODS.Sound {
+    key = "honk",
+    path = {
+        ["default"] = "honk.ogg"
+    },
+	volume = 0.8
+	},
+
     SMODS.Sound {
         key = "snap",
         path = {
@@ -251,6 +259,18 @@ SMODS.Atlas{
     pitch = 1,
     select_music_track = function()
       return next(SMODS.find_card("j_garb_teto")) and 20 and config.fukkireta or false
+    end
+},
+
+  SMODS.Sound {
+    key = "music_calliope",
+    path = {
+        ["default"] = "music_calliope.ogg"
+    },
+    sync = false,
+    pitch = 1,
+    select_music_track = function()
+      return G.SETTINGS.HIVE and 100 or false
     end
 }
 
