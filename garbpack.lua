@@ -277,6 +277,8 @@ function Card:remove_dialogue(timer)
 end
 
 function enterMinigame()
+  G.MINIGAME = {jimbos = {}}
+  MINIGAMESCORE = 1
   G.E_MANAGER:clear_queue()
         G.FUNCS.wipe_on()
       G.E_MANAGER:add_event(Event({
@@ -288,7 +290,7 @@ function enterMinigame()
         G.STATE_COMPLETE = false
         
         G.STAGE = G.STAGES.MINIGAME
-        G.STATE = G.MINIGAME_TUTORIAL_COMPLETED and G.STATES.MINIGAME or G.STATES.MINIGAME_TUTORIAL
+        G.STATE = G.SETTINGS.MINIGAME_TUTORIAL_COMPLETED and G.STATES.MINIGAME or G.STATES.MINIGAME_TUTORIAL
         G.ARGS.spin = {
         amount = 0,
         real = 0,
@@ -306,15 +308,14 @@ function enterMinigame()
             {name = 'contrast', ref_table = G.C.BACKGROUND, ref_value = 'contrast'},
             {name = 'spin_amount', ref_table = G.ARGS.spin, ref_value = 'amount'}
         }}})
-
-        G.title_top:remove()
+        if G.title_top then G.title_top:remove() end
         local node = G.MAIN_MENU_UI:get_UIE_by_ID("main_menu_play")
         if replace_card then replace_card:remove() end
         if G.SPLASH_LOGO then G.SPLASH_LOGO.states.visible = false end
-        node.children.alert.states.visible = false
-        G.SPLASH_LOGO:remove()
-        G.SMODS_VERSION_UI:remove()
-        G.VERSION_UI:remove()
+        if node then node.children.alert.states.visible = false end
+        if G.SPLASH_LOGO then G.SPLASH_LOGO:remove() end
+        if G.SMODS_VERSION_UI then G.SMODS_VERSION_UI:remove() end
+        if G.VERSION_UI then G.VERSION_UI:remove() end
         if G.MAIN_MENU_UI then G.MAIN_MENU_UI:remove() end
         if G.PROFILE_BUTTON then G.PROFILE_BUTTON:remove() end
 
@@ -323,23 +324,143 @@ function enterMinigame()
           garbz.no_ui = true
           garbz.states.drag.can = false
         end
-
+        if G.STATE == 20 then
+          ease_background_colour{new_colour = G.C.BLIND["Small"], special_colour = G.C.RED, contrast = 2}
+          minigameUI()
+        end
         return true
         end
         }))
 
         G.FUNCS.wipe_off()
+        INMINIGAME = true
+end
+
+local game_updateref = Game.update
+function Game:update(dt)
+    game_updateref(self, dt)
+    if G.STATE == 20 and not G.SETTINGS.paused then
+      minigame()
+    end
+end
+
+G.FUNCS.minigame_scoreboard = function(e)
+  if G.CurScoreboardText ~= number_format(MINIGAMESCORE) then
+    G.CurScoreboardText = number_format(MINIGAMESCORE)
+    e.config.object.config.string = {number_format(MINIGAMESCORE)}
+    e.config.object:update_text(true)
+    e.UIBox:recalculate()
+  end
+end
+
+function create_UIBox_scoreboard()
+  G.CurScoreboardText = number_format(MINIGAMESCORE)
+  local john_claire =  {n=G.UIT.ROOT, config = {align = "cm", colour = G.C.CLEAR}, nodes={
+    {n=G.UIT.R, config={align = "cm", padding = 0.2, r = 0.1, emboss = 0.1, colour = G.C.L_BLACK}, nodes={
+      {n=G.UIT.R, config={align = "cm"}, nodes={
+        {n=G.UIT.T, config={text = "Score", scale = 0.4, colour = G.C.UI.TEXT_LIGHT, shadow = true}}
+      }},
+      {n=G.UIT.R, config={align = "cm"}, nodes={
+        {n=G.UIT.C, config={align = "cm", padding = 0.15, minw = 2, minh = 0.8, maxw = 2, r = 0.1, hover = false, colour = mix_colours(G.C.BLACK, G.C.GREY, 0.6)}, nodes={
+          {n=G.UIT.O, config={object = DynaText({string = number_format(MINIGAMESCORE)}), scale = 0.4, colour = G.C.UI.TEXT_LIGHT, shadow = true, func = 'minigame_scoreboard'}}
+        }},
+      }}
+    }}
+  }}
+ return john_claire
+end
+
+function minigameUI()
+    G.MINIGAME_UI = UIBox{
+        definition = create_UIBox_scoreboard(),
+        config = {align="bri", offset = {x=0,y=10}, major = G.ROOM_ATTACH, bond = 'Weak'}
+    }
+    G.MINIGAME_UI.alignment.offset.y = 0
+    G.MINIGAME_UI:align_to_major()
+end
+
+function minigame()
+        local random_delay = pseudorandom("pipis"..math.random())*2.5/(1+MINIGAMESCORE*0.025)
+          G.E_MANAGER:add_event(Event({trigger = 'after', delay = random_delay, func = function()
+            G.E_MANAGER:clear_queue('other')
+            local xpos = G.TILE_W/2 + pseudorandom("pos", -32, 32)/4
+            local ypos = G.TILE_H/2 + pseudorandom("pos", -8, 32)/4
+            local centercard = (pseudorandom("surge")*(1+MINIGAMESCORE*0.003) > 0.998) and G.P_CENTERS.j_garb_SURGE or G.P_CENTERS.j_joker
+            G.MINIGAME.jimbos[#G.MINIGAME.jimbos+1] = Card((xpos-G.CARD_W*0.6), (ypos-G.CARD_H*1.6), G.CARD_W, G.CARD_H, G.P_CARDS.empty, centercard)
+            G.MINIGAME.jimbos[#G.MINIGAME.jimbos].no_ui = true
+            G.MINIGAME.jimbos[#G.MINIGAME.jimbos]:juice_up()
+            G.MINIGAME.jimbos[#G.MINIGAME.jimbos].states.drag.can = false
+            G.MINIGAME.jimbos[#G.MINIGAME.jimbos].timer = math.floor(4+MINIGAMESCORE*0.025)
+            for k,v in pairs(G.MINIGAME.jimbos) do
+              v.timer = v.timer - 1
+              if v.timer == 0 then 
+                v.exploding = true
+                v:start_dissolve({G.C.RED})
+                play_sound('cancel')
+                table.remove(G.MINIGAME.jimbos, k)
+              end
+            end            
+            return true
+            end
+          }), 'other')
+end
+
+function minigame_over()
+  INMINIGAME = false
+    G.E_MANAGER:add_event(Event({trigger = 'immediate', func = function()
+      G.STATE = G.STATES.MINIGAME_OVER
+      G.E_MANAGER:clear_queue('other')
+      for k, v in pairs(G.MINIGAME.jimbos) do
+        v:explode()
+      end
+      G.MINIGAME.jimbos = {}
+      ease_background_colour{new_colour = G.C.RED, special_colour = darken(G.C.BLACK, 0.4), tertiary_colour = darken(G.C.PURPLE, 0.4), contrast = 1}
+    return true
+    end
+    }))
+
 end
 
 local click_ref = Card.click
 function Card:click()
-  print("clicked!"..self.config.center.key)
+  -- print("clicked!"..self.config.center.key)
   self.counter = self.counter and (self.counter + 1) or 1
+
+  if self.config.center.key == "j_joker" and G.STATE == 20 and not (self.talking or self.exploding) then
+    play_sound('garb_gunshot', 0.7+pseudorandom("sou", 0.1, 0.4)) 
+    MINIGAMESCORE = MINIGAMESCORE + 1 
+    if MINIGAMESCORE == 50 then
+      ease_background_colour{new_colour = G.C.BLIND["Big"], special_colour = G.C.PURPLE, contrast = 1}
+    elseif MINIGAMESCORE == 100 then
+      ease_background_colour{new_colour = G.C.MULT, special_colour = darken(G.C.BLACK, 0.4), contrast = 1}
+        elseif MINIGAMESCORE == 150 then
+      ease_background_colour{new_colour = G.C.BLUE, special_colour = G.C.RED, tertiary_colour = darken(G.C.BLACK, 0.4), contrast = 3}
+    elseif MINIGAMESCORE == 200 then
+      ease_background_colour{new_colour = G.C.GARB_T1,special_colour = G.C.GARB_T2, tertiary_colour = darken(G.C.BLACK, 0.4), contrast = 3}
+    elseif MINIGAMESCORE == 250 then
+      ease_background_colour{new_colour = G.C.RAINBOW,special_colour = darken(G.C.BLACK, 0.4), contrast = 3}
+    end
+
+    self.exploding = true
+    for k, v in pairs(G.MINIGAME.jimbos) do
+      if v == self then
+        table.remove(G.MINIGAME.jimbos, k)
+      end
+    end
+    self:start_dissolve()
+  end
+
+  if self.config.center.key == "j_garb_SURGE" and G.STATE == 20 and not (self.talking or self.exploding) then
+    self.exploding = true
+    minigame_over()
+    self:explode()
+  end
+
 
   if self.config.center.key == "j_joker" and G.STATE == 21 and not (self.talking or self.exploding) then
     play_sound('garb_gunshot')  
     self.exploding = true
-    self:start_dissolve()
+    self:start_dissolve({G.C.YELLOW})
   end
 
   if self.config.center.key == "j_garb_SURGE" and G.STATE == 21 and not (self.talking or self.exploding) then
@@ -364,9 +485,11 @@ function Card:click()
     end
 
     if self.counter == 12 then
-      self:remove_dialogue(0.1)
-      self:start_dissolve()
-      ease_background_colour_blind(G.STATES.BLIND_SELECT)
+      G.SETTINGS.MINIGAME_TUTORIAL_COMPLETED = true
+      self:remove()
+      G:save_progress()
+      enterMinigame()      
+      ease_background_colour{new_colour = G.C.BLIND["Small"], special_colour = G.C.RED, contrast = 2}
     end
   end
 
@@ -376,7 +499,6 @@ function Card:click()
       if self.counter >= 1 then
         self.counter = 0
         enterMinigame()
-        G.STATE = G.STATES.MINIGAME
       end
   end
 

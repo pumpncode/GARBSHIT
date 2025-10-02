@@ -252,7 +252,8 @@ pattern = "NEW_ROUND = 19,"
 position = "after"
 payload = '''
 MINIGAME = 20,
-MINIGAME_TUTORIAL = 21
+MINIGAME_TUTORIAL = 21,
+MINIGAME_OVER = 22
 '''
 match_indent = true
 times = 1

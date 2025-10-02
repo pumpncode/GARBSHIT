@@ -241,13 +241,23 @@ SMODS.Sound {
           and G.pack_cards.cards[1].ability.set == "Stamp"
         end
     },
+        SMODS.Sound {
+        key = "music_minigame",
+        path = {
+            ["default"] = "music_minigame.ogg"
+        },
+        pitch = 1,
+        volume = 1,
+        select_music_track = function()
+          return INMINIGAME
+        end
+    },
 
         SMODS.Sound {
         key = "music_minigametutorial",
         path = {
             ["default"] = "music_minigametutorial.ogg"
         },
-        sync = true,
         pitch = 1,
         select_music_track = function()
           return G.STATE == 21
