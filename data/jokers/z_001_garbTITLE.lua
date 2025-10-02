@@ -21,12 +21,12 @@ return {
     pos = { x = 4, y = 0 },
     soul_pos = {x = 5, y = 0},
     cost = 5,
+    counter = 0,
       no_collection = true,
       unlocked = true, 
       discovered = true, --whether or not it starts discovered
       blueprint_compat = true, --can it be blueprinted/brainstormed/other
       eternal_compat = true, --can it be eternal
       perishable_compat = true, --can it be perishable
-      },
-
+      }
 }

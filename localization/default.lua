@@ -588,6 +588,51 @@ return {
             pnr_garb_pearto_6={
                 "kasane balateto"
             },
+
+            minigame_tutorial_1={
+                "You knocked! that must mean..."
+            },
+            minigame_tutorial_2={
+                "You're here for the minigame!"
+            },
+            minigame_tutorial_3={
+                "Huh? What minigame?"
+            },
+            minigame_tutorial_4={
+                "But of course,",
+                "Shoot the Jimbo!"
+            },
+            minigame_tutorial_5={
+                "Oh, you don't know it?"
+            },
+            minigame_tutorial_6={
+                "The rules are simple:"
+            },
+            minigame_tutorial_7={
+                "Shoot Jimbo when you see him,",
+                "to gain points.",
+                "{C:inactive}(CLICK Jimbo to shoot him)"
+            },
+            minigame_tutorial_8={
+                "Avoid getting SURGED,",
+                "or your game ends.",
+                "{C:inactive}(CLICK THE SURGE to get SURGED)"
+            },
+            minigame_tutorial_9={
+                "And the most important rule,",
+                "remember to be yourself!"
+            },
+            minigame_tutorial_10={
+                "Seems simple, doesn't it?",
+                "That's because it is!"
+            },
+            minigame_tutorial_11={
+                "Now, that you know the rules,",
+                "I'll send you to the minigame, have fun!"
+            },
+            minigame_tutorial_12={
+                "Oh! One last thi-",
+            },
         },
     },
 }

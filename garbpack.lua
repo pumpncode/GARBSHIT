@@ -236,8 +236,151 @@ function Card:draw(layer)
     draw_ref(self,layer)
 end
 
+function Card:dialogue_say_stuff(n, not_first, pitch)
+    self.talking = true
+    local pitch = pitch or 1
+    if not not_first then 
+        G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.1, func = function()
+            if self.children.speech_bubble then self.children.speech_bubble.states.visible = true end
+            self:dialogue_say_stuff(n, true, pitch)
+        return true end}))
+    else
+        if n <= 0 then self.talking = false; return end
+        play_sound('voice'..math.random(1, 11), pitch*(math.random()*0.2+1), 0.5)
+        self:juice_up()
+        G.E_MANAGER:add_event(Event({trigger = "after", blockable = false, blocking = false, delay = 0.13, func = function()
+            self:dialogue_say_stuff(n-1, true, pitch)
+        return true end}))
+    end
+end
+
+function Card:add_dialogue(text_key, align, yap_amount, baba_pitch)
+    if self.children.speech_bubble then self.children.speech_bubble:remove() end
+    self.config.speech_bubble_align = {align=align or 'bm', offset = {x=0,y=0},parent = self}
+    self.children.speech_bubble = 
+    UIBox{
+        definition = G.UIDEF.speech_bubble(text_key, {quip = true}),
+        config = self.config.speech_bubble_align
+    }
+    self.children.speech_bubble:set_role{role_type = "Minor", xy_bond = "Strong", r_bond = "Strong", major = self}
+    self.children.speech_bubble.states.visible = false
+    local yap_amount = yap_amount or 5
+    local baba_pitch = baba_pitch or 1
+    self:dialogue_say_stuff(yap_amount, nil, baba_pitch)
+end
+
+function Card:remove_dialogue(timer)
+    local timer = (timer * G.SETTINGS.GAMESPEED) or 0
+    G.E_MANAGER:add_event(Event({trigger = "after", blockable = false, blocking = false, delay = timer, func = function()
+        if self.children.speech_bubble then self.children.speech_bubble:remove(); self.children.speech_bubble = nil end
+    return true end}))
+end
+
+function enterMinigame()
+  G.E_MANAGER:clear_queue()
+        G.FUNCS.wipe_on()
+      G.E_MANAGER:add_event(Event({
+      no_delete = true,
+      blockable = true, 
+      blocking = false,
+      func = function()
+        G:prep_stage(G.STAGES.MINIGAME, G.STATES.MINIGAME)
+        G.STATE_COMPLETE = false
+        
+        G.STAGE = G.STAGES.MINIGAME
+        G.STATE = G.MINIGAME_TUTORIAL_COMPLETED and G.STATES.MINIGAME or G.STATES.MINIGAME_TUTORIAL
+        G.ARGS.spin = {
+        amount = 0,
+        real = 0,
+        eased = 0
+      }
+
+        G.SPLASH_BACK:define_draw_steps({{
+          shader = 'background',
+          send = {
+            {name = 'time', ref_table = G.TIMERS, ref_value = 'REAL_SHADER'},
+            {name = 'spin_time', ref_table = G.TIMERS, ref_value = 'BACKGROUND'},
+            {name = 'colour_1', ref_table = G.C.BACKGROUND, ref_value = 'C'},
+            {name = 'colour_2', ref_table = G.C.BACKGROUND, ref_value = 'L'},
+            {name = 'colour_3', ref_table = G.C.BACKGROUND, ref_value = 'D'},
+            {name = 'contrast', ref_table = G.C.BACKGROUND, ref_value = 'contrast'},
+            {name = 'spin_amount', ref_table = G.ARGS.spin, ref_value = 'amount'}
+        }}})
+
+        G.title_top:remove()
+        local node = G.MAIN_MENU_UI:get_UIE_by_ID("main_menu_play")
+        if replace_card then replace_card:remove() end
+        if G.SPLASH_LOGO then G.SPLASH_LOGO.states.visible = false end
+        node.children.alert.states.visible = false
+        G.SPLASH_LOGO:remove()
+        G.SMODS_VERSION_UI:remove()
+        G.VERSION_UI:remove()
+        if G.MAIN_MENU_UI then G.MAIN_MENU_UI:remove() end
+        if G.PROFILE_BUTTON then G.PROFILE_BUTTON:remove() end
+
+        if G.STATE == 21 then
+          local garbz = Card(G.TILE_W/2-G.CARD_W*0.66, G.TILE_H/2-G.CARD_H, G.CARD_W*1.32, G.CARD_H*1.32, G.P_CARDS.empty, G.P_CENTERS.j_garb_director)
+          garbz.no_ui = true
+          garbz.states.drag.can = false
+        end
+
+        return true
+        end
+        }))
+
+        G.FUNCS.wipe_off()
+end
+
 local click_ref = Card.click
 function Card:click()
+  print("clicked!"..self.config.center.key)
+  self.counter = self.counter and (self.counter + 1) or 1
+
+  if self.config.center.key == "j_joker" and G.STATE == 21 and not (self.talking or self.exploding) then
+    play_sound('garb_gunshot')  
+    self.exploding = true
+    self:start_dissolve()
+  end
+
+  if self.config.center.key == "j_garb_SURGE" and G.STATE == 21 and not (self.talking or self.exploding) then
+    self.exploding = true
+    self:explode()
+  end
+
+  if self.config.center.key == "j_garb_director" and G.STATE == 21 and not self.talking then
+    self:add_dialogue("minigame_tutorial_"..self.counter, "bm")
+    if self.counter == 7 then
+      local jimbo = Card(G.TILE_W/2-G.CARD_W*0.66-2*G.CARD_W*1.32, G.TILE_H/2-G.CARD_H, G.CARD_W*1.32, G.CARD_H*1.32, G.P_CARDS.empty, G.P_CENTERS.j_joker)
+      jimbo.no_ui = true
+      jimbo.states.drag.can = false
+      jimbo:start_materialize()
+    end
+
+    if self.counter == 8 then
+      local surge = Card(G.TILE_W/2-G.CARD_W*0.66+2*G.CARD_W*1.32, G.TILE_H/2-G.CARD_H, G.CARD_W*1.32, G.CARD_H*1.32, G.P_CARDS.empty, G.P_CENTERS.j_garb_SURGE)
+      surge.no_ui = true
+      surge.states.drag.can = false
+      surge:start_materialize()
+    end
+
+    if self.counter == 12 then
+      self:remove_dialogue(0.1)
+      self:start_dissolve()
+      ease_background_colour_blind(G.STATES.BLIND_SELECT)
+    end
+  end
+
+  if self.config.center.key == "j_garb_garbTITLE" then
+      self.counter = self.counter and (self.counter + 1) or 1
+      print("clicked!",self.counter)
+      if self.counter >= 1 then
+        self.counter = 0
+        enterMinigame()
+        G.STATE = G.STATES.MINIGAME
+      end
+  end
+
+  
   if G.GAME.jimmies then
   for k, v in pairs(G.GAME.jimmies) do
     if v == self then

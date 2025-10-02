@@ -243,6 +243,19 @@ SMODS.Sound {
     },
 
         SMODS.Sound {
+        key = "music_minigametutorial",
+        path = {
+            ["default"] = "music_minigametutorial.ogg"
+        },
+        sync = true,
+        pitch = 1,
+        select_music_track = function()
+          return G.STATE == 21
+        end
+    },
+
+
+        SMODS.Sound {
         key = "music_rainbow",
         path = {
             ["default"] = "music_3dsfunk.ogg"
