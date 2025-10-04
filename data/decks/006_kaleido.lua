@@ -10,6 +10,10 @@ return {
         loc_vars = function(self, info_queue, card)
             return {vars = {pseudorandom_element(G.KaleidoQuips,pseudoseed('lols'))}}
         end,
+        locked_loc_vars = function(self, info_queue, card)
+          local key = G.PROFILES[G.SETTINGS.profile].MINIGAME_TUTORIAL_COMPLETED and (self.key .. '_alt') or self.key
+          return {key = key}
+        end,
         apply = function(self, back)
             G.E_MANAGER:add_event(Event({
                     func = (function()

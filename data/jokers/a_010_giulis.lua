@@ -8,11 +8,9 @@ return {
         "give {X:mult,C:white} X#1# {} Mult when",
         "scored"
         },
-        unlock = {
-          "Download and enable the",
-          "{E:1,C:attention}Vocaloid Card Set{}",
-          "or {E:1,C:attention}Vocalatro{} mods"
-        }
+      unlock = {
+        "{E:1,s:1.3}?????"
+      }
       },
       config = { extra = { Xmult = 6.66 } },
       loc_vars = function(self, info_queue, card)

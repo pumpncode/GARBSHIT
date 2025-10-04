@@ -7,14 +7,14 @@ return {
             "When selecting blind,",
             "{C:attention}eats{} Joker to the right",
             "and {C:attention}copies{} it with",
-            "{C:dark_edition}boosted{} values"
+            "{X:dark_edition,C:white} X4 {} their original values"
           },
       },
       config = { extra = {  } },
       loc_vars = function(self, info_queue, card)
-        if G.garb_kirby.cards[1] then
-          local copy_ability = copy_table(G.garb_kirby.cards[1].config.center)
-          info_queue[#info_queue + 1] = DeepScale(copy_ability)
+        if G.garb_kirby and G.garb_kirby.cards[1] then
+          local copy_ability = G.P_CENTERS[G.garb_kirby.cards[1].config.center.key]
+          info_queue[#info_queue + 1] = copy_ability
         end
       end,
       rarity = "garb_rainbow",
@@ -37,7 +37,7 @@ return {
           for k, v in pairs(G.jokers.cards) do
             if v == card then index = k+1 end
           end
-          if not index then return false end
+          if not G.jokers.cards[index] then return false end
           play_sound("garb_kirby_powerup")
           G.jokers.cards[index]:juice_up(1, 0.3)
           draw_card(G.jokers, G.garb_kirby, 100, "left", nil, G.jokers.cards[index], 0.035)

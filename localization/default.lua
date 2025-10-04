@@ -475,8 +475,22 @@ return {
                     "{E:1,C:legendary}Rainbow{} Joker",
                     "{C:inactive,S:1.5}(#1#){}",
                 },
+                unlock = {
+                    "{E:1,s:1.3}?????"
+                }
             },
-
+            b_garb_kaleido_alt = {
+                name = "Kaleidoscope Deck",
+                text = {
+                    "Start run with a",
+                    "{E:1,C:legendary}Rainbow{} Joker",
+                    "{C:inactive,S:1.5}(#1#){}",
+                },
+                unlock = {
+                    "Score {C:attention}250{} points or more in",
+                    "{E:1,C:attention}Shoot the Jimbo"
+                }
+            },
         },
     
     

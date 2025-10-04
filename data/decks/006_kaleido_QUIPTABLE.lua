@@ -24,7 +24,10 @@
         "WARNING: No actually there is no warning",
         "WARNING: This text is only a distraction",
         "WARNING: Rainbow Jokers may bite",
-        "warning: wait why is this one lowercase"
+        "warning: wait why is this one lowercase",
+        "WARNING: Shoot the Jimbo high score too low",
+        "WARNING: Battery Low",
+        "WARNING: Peak might have been attained"
     }
 
 return {G.KaleidoQuips}

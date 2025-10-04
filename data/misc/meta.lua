@@ -224,6 +224,18 @@ SMODS.Sound {
             ["default"] = "ping.ogg"
         }
         },
+    SMODS.Sound {
+       key = "knock",
+        path = {
+            ["default"] = "knock.ogg"
+        }
+        },
+    SMODS.Sound {
+       key = "secret",
+        path = {
+            ["default"] = "secret.ogg"
+        }
+    },
 
 
         
@@ -248,8 +260,9 @@ SMODS.Sound {
         },
         pitch = 1,
         volume = 1,
+        sync = false,
         select_music_track = function()
-          return INMINIGAME
+          return (G.STATE == 20 and G.MINIGAME and G.MINIGAME.score > 0)
         end
     },
 

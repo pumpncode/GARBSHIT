@@ -6,7 +6,7 @@ return {
         group_key = "rainbow_booster",
         pos = {x = 10, y = 0},
         config = {
-            extra = 5,
+            extra = 6,
             choose = 1
         },
         cost = 4,
@@ -19,7 +19,9 @@ return {
 		    return false
 	    end,
         create_card = function(self, card)
-            return create_card("Joker", G.pack_cards, nil, "garb_rainbow", nil, nil, nil, "gay")
+            local rainbows = create_card("Joker", G.pack_cards, nil, "garb_rainbow", nil, nil, nil, "gay")
+            rainbows.edition = nil
+            return rainbows
         end,
         ease_background_colour = function(self)
             ease_colour(G.C.DYN_UI.MAIN, G.C.DARK_EDITION)
