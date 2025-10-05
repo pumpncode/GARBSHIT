@@ -22,8 +22,8 @@ return {
         unlocked = true, 
         discovered = false, --whether or not it starts discovered
         blueprint_compat = true, --can it be blueprinted/brainstormed/other
-        eternal_compat = true, --can it be eternal
-        perishable_compat = true, --can it be perishable
+        eternal_compat = false, --can it be eternal
+        perishable_compat = false, --can it be perishable
   
       update = function(self,card,dt)
         card.antimattered = card.antimattered or (card.area == G.jokers) and (G.GAME.round_resets.ante > 8)

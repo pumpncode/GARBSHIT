@@ -24,8 +24,9 @@ return {
   
     use = function(self, card, area, copier)
       play_sound('timpani')
-      G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.discards
-      G.GAME.round_resets.temp_discards = (G.GAME.round_resets.temp_discards or 0) - card.ability.extra.discards
+      ease_discard(-card.ability.extra.discards)
+      G.GAME.round_resets.discards = G.GAME.round_resets.discards - card.ability.extra.discards
+      G.GAME.round_resets.temp_discards = (G.GAME.round_resets.temp_discards or 0) + card.ability.extra.discards
       G.hand:change_size(card.ability.extra.h_size)
       G.GAME.round_resets.temp_handsize = (G.GAME.round_resets.temp_handsize or 0) + card.ability.extra.h_size
       delay(0.6)

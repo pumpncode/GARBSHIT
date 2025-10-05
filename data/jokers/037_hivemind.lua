@@ -21,6 +21,7 @@ return {
       blueprint_compat = true, --can it be blueprinted/brainstormed/other
       eternal_compat = true, --can it be eternal
       perishable_compat = true, --can it be perishable
+      enhancement_gate = 'm_garb_infected',
       cost = 5,
       loc_vars = function(self, info_queue, card)
       info_queue[#info_queue+1] = G.P_CENTERS.m_garb_infected

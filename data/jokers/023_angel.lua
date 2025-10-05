@@ -21,6 +21,7 @@ return {
     end,
     rarity = 3,
     atlas = 'GarbJokers',
+    enhancement_gate = 'm_stone',
     pos = { x = 2, y = 4 },
     cost = 7,
   

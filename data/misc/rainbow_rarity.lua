@@ -1,4 +1,4 @@
-color_rainbow = SMODS.Gradient {
+G.C.RAINBOW = SMODS.Gradient {
     key = "color_rainbow",
     colours = {
         HEX('E65959'),
@@ -18,6 +18,6 @@ return {
     loc_txt = {
       name = 'Rainbow',
     },
-    badge_colour = color_rainbow
+    badge_colour = G.C.RAINBOW
  }
 }

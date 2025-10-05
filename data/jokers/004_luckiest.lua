@@ -19,6 +19,7 @@ return {
     config = { extra = { money = 20, odds = 15 } },
     rarity = 2,
     atlas = 'GarbJokers',
+    enhancement_gate = 'm_lucky',
     pos = { x = 5, y = 1 },
     cost = 6,
     loc_vars = function(self, info_queue, card)

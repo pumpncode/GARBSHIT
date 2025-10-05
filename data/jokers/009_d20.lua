@@ -21,6 +21,7 @@ return {
       eternal_compat = true, --can it be eternal
       perishable_compat = true, --can it be perishable
       cost = 7,
+      enhancement_gate = 'm_lucky',
       loc_vars = function(self, info_queue, card)
       info_queue[#info_queue+1] = G.P_CENTERS.m_lucky
       return { vars = { card.ability.extra.Xmult } }

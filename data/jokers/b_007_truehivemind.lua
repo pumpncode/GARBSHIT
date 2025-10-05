@@ -24,7 +24,7 @@ return {
         discovered = false, --whether or not it starts discovered
         blueprint_compat = true, --can it be blueprinted/brainstormed/other
         eternal_compat = true, --can it be eternal
-        perishable_compat = true, --can it be perishable
+        perishable_compat = false, --can it be perishable
 
       add_to_deck = function(self,card)
         G.GAME.hivemind_stage = G.GAME.hivemind_stage or 1

@@ -193,9 +193,9 @@ function get_straight(hand, min_length, skip, wrap)
     return ret
 end
 
-create_card_ref = create_card
+create_card_ref1 = create_card
 function create_card(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append)
-  local _card = create_card_ref(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append)
+  local _card = create_card_ref1(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append)
   if _card.config.center.key == "j_garb_zoroark" then
     local evil_pool = get_current_pool('Joker')
     local _key = pseudorandom_element(evil_pool,pseudoseed('zoroark'))
@@ -277,7 +277,7 @@ function Card:remove_dialogue(timer)
 end
 
 function enterMinigame()
-  G.MINIGAME = {score = 0, jimbos = {}, phase = 1, phaseT = {true}, lost = 0}
+  G.MINIGAME = {score = 0, jimbos = {}, phase = 1, phaseT = {true}, lost = 0, highscore = false}
   G.PROFILES[G.SETTINGS.profile].MINIGAME_HIGH_SCORE = G.PROFILES[G.SETTINGS.profile].MINIGAME_HIGH_SCORE or 0
   G.E_MANAGER:clear_queue()
         G.FUNCS.wipe_on()
@@ -445,7 +445,7 @@ function minigame()
                 play_sound('cancel')
                 table.remove(G.MINIGAME.jimbos, k)
                 G.MINIGAME.lost = G.MINIGAME.lost + 1
-                if G.MINIGAME.lost == 10 then
+                if G.MINIGAME.lost == 10*G.MINIGAME.score/100 then
                   minigame_over(true)                  
                 end
               end
@@ -460,7 +460,6 @@ function minigame_over(from_lost)
   G.PROFILES[G.SETTINGS.profile].MINIGAME_HIGH_SCORE = G.PROFILES[G.SETTINGS.profile].MINIGAME_HIGH_SCORE or 0
   if G.PROFILES[G.SETTINGS.profile].MINIGAME_HIGH_SCORE < G.MINIGAME.score then
     G.PROFILES[G.SETTINGS.profile].MINIGAME_HIGH_SCORE = G.MINIGAME.score
-    card_eval_status_text(G.MINIGAME_UI, 'extra', nil, nil, nil, {message = "New High Score!", colour = G.C.RED})
     G:save_progress()
     G.FILE_HANDLER.force = true
   end
@@ -499,8 +498,13 @@ end
 local click_ref = Card.click
 function Card:click()
   -- print("clicked!"..self.config.center.key)
-  self.counter = self.counter and (self.counter + 1) or 1
+  if not (self.talking or self.exploding) then self.counter = self.counter and (self.counter + 1) or 1 end
   if G.MINIGAME and G.MINIGAME.score then
+    if G.PROFILES[G.SETTINGS.profile].MINIGAME_HIGH_SCORE and G.PROFILES[G.SETTINGS.profile].MINIGAME_HIGH_SCORE < G.MINIGAME.score and not G.MINIGAME.highscore then
+      G.MINIGAME.highscore = true 
+      play_sound('garb_abadeus1', 0.9 + math.random()*0.1, 0.8)
+      card_eval_status_text(G.MINIGAME_UI, 'extra', nil, nil, nil, {message = "New High Score!", colour = G.C.MULT})
+    end
     if G.MINIGAME.phase<=G.MINIGAME.score/50 then G.MINIGAME.phase=G.MINIGAME.phase+1 end
     if G.MINIGAME.phase == 2 and not G.MINIGAME.phaseT[2] then
       ease_background_colour{new_colour = G.C.BLIND["Big"], special_colour = G.C.PURPLE, contrast = 1}
@@ -520,7 +524,7 @@ function Card:click()
       G.MINIGAME.phaseT[G.MINIGAME.phase] = true
     elseif G.MINIGAME.phase == 6 and not G.MINIGAME.phaseT[6] then
       check_for_unlock({type = 'kaleido_deck'})
-      ease_background_colour{new_colour = darken(G.C.BLACK, 0.4), special_colour = G.C.GREY, tertiary_colour = G.C.PURPLE, contrast = 3}
+      ease_background_colour{new_colour = darken(G.C.BLACK, 0.4), special_colour = G.C.RAINBOW, contrast = 3}
       play_sound('garb_jimboss_defeat', 0.9 + math.random()*0.1, 1) 
       G.MINIGAME.phaseT[G.MINIGAME.phase] = true
     elseif G.MINIGAME.phase >= 7 and not G.MINIGAME.phaseT[G.MINIGAME.phase] then
@@ -559,7 +563,7 @@ function Card:click()
       G.SHOOTJIMBOTEXT:remove()
       G.HIGHSCORETEXT:remove()
     end
-    G.MINIGAME = {score = 0, jimbos = {}, phase = 1, phaseT = {true}, lost = 0}
+    G.MINIGAME = {score = 0, jimbos = {}, phase = 1, phaseT = {true}, lost = 0, highscore = false}
     G.STATE = 20
     play_sound('garb_gunshot', 0.9+math.random()*0.1) 
     G.MINIGAME.score = G.MINIGAME.score + 1 
@@ -626,22 +630,22 @@ function Card:click()
   if self.config.center.key == "j_garb_director" and G.STATE == 21 and not self.talking then
     self:add_dialogue("minigame_tutorial_"..self.counter, "bm")
     if self.counter == 7 then
-      local jimbo = Card(G.TILE_W/2-G.CARD_W*0.66-2*G.CARD_W*1.32, G.TILE_H/2-G.CARD_H, G.CARD_W*1.32, G.CARD_H*1.32, G.P_CARDS.empty, G.P_CENTERS.j_joker, { bypass_discovery_center = true, bypass_discovery_ui = true })
-      jimbo.no_ui = true
-      jimbo.states.drag.can = false
-      jimbo:start_materialize()
+      jimbo_card_tutorial = Card(G.TILE_W/2-G.CARD_W*0.66-2*G.CARD_W*1.32, G.TILE_H/2-G.CARD_H, G.CARD_W*1.32, G.CARD_H*1.32, G.P_CARDS.empty, G.P_CENTERS.j_joker, { bypass_discovery_center = true, bypass_discovery_ui = true })
+      jimbo_card_tutorial.no_ui = true
+      jimbo_card_tutorial.states.drag.can = false
+      jimbo_card_tutorial:start_materialize()
     end
 
     if self.counter == 8 then
-      local surge = Card(G.TILE_W/2-G.CARD_W*0.66+2*G.CARD_W*1.32, G.TILE_H/2-G.CARD_H, G.CARD_W*1.32, G.CARD_H*1.32, G.P_CARDS.empty, G.P_CENTERS.j_garb_SURGE, { bypass_discovery_center = true, bypass_discovery_ui = true })
-      surge.no_ui = true
-      surge.states.drag.can = false
-      surge:start_materialize()
+      surge_card_tutorial = Card(G.TILE_W/2-G.CARD_W*0.66+2*G.CARD_W*1.32, G.TILE_H/2-G.CARD_H, G.CARD_W*1.32, G.CARD_H*1.32, G.P_CARDS.empty, G.P_CENTERS.j_garb_SURGE, { bypass_discovery_center = true, bypass_discovery_ui = true })
+      surge_card_tutorial.no_ui = true
+      surge_card_tutorial.states.drag.can = false
+      surge_card_tutorial:start_materialize()
     end
 
     if self.counter >= 12 then
-      if jimbo then jimbo:remove() end
-      if surge then surge:remove() end
+      if jimbo_card_tutorial then jimbo_card_tutorial:remove() end
+      if surge_card_tutorial then surge_card_tutorial:remove() end
       G.PROFILES[G.SETTINGS.profile].MINIGAME_TUTORIAL_COMPLETED = true
       self:remove()
       G:save_progress()
@@ -757,7 +761,7 @@ end
 
 
   -- TITLE SCREEN
-if config.title and not next(SMODS.find_mod("Cryptid")) then
+if config.title and not next(SMODS.find_mod("Cryptid")) and not next(SMODS.find_mod("balatrostuck")) then
   SMODS.Atlas({
     key = "balatro",
     path = G.SETTINGS.HIVE and "Logo_HIVE.png" or (config.repainted and "repainted/" or "").."Logo.png",
@@ -783,6 +787,9 @@ end
 
 local main_menu_ref = Game.main_menu
 Game.main_menu = function(change_context)
+    if config.repainted then
+      check_for_unlock({type = 'micio'})
+    end
     local ret = main_menu_ref(change_context)
     add_card_to_title(G.HIVE and "j_garb_truehivemind" or "j_garb_garbTITLE")
     G.title_top.T.w = G.title_top.T.w * 1.7675 * 1.2

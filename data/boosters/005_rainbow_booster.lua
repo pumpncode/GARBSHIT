@@ -20,6 +20,8 @@ return {
 	    end,
         create_card = function(self, card)
             local rainbows = create_card("Joker", G.pack_cards, nil, "garb_rainbow", nil, nil, nil, "gay")
+            rainbows.ability.eternal = false
+            rainbows.ability.perishable = false
             rainbows.edition = nil
             return rainbows
         end,
