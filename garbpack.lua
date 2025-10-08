@@ -66,6 +66,11 @@ function G.FUNCS.garb_restart()
 	end
 end
 
+function G.FUNCS.garb_reload_atlases()
+  G.FUNCS.change_pixel_smoothing({to_key = G.SETTINGS.GRAPHICS.texture_scaling})
+  return true
+end
+
 SMODS.current_mod.config_tab = function()
   garb_nodes = {{n=G.UIT.R, config={align = "cm"}, nodes={{n=G.UIT.O, config={object = DynaText({string = "Options:", colours = {G.C.WHITE}, shadow = true, scale = 0.4})}},
   }},create_toggle({label = "Joker Music (Fukkireta and Yababaina)", ref_table = config, ref_value = "fukkireta",
@@ -92,13 +97,14 @@ SMODS.current_mod.config_tab = function()
   }  
 end
 
-function card_transform(card, key)
+function card_transform(card, key, values)
   G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() card:flip();play_sound('card1');card:juice_up(0.3, 0.3);return true end }))
   G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
   card:remove_from_deck()
   if G.P_CENTERS[key] then key = key else key = "j_joker" end
   card.config.center = G.P_CENTERS[key]
   card:set_ability(card.config.center.key,true)
+  if values then card.ability.extra = values.ability.extra end
   card:add_to_deck()
   return true 
   end}))
@@ -199,7 +205,7 @@ function create_card(_type, area, legendary, _rarity, skip_materialize, soulable
   if _card.config.center.key == "j_garb_zoroark" then
     local evil_pool = get_current_pool('Joker')
     local _key = pseudorandom_element(evil_pool,pseudoseed('zoroark'))
-    _card.disguised = "j_garb_zoroark"
+    _card.ability.disguised = "j_garb_zoroark"
     card_transform_shop(_card, _key)
     
   end

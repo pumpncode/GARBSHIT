@@ -93,8 +93,8 @@ pattern = '''elseif context.end_of_round then'''
 position = "before"
 payload = '''
 elseif context.starting_shop then
-if self.disguised and self.disguised ~= self.config.center.key then 
-    card_transform(self, self.disguised)
+if self.ability.disguised and self.ability.disguised ~= self.config.center.key then 
+    card_transform(self, self.ability.disguised)
     card_eval_status_text(self, 'extra', nil, nil, nil, { message = "Faded!" })
 end
 '''
@@ -107,8 +107,8 @@ target = '''functions/button_callbacks.lua'''
 pattern = '''local c1 = e.config.ref_table'''
 position = "after"
 payload = '''
-if c1.disguised then
-    card_transform(c1, c1.disguised)
+if c1.ability.disguised then
+    card_transform(c1, c1.ability.disguised)
     card_eval_status_text(c1, 'extra', nil, nil, nil, { message = "Faded!" })
 end
 '''

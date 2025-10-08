@@ -33,7 +33,7 @@ return {
         local _key = "j_joker"
         _key = G.jokers.cards[#G.jokers.cards].config.center.key
         if _key ~= card.config.center.key then
-          card.disguised = "j_garb_zoroark"
+          card.ability.disguised = "j_garb_zoroark"
           card_transform(card, _key)
           return {message = "Disguised!"}
         end

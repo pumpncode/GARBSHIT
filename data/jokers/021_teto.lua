@@ -24,7 +24,7 @@ return {
       end,
       rarity = 3,
       atlas = 'GarbJokers',
-      pos = config.oldteto and { x = 0, y = 4 } or { x = 3, y = 10 },
+      pos = (config.oldteto or config.repainted) and { x = 0, y = 4 } or { x = 3, y = 10 },
       cost = 7,
   
       check_for_unlock = function(self, args)
