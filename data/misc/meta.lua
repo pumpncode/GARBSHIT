@@ -316,6 +316,17 @@ SMODS.Sound {
     select_music_track = function()
       return G.SETTINGS.HIVE and 100 or false
     end
-}
+},
 
+SMODS.Atlas({key = "fish", path = "fish.png", px = 71, py = 95}),
+
+SMODS.Shader{
+    key = 'fish',
+    path = 'fish.fs',
+    send_vars = function(sprite, card)
+        return {
+            fishTexture = G.ASSET_ATLAS['garb_fish'].image
+        }
+    end
+},
 }

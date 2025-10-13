@@ -10,9 +10,9 @@ return {
       "{C:inactive}(Currently {X:mult,C:white} X#1# {} {C:inactive}Mult)"
     }
   },
-  config = { extra = { difficulty = 1.05, Xmult = 1, Xmult_gain = 0.25, seconds = 2 } },
+  config = { extra = { difficulty = 0.05, Xmult = 1, Xmult_gain = 0.25, seconds = 2 } },
   loc_vars = function(self, info_queue, card)
-    return { vars = { card.ability.extra.Xmult, card.ability.extra.Xmult_gain, card.ability.extra.seconds, (card.ability.extra.difficulty-1)*100 } }
+    return { vars = { card.ability.extra.Xmult, card.ability.extra.Xmult_gain, card.ability.extra.seconds, (1+card.ability.extra.difficulty-1)*100 } }
   end,
 
   rarity = 3,
@@ -33,9 +33,9 @@ return {
             delay = 0.2,
             func = function()
                 if G.hand_text_area.blind_chips and clock then
-                    local new_chips = math.floor(G.GAME.blind.chips * card.ability.extra.difficulty)
+                    local new_chips = math.floor(G.GAME.blind.chips * 1+card.ability.extra.difficulty)
                     local mod_text = number_format(
-                        math.floor(G.GAME.blind.chips * card.ability.extra.difficulty) - G.GAME.blind.chips
+                        math.floor(G.GAME.blind.chips * 1+card.ability.extra.difficulty) - G.GAME.blind.chips
                     )
                     G.GAME.blind.chips = new_chips
                     G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)

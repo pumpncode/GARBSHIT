@@ -7,15 +7,16 @@ return {
             "When selecting blind,",
             "{C:attention}eats{} Joker to the right",
             "and {C:attention}copies{} it with",
-            "{X:dark_edition,C:white} X4 {} their original values"
+            "{X:dark_edition,C:white} X#1# {} their original values"
           },
       },
-      config = { extra = {  } },
+      config = { extra = { value = 4 } },
       loc_vars = function(self, info_queue, card)
         if G.garb_kirby and G.garb_kirby.cards[1] then
           local copy_ability = G.P_CENTERS[G.garb_kirby.cards[1].config.center.key]
           info_queue[#info_queue + 1] = copy_ability
         end
+        return {vars = {card.ability.extra.value}}
       end,
       rarity = "garb_rainbow",
       atlas = 'GarbJokers',
@@ -44,7 +45,7 @@ return {
           G.E_MANAGER:add_event(Event({
             trigger = 'after',
             func = (function() 
-              G.garb_kirby.cards[1].ability = DeepScale(G.garb_kirby.cards[1].ability) 
+              G.garb_kirby.cards[1].ability = DeepScale(G.garb_kirby.cards[1].ability, 0, card.ability.extra.value) 
               return true end)
             }))
           card:juice_up()

@@ -549,7 +549,7 @@ function Card:click()
       G.HIGHSCORETEXT:remove()
     end
     G.MINIGAME.lost = 0
-    play_sound('garb_gunshot', 0.9+math.random()*0.1) 
+    play_sound('garb_gunshot', 0.9+math.random()*0.1, 0.4) 
     G.MINIGAME.score = G.MINIGAME.score + 1 
     self.exploding = true
     for k, v in pairs(G.MINIGAME.jimbos) do
@@ -571,7 +571,7 @@ function Card:click()
     end
     G.MINIGAME = {score = 0, jimbos = {}, phase = 1, phaseT = {true}, lost = 0, highscore = false}
     G.STATE = 20
-    play_sound('garb_gunshot', 0.9+math.random()*0.1) 
+    play_sound('garb_gunshot', 0.9+math.random()*0.1, 0.4) 
     G.MINIGAME.score = G.MINIGAME.score + 1 
     self.exploding = true
     for k, v in pairs(G.MINIGAME.jimbos) do
@@ -584,7 +584,7 @@ function Card:click()
 
   if self.config.center.key == "j_golden" and G.STATE == 20 and not (self.talking or self.exploding) then
     G.MINIGAME.lost = 0
-    play_sound('garb_gunshot', 0.9+math.random()*0.1) 
+    play_sound('garb_gunshot', 0.9+math.random()*0.1, 0.4) 
     G.MINIGAME.score = G.MINIGAME.score + 3
     self.exploding = true
     for k, v in pairs(G.MINIGAME.jimbos) do
@@ -600,7 +600,7 @@ function Card:click()
 
   if self.config.center.key == "j_baron" and G.STATE == 20 and not (self.talking or self.exploding) then
     G.MINIGAME.lost = 0
-    play_sound('garb_gunshot', 0.9+math.random()*0.1) 
+    play_sound('garb_gunshot', 0.9+math.random()*0.1, 0.4) 
     G.MINIGAME.score = G.MINIGAME.score + 5
     self.exploding = true
     for k, v in pairs(G.MINIGAME.jimbos) do
@@ -862,20 +862,31 @@ SMODS.Booster:take_ownership_by_kind('Arcana', {
     end
 }, true)
 
+function round(num, numDecimalPlaces)
+  local mult = 10^(numDecimalPlaces or 0)
+  return math.floor(num * mult + 0.5) / mult
+end
+
 -- do not copy or reference this code, it's a mistake, trust me.
-function DeepScale(t, failsafe)
+function DeepScale(t, failsafe, amount)
   local failsafe = failsafe and (failsafe+1) or 1
+  local amount = amount or 4
+  if t.x_mult and t.x_mult ~= 1 then t.x_mult = t.x_mult*amount end
+  if t.Xmult and t.Xmult ~= 1 then t.Xmult = t.Xmult*amount end
   if not t then return false end
   -- print("initial check success")
   for k, v in pairs(t) do
     if type(v) == "table" and failsafe < 3 then
       -- print("recursing")
-      t[k] = DeepScale(v, failsafe)
+      t[k] = DeepScale(v, failsafe, amount)
     elseif type(v) == "number" then
-      if (t.x_mult or t.Xmult) and (t.x_mult == 1 or t.Xmult  == 1) then t.x_mult, t.Xmult = 0.25 end
-      t[k] = v*4
+      if (t.x_mult and v == t.x_mult) or (t.Xmult and v == t.Xmult) then goto continue end
+      local isround = (v - round(v) == 0)
+      if (t.x_mult or t.Xmult) and (t.x_mult == 1/amount or t.Xmult  == 1/amount) then t.x_mult, t.Xmult = 1/amount end
+      t[k] = isround and round(v*amount) or v*amount
       -- print(t[k])
     end
+    ::continue::
   end
   -- print(tprint(t))
   return t

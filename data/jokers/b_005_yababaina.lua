@@ -22,7 +22,19 @@ return {
         blueprint_compat = true, --can it be blueprinted/brainstormed/other
         eternal_compat = false, --can it be eternal
         perishable_compat = false, --can it be perishable
-  
+      update = function(self,card,dt)
+        card.totaldt = card.totaldt or 0
+        card.totaldt = dt + card.totaldt
+        if card.totaldt > 2 then 
+          ease_background_colour({ new_colour = G.C.RAINBOW, special_colour = G.C.BLACK, contrast = 1 })
+          card.totaldt = 0
+        end
+      end,
+      add_to_deck = function(self,card,from_debuff)
+        juice_card_until(card, function() return true end, true)
+        juice_card_until(card, function() return true end, true)
+        juice_card_until(card, function() return true end, true)
+      end,
       calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play then
           local mults = {4, 10, 50}
