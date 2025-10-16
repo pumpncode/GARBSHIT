@@ -433,6 +433,21 @@ return {
                     "Start run with a",
                     "{E:1,C:legendary}Legendary{} Joker",
                     "{C:red}X#1#{} base Blind size",
+                    "{C:inactive,s:0.8}(Click a Legendary Joker in the",
+                    "{C:inactive,s:0.8}collection to select it!)"
+                },
+                unlock = {
+                    "Use a {C:stamp,T:c_garb_vintage}Vintage Stamp{} on",
+                    "a {E:1,C:legendary}Legendary{} Joker"
+                }
+            },
+            b_garb_albert_alt = {
+                name = "Albert's Deck",
+                text = {
+                    "Start run with a",
+                    "{E:1,C:legendary}Legendary{} Joker",
+                    "{C:red}X#1#{} base Blind size",
+                    "{C:inactive,s:0.8}(SELECTED: #2#)"
                 },
                 unlock = {
                     "Use a {C:stamp,T:c_garb_vintage}Vintage Stamp{} on",

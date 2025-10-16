@@ -27,49 +27,13 @@ return {
 
     add_to_deck = function(self, card)
       clock = G.TIMERS.REAL
-      create_champion_event = function()
-        G.E_MANAGER:add_event(Event({
-            trigger = 'after',
-            delay = 0.2,
-            func = function()
-                if G.hand_text_area.blind_chips and clock then
-                    local new_chips = math.floor(G.GAME.blind.chips * 1+card.ability.extra.difficulty)
-                    local mod_text = number_format(
-                        math.floor(G.GAME.blind.chips * 1+card.ability.extra.difficulty) - G.GAME.blind.chips
-                    )
-                    G.GAME.blind.chips = new_chips
-                    G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
-
-                    local chips_UI = G.hand_text_area.blind_chips
-                    G.FUNCS.blind_chip_UI_scale(G.hand_text_area.blind_chips)
-                    G.HUD_blind:recalculate()
-
-                    attention_text({
-                        text = '+' .. mod_text,
-                        scale = 0.8,
-                        hold = 0.7,
-                        cover = chips_UI.parent,
-                        cover_colour = G.C.RED,
-                        align = 'cm'
-                    })
-
-                    chips_UI:juice_up()
-
-                    play_sound('chips2')
-                else
-                    return false
-                end
-                return true
-            end
-        }))
-        end
     end,
 
     update = function(self, card)
       if clock and next(SMODS.find_card("j_garb_trumpets")) and G.GAME.blind.in_blind and not G.SETTINGS.paused then
         if (clock + (card.ability.extra.seconds - 1) < G.TIMERS.REAL) then
           clock = G.TIMERS.REAL
-          create_champion_event()
+          scale_blind(card.ability.extra.difficulty)
           return true
         end
       end

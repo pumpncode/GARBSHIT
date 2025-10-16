@@ -2,7 +2,7 @@ return {
  SMODS.Joker {
     key = 'zoroark',
     loc_txt = {
-      name = 'Zoroark',
+      name = config.repainted and 'amogus' or 'Zoroark',
       text = {
         "When {C:attention}Blind{} is selected,",
         "{C:attention}transforms{} into rightmost {C:attention}Joker",

@@ -24,7 +24,12 @@ return {
             G.E_MANAGER:add_event(Event({
                 func = function()
                     if G.jokers then
-                        local card = create_card("Joker", G.jokers, true, 4, nil, nil, nil, "ALBERT")
+                        local card
+                        if G.ALBERT_LEGENDARY and not (self.get_current_deck_key() == "b_garb_albert") then 
+                            card = SMODS.create_card({key = G.ALBERT_LEGENDARY}) 
+                        else 
+                            card = create_card("Joker", G.jokers, true, 4, nil, nil, nil, "ALBERT") 
+                        end
                         card:add_to_deck()
                         card:start_materialize()
                         G.jokers:emplace(card)

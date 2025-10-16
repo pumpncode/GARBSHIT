@@ -2,7 +2,7 @@ return {
  SMODS.Joker {
       key = 'kirby',
       loc_txt = {
-        name = 'Kirby',
+        name = config.repainted and 'kirbo' or 'Kirby',
         text = {
             "When selecting blind,",
             "{C:attention}eats{} Joker to the right",

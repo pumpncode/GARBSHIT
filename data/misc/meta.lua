@@ -231,6 +231,18 @@ SMODS.Sound {
         }
         },
     SMODS.Sound {
+       key = "click",
+        path = {
+            ["default"] = "click.ogg"
+        }
+    },
+    SMODS.Sound {
+       key = "selectlegend",
+        path = {
+            ["default"] = "selectlegend.ogg"
+        }
+    },
+    SMODS.Sound {
        key = "secret",
         path = {
             ["default"] = "secret.ogg"
@@ -259,7 +271,7 @@ SMODS.Sound {
             ["default"] = "music_minigame.ogg"
         },
         pitch = 1,
-        volume = 1,
+        volume = 0.4,
         sync = false,
         select_music_track = function()
           return (G.STATE == 20 and G.MINIGAME and G.MINIGAME.score > 0)
