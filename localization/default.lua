@@ -434,7 +434,7 @@ return {
                     "{E:1,C:legendary}Legendary{} Joker",
                     "{C:red}X#1#{} base Blind size",
                     "{C:inactive,s:0.8}(Click a Legendary Joker in the",
-                    "{C:inactive,s:0.8}collection to select it!)"
+                    "{C:inactive,s:0.7}collection while holding shift to select it!)"
                 },
                 unlock = {
                     "Use a {C:stamp,T:c_garb_vintage}Vintage Stamp{} on",
@@ -447,7 +447,7 @@ return {
                     "Start run with a",
                     "{E:1,C:legendary}Legendary{} Joker",
                     "{C:red}X#1#{} base Blind size",
-                    "{C:inactive,s:0.8}(SELECTED: #2#)"
+                    "{C:inactive,s:0.8}(SELECTED: {C:dark_edition,s:0.8}#2#{C:inactive,s:0.8})"
                 },
                 unlock = {
                     "Use a {C:stamp,T:c_garb_vintage}Vintage Stamp{} on",
@@ -480,7 +480,7 @@ return {
                 text = {
                     "Start with {C:attention}1{} Joker slot",
                     "Gain {C:attention}+#1#{} Joker slot",
-                    "at the end of each Ante"
+                    "when buying any Voucher"
                 },
             },
             b_garb_kaleido = {

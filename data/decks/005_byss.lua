@@ -17,7 +17,7 @@ return {
             
         end,
         calculate = function(self,card,context)
-            if context.end_of_round and G.GAME.blind.boss and not context.individual and not context.repetition then
+            if context.buying_card and context.card.ability.set == "Voucher" then
                 G.jokers.config.card_limit = G.jokers.config.card_limit + 1
                 play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
                 play_sound('garb_bisso')    

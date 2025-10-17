@@ -237,9 +237,9 @@ SMODS.Sound {
         }
     },
     SMODS.Sound {
-       key = "selectlegend",
+       key = "shiny",
         path = {
-            ["default"] = "selectlegend.ogg"
+            ["default"] = "shiny.ogg"
         }
     },
     SMODS.Sound {
