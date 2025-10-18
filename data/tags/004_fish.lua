@@ -4,7 +4,7 @@ return {
         loc_txt = {
           name = 'Fish Tag',
           text = {
-            "Selected {C:attention}Joker{}",
+            "Leeftmost {C:attention}Joker{}",
             "becomes {C:dark_edition}Aquatic",
             "{C:inactive,s:0.6}(Aquatic edition may not work on all Jokers)"
         }
@@ -16,9 +16,9 @@ return {
 	    end,
         apply = function(self, tag, context)
         if context.type == "new_blind_choice" then
-            if G.jokers.highlighted[1] then
+            if G.jokers.cards[1] then
                 tag:yep("", G.C.ATTENTION, function()
-                G.jokers.highlighted[1]:set_edition("e_garb_fish")
+                G.jokers.cards[1]:set_edition("e_garb_fish", true)
                 return true
                 end)
                 tag.triggered = true

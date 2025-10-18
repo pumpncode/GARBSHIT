@@ -19,7 +19,14 @@ return {
                         if G.ALBERT_LEGENDARY then 
                             card = SMODS.create_card({key = G.ALBERT_LEGENDARY}) 
                         else 
-                            card = create_card("Joker", G.jokers, true, 4, nil, nil, nil, "ALBERT") 
+                            local selectables = {}
+                            for k, v in pairs(G.P_CENTER_POOLS['Joker']) do
+                                if v and v.rarity == 4 and v.unlocked then
+                                    selectables[#selectables+1] = v.key
+                                end
+                            end
+                            local key = pseudorandom_element(selectables,pseudoseed('albert'))
+                            card = SMODS.create_card({key = key}) 
                         end
                         card:add_to_deck()
                         card:start_materialize()

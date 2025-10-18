@@ -302,6 +302,7 @@ function create_card(_type, area, legendary, _rarity, skip_materialize,
     local _card = create_card_ref1(_type, area, legendary, _rarity,
                                    skip_materialize, soulable, forced_key,
                                    key_append)
+
     if _card.config.center.key == "j_garb_zoroark" then
         local evil_pool = get_current_pool('Joker')
         local _key = pseudorandom_element(evil_pool, pseudoseed('zoroark'))
@@ -322,6 +323,20 @@ end
 
 local draw_ref = Card.draw
 function Card:draw(layer)
+
+    
+    if G.ALBERT_LEGENDARY and self.config.center.key == G.ALBERT_LEGENDARY and self.area.config.collection and not self.stickered then
+        apply_remove_sticker(self, "garb_albert_selected")
+        self.stickered = true
+    end
+
+    
+    if self.stickered and (not G.ALBERT_LEGENDARY or G.ALBERT_LEGENDARY and self.config.center.key ~= G.ALBERT_LEGENDARY) then
+        self:flip()
+        apply_remove_sticker(self, "garb_albert_selected")
+        self.stickered = false
+        self:flip()
+    end
 
     if self.config.center.key == 'j_garb_showoff' and
         (self.edition and self.edition.negative) and
@@ -417,6 +432,14 @@ function Card:add_dialogue(text_key, align, yap_amount, baba_pitch)
     self:dialogue_say_stuff(yap_amount, nil, baba_pitch)
 end
 
+function apply_remove_sticker(card, sticker)
+	if card[sticker] or card.ability[sticker] then
+		SMODS.Stickers[sticker]:apply(card, false)
+	else
+		SMODS.Stickers[sticker]:apply(card, true)
+	end
+end
+
 function Card:remove_dialogue(timer)
     local timer = (timer * G.SETTINGS.GAMESPEED) or 0
     G.E_MANAGER:add_event(Event({
@@ -449,9 +472,7 @@ function Card:click()
     if (love.keyboard.isDown('lshift') or love.keyboard.isDown('rshift')) and self.config.center and self.config.center.rarity == 4 and self.area.config.collection and not G.P_CENTERS["b_garb_albert"].locked then
         if G.ALBERT_LEGENDARY and G.ALBERT_LEGENDARY == self.config.center.key then 
             G.ALBERT_LEGENDARY = nil 
-            self:flip()
-            play_sound('cancel', 0.8)
-            self:flip()
+            play_sound('cancel', 0.8, 0.8)
         else 
             self:flip()
             G.ALBERT_LEGENDARY = self.config.center.key
@@ -803,37 +824,6 @@ function DeepScale(t, failsafe, amount)
     end
     -- print(tprint(t))
     return t
-end
-
-function check_DeepScale(t, failsafe, amount)
-    local check = t
-    local t = copy_table(check)
-    local failsafe = failsafe and (failsafe + 1) or 1
-    local amount = amount or 4
-    if t.x_mult and t.x_mult ~= 1 then t.x_mult = t.x_mult * amount end
-    if t.Xmult and t.Xmult ~= 1 then t.Xmult = t.Xmult * amount end
-    if not t then return false end
-    -- print("initial check success")
-    for k, v in pairs(t) do
-        if type(v) == "table" and failsafe < 3 then
-            -- print("recursing")
-            t[k] = DeepScale(v, failsafe, amount)
-        elseif type(v) == "number" then
-            if (t.x_mult and v == t.x_mult) or (t.Xmult and v == t.Xmult) then
-                goto continue
-            end
-            local isround = (v - round(v) == 0)
-            if (t.x_mult or t.Xmult) and
-                (t.x_mult == 1 / amount or t.Xmult == 1 / amount) then
-                t.x_mult, t.Xmult = 1 / amount
-            end
-            t[k] = isround and round(v * amount) or v * amount
-            -- print(t[k])
-        end
-        ::continue::
-    end
-    -- print(tprint(t))
-    return (t ~= check)
 end
 
 function scale_blind(amount)

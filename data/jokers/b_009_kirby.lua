@@ -12,6 +12,9 @@ return {
       },
       config = { extra = { value = 4 } },
       loc_vars = function(self, info_queue, card)
+        if config.on_card_credits then
+          info_queue[#info_queue+1] = {set = "Other", key = "credits", specific_vars = {"Astro"}} 
+        end
         if G.garb_kirby and G.garb_kirby.cards[1] then
           local copy_ability = G.P_CENTERS[G.garb_kirby.cards[1].config.center.key]
           info_queue[#info_queue + 1] = copy_ability
