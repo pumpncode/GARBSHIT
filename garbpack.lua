@@ -50,7 +50,7 @@ function love.draw()
         if G.VERSION_UI then G.VERSION_UI:remove() end
         if G.MAIN_MENU_UI then G.MAIN_MENU_UI:remove() end
         if G.PROFILE_BUTTON then G.PROFILE_BUTTON:remove() end
-
+        if G.title_top then G.title_top:remove() end
         love.graphics.setColor(1, 1, 1, 1)
         love.graphics.draw(fun, 0, 0, 0, _xscale, _yscale)
     end
