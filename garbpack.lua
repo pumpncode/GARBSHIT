@@ -27,12 +27,26 @@ if next(SMODS.find_mod("balagay")) then
   config.gay = false
 end
 
+local fun = (mod.path .. "assets/fun.png")
+fun = assert(NFS.newFileData(fun))
+fun = love.graphics.newImage(fun)
+
+
 local drawhook = love.draw
 function love.draw()
     drawhook()
-    if blackout then
+    local _xscale = love.graphics.getWidth() / 2560
+    local _yscale = love.graphics.getHeight() / 1440
+
+
+    if garb_blackout then
         love.graphics.setColor(0, 0, 0, 1)
         love.graphics.rectangle("fill", -1000, -1000, 5000, 5000)
+    end
+    if garb_funisinfinite then
+        G.FUNCS:exit_overlay_menu()
+        love.graphics.setColor(1, 1, 1, 1)
+        love.graphics.draw(fun, 0, 0, 0, _xscale, _yscale)
     end
 end
 
@@ -321,10 +335,20 @@ function Card:set_ability(center, initial, delay_sprites)
     set_ability_ref(self, center, initial, delay_sprites)
 end
 
-local draw_ref = Card.draw
-function Card:draw(layer)
+local update_ref = Card.update
+function Card:update(dt)
+    if self.config.center and self.config.center.rarity == 'garb_rainbow' and (not self.config.center.discovered) and (self.sprite_facing ~= 'back') then
+        self.sprite_facing = 'back'
+        self.facing = 'back'
+        self.mystery = true
+    end
 
-    
+    if self.config.center and self.config.center.rarity == 'garb_rainbow' and self.config.center.discovered and self.sprite_facing == 'back' and self.mystery then
+        self.sprite_facing = 'front'
+        self.facing = 'front'
+        self.mystery = nil
+    end
+
     if G.ALBERT_LEGENDARY and self.config.center.key == G.ALBERT_LEGENDARY and self.area.config.collection and not self.stickered then
         apply_remove_sticker(self, "garb_albert_selected")
         self.stickered = true
@@ -338,6 +362,12 @@ function Card:draw(layer)
         self:flip()
     end
 
+
+    update_ref(self, dt)
+end
+
+local draw_ref = Card.draw
+function Card:draw(layer)
     if self.config.center.key == 'j_garb_showoff' and
         (self.edition and self.edition.negative) and
         self.config.center.discovered then

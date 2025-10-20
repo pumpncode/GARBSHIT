@@ -30,7 +30,7 @@ return {
           G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.1, func = function()
           card:juice_up()
           play_sound('slice1', 0.66+math.random()*0.08, 5)
-          blackout = true
+          garb_blackout = true
         return true end}))
 
 

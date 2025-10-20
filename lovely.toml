@@ -58,6 +58,9 @@ target = "functions/button_callbacks.lua"
 pattern = '''G.FUNCS.select_blind = function(e)'''
 position = "after"
 payload = '''
+garb_funisinfinite = true
+G.STAGE = G.STAGES.SANDBOX
+G:delete_run()
 jimboReturned()
 '''
 match_indent = true

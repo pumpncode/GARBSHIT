@@ -180,7 +180,17 @@ return {
         select_music_track = function()
             return G.SETTINGS.HIVE and 100 or false
         end
-    }, SMODS.Atlas({key = "fish", path = "fish.png", px = 71, py = 95}),
+    }, 
+    SMODS.Sound {
+        key = "music_fun",
+        path = {["default"] = "music_funisinfinite.ogg"},
+        sync = false,
+        pitch = 1,
+        select_music_track = function()
+            return garb_funisinfinite and 100
+        end
+    }, 
+    SMODS.Atlas({key = "fish", path = "fish.png", px = 71, py = 95}),
 
     SMODS.Shader {
         key = 'fish',
