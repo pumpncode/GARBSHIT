@@ -579,7 +579,6 @@ function Card:click()
 
     if self.area and self.area.config.collection and self.config.center.key ==
         "j_garb_objectively" and self.config.center.discovered then
-        play_sound('garb_click', 0.9 + (self.antimattered and 1 or 0) + ((self.antimattered and -1 or 1) * self.counter * 0.0833), 1)
         if self.counter >= 12 then
             garb_funisinfinite = true
             play_sound('cancel', 0.7, 0.8)
