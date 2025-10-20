@@ -368,6 +368,16 @@ end
 
 local draw_ref = Card.draw
 function Card:draw(layer)
+    if self.config.center.rarity == 'garb_rainbow' and not self.deckedoutinswag then
+        self.children.back = Sprite(self.T.x, self.T.y, self.T.w, self.T.h, G.ASSET_ATLAS["garb_GarbDecks"], {x = 2, y = 1})
+        self.children.back.states.hover = self.states.hover
+        self.children.back.states.click = self.states.click
+        self.children.back.states.drag = self.states.drag
+        self.children.back.states.collide.can = false
+        self.children.back:set_role({major = self, role_type = 'Glued', draw_major = self})
+        self.deckedoutinswag = true
+    end
+
     if self.config.center.key == 'j_garb_showoff' and
         (self.edition and self.edition.negative) and
         self.config.center.discovered then
