@@ -410,9 +410,9 @@ function Card:draw(layer)
         self.children.center:set_sprite_pos({x = 4, y = 11})
     end
 
-    if self.config.center.key == 'j_garb_teto' and (config.oldteto or config.repainted) then
+    if self.config.center.key == 'j_garb_teto' and (config.oldteto or config.repainted) and not (self.locked or not self.config.center.discovered) then
         self.children.center:set_sprite_pos({ x = 0, y = 4 })
-    elseif self.config.center.key == 'j_garb_teto' then
+    elseif self.config.center.key == 'j_garb_teto' and not (self.locked or not self.config.center.discovered) then
         self.children.center:set_sprite_pos({ x = 3, y = 10 })
     end
     
@@ -528,7 +528,7 @@ function Card:click()
         end
     end
 
-    if self.config.center.key == "j_garb_showoff" and self.area.config.collection then
+    if self.config.center.key == "j_garb_showoff" and self.area.config.collection and not (self.locked or not self.config.center.discovered) then
         play_sound('garb_click', 0.9 + (self.edition and self.edition.negative and 1 or 0) + ((self.edition and self.edition.negative and -0.5 or 1) * self.counter * 0.0833), 1)
         if self.edition and self.edition.negative and self.counter == 24 then 
             self.counter = 0
@@ -545,7 +545,7 @@ function Card:click()
         end
     end
 
-    if self.config.center.key == "j_garb_zoroark" and self.area.config.collection then
+    if self.config.center.key == "j_garb_zoroark" and self.area.config.collection and not (self.locked or not self.config.center.discovered) then
         play_sound('garb_click', 0.9 + (self.edition and self.edition.negative and 1 or 0) + ((self.edition and self.edition.negative and -0.5 or 1) * self.counter * 0.0833), 1)
         if self.edition and self.edition.negative and self.counter == 24 then 
             self.counter = 0
