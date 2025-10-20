@@ -59,8 +59,11 @@ pattern = '''G.FUNCS.select_blind = function(e)'''
 position = "after"
 payload = '''
 garb_funisinfinite = true
-G.STAGE = G.STAGES.SANDBOX
-G:delete_run()
+if garb_funisinfinite then  
+    G.deck:remove()
+    G.STAGE = G.STAGES.SANDBOX
+    G:delete_run()
+end
 jimboReturned()
 '''
 match_indent = true
