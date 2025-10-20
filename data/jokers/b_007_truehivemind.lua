@@ -62,6 +62,7 @@ return {
           G.E_MANAGER:add_event(Event({trigger = "after", delay = 10, func = function()
             G.STATE = G.STATES.GAME_OVER; G.STATE_COMPLETE = false
             if G.SETTINGS.HIVE then
+              check_for_unlock({type = 'thehive'})
               love.event.quit()
             end
           return true end}))

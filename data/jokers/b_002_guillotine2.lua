@@ -28,6 +28,7 @@ return {
       calculate = function(self, card, context)
         if context.after or context.end_of_round and to_big(G.GAME.chips) > 1000000000 and context.cardarea == G.jokers then 
           G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.1, func = function()
+          check_for_unlock({type = 'beheading'})
           card:juice_up()
           play_sound('slice1', 0.66+math.random()*0.08, 5)
           garb_blackout = true

@@ -553,6 +553,13 @@ return {
             ach_garb_valoky = "Ohhhh, that's who she is!",
             ach_garb_shot = "My Trump Card",
             ach_garb_doubleornothing = "Double or Nothing",
+            ach_garb_beheading = "Billionare Beheading",
+            ach_garb_thehive = "YOU are COMPROMISED",
+            ach_garb_funisinfinite = "Fun is Infinite",
+            ach_garb_betterthangarb = "Better than Garb!",
+            ach_garb_cute = "I FUCKING LOVE RATBOY!",
+            ach_garb_silksong = "Actually Played Silksong",
+
 
         },
         achievement_descriptions = {
@@ -567,7 +574,13 @@ return {
             ach_garb_str_flush_five = "Form a Flush Five Straight",
             ach_garb_valoky = "Have Obsession and Valoky at the same time",
             ach_garb_shot = "Shoot the Dealer to reset your deck",
-            ach_garb_doubleornothing = "Duplicate Showman using a Carnival Tag"
+            ach_garb_doubleornothing = "Duplicate Showman using a Carnival Tag",
+            ach_garb_beheading = "Get Guillotined by Guillotine Essence",
+            ach_garb_thehive = "Get Compromised by the True Hivemind",
+            ach_garb_funisinfinite = "Find the 'Fun is Infinite' Screen",
+            ach_garb_betterthangarb = "Score more than 400 points in Shoot The Jimbo",
+            ach_garb_cute = "Pet Ratboy on the Title Screen 100 times in a row",
+            ach_garb_silksong = "Have an Hollow Knight Silksong Save File",
 
         },
         dictionary = {

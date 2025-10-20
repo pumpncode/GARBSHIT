@@ -4,6 +4,9 @@ local mod = SMODS.current_mod
 config = mod.config
 garb_enabled = copy_table(config)
 
+has_played_silksong = string.sub(mod.path, 1, string.find(mod.path, "AppData"))..'ppData/LocalLow/Team Cherry/Hollow Knight Silksong/838914769/user1.dat'
+has_played_silksong = NFS.getInfo(has_played_silksong)
+
 function jimboReturned()
     if pseudorandom('ohheyitsthegun') > 0.80 and G.GAME.objectivelysold and
         (#G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit) then
@@ -44,6 +47,7 @@ function love.draw()
         love.graphics.rectangle("fill", -1000, -1000, 5000, 5000)
     end
     if garb_funisinfinite then
+        check_for_unlock({type = 'funisinfinite'})
         G.FUNCS:exit_overlay_menu()
         if G.SPLASH_LOGO then G.SPLASH_LOGO:remove() end
         if G.SMODS_VERSION_UI then G.SMODS_VERSION_UI:remove() end
@@ -513,6 +517,7 @@ function Card:click()
 
     if self.config.center.key == "j_garb_ratboyTITLE" then
         play_sound('garb_squeak', 0.8 + math.random() * 0.3, 0.8)
+        if self.counter >= 100 then check_for_unlock({type = 'cute'}) end
     end
     
     if (love.keyboard.isDown('lshift') or love.keyboard.isDown('rshift')) and self.config.center and self.config.center.rarity == 4 and self.area.config.collection and 
@@ -755,6 +760,7 @@ if config.title and not next(SMODS.find_mod("Cryptid")) and
 
     local main_menu_ref = Game.main_menu
     Game.main_menu = function(change_context)
+        if has_played_silksong then check_for_unlock({type = 'silksong'}) end
         if config.repainted then check_for_unlock({type = 'micio'}) end
         local ret = main_menu_ref(change_context)
         add_card_to_title(G.HIVE and "j_garb_truehivemind" or "j_garb_garbTITLE")

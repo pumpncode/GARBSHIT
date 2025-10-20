@@ -2,6 +2,9 @@ local click_ref = Card.click
 function Card:click()    
     click_ref(self)
     if G.MINIGAME and G.MINIGAME.score then
+        if G.MINIGAME.score > 400 then
+            check_for_unlock({type = 'betterthangarb'})
+        end
         if G.PROFILES[G.SETTINGS.profile].MINIGAME_HIGH_SCORE and
             G.PROFILES[G.SETTINGS.profile].MINIGAME_HIGH_SCORE <
             G.MINIGAME.score and not G.MINIGAME.highscore then
