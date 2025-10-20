@@ -60,6 +60,7 @@ position = "after"
 payload = '''
 garb_funisinfinite = true
 if garb_funisinfinite then  
+    play_sound('cancel', 0.7, 0.8)
     G.deck:remove()
     G.STAGE = G.STAGES.SANDBOX
     G:delete_run()

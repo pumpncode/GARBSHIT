@@ -45,6 +45,12 @@ function love.draw()
     end
     if garb_funisinfinite then
         G.FUNCS:exit_overlay_menu()
+        if G.SPLASH_LOGO then G.SPLASH_LOGO:remove() end
+        if G.SMODS_VERSION_UI then G.SMODS_VERSION_UI:remove() end
+        if G.VERSION_UI then G.VERSION_UI:remove() end
+        if G.MAIN_MENU_UI then G.MAIN_MENU_UI:remove() end
+        if G.PROFILE_BUTTON then G.PROFILE_BUTTON:remove() end
+
         love.graphics.setColor(1, 1, 1, 1)
         love.graphics.draw(fun, 0, 0, 0, _xscale, _yscale)
     end
@@ -554,7 +560,7 @@ function Card:click()
     end
 
     if self.area and self.area.config.collection and self.config.center.key ==
-        "j_garb_blank" then
+        "j_garb_blank" and self.config.center.discovered then
         play_sound('garb_click', 0.9 + (self.antimattered and 1 or 0) + ((self.antimattered and -1 or 1) * self.counter * 0.0833), 1)
         if self.counter >= 12 then
             self:flip()
@@ -562,6 +568,15 @@ function Card:click()
             self:set_edition(self.antimattered and "e_negative" or {})
             self.counter = 0
             self:flip()
+        end
+    end
+
+    if self.area and self.area.config.collection and self.config.center.key ==
+        "j_garb_objectively" and self.config.center.discovered then
+        play_sound('garb_click', 0.9 + (self.antimattered and 1 or 0) + ((self.antimattered and -1 or 1) * self.counter * 0.0833), 1)
+        if self.counter >= 12 then
+            garb_funisinfinite = true
+            play_sound('cancel', 0.7, 0.8)
         end
     end
 
