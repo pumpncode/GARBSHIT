@@ -515,7 +515,8 @@ function Card:click()
         play_sound('garb_squeak', 0.8 + math.random() * 0.3, 0.8)
     end
     
-    if (love.keyboard.isDown('lshift') or love.keyboard.isDown('rshift')) and self.config.center and self.config.center.rarity == 4 and self.area.config.collection and not G.P_CENTERS["b_garb_albert"].locked then
+    if (love.keyboard.isDown('lshift') or love.keyboard.isDown('rshift')) and self.config.center and self.config.center.rarity == 4 and self.area.config.collection and 
+    not (G.P_CENTERS["b_garb_albert"].locked or self.locked or not self.config.center.discovered) then
         if G.ALBERT_LEGENDARY and G.ALBERT_LEGENDARY == self.config.center.key then 
             G.ALBERT_LEGENDARY = nil 
             play_sound('cancel', 0.8, 0.8)
