@@ -121,29 +121,28 @@ SMODS.current_mod.config_tab = function()
                 }
             }
         }, create_toggle({
-            label = "Joker Music (Fukkireta and Yababaina)",
+            label = "GARBSHIT Repainted (Requires Restart)",
             ref_table = config,
-            ref_value = "fukkireta"
-        }), create_toggle({
-            label = "Old Teto Sprite",
-            ref_table = config,
-            ref_value = "oldteto",
+            ref_value = "repainted",
+            callback = G.FUNCS.garb_restart
         }), create_toggle({
             label = "Custom Title Screen (Requires Restart)",
             ref_table = config,
             ref_value = "title",
             callback = G.FUNCS.garb_restart
         }), create_toggle({
+            label = "Old Teto Sprite",
+            ref_table = config,
+            ref_value = "oldteto",
+        }), create_toggle({
             label = "On-Card Credits",
             ref_table = config,
             ref_value = "on_card_credits"
         }), create_toggle({
-            label = "GARBSHIT Repainted (Requires Restart)",
+            label = "Joker Music (Fukkireta, Yababaina)",
             ref_table = config,
-            ref_value = "repainted",
-            callback = G.FUNCS.garb_restart
-        })
-
+            ref_value = "fukkireta"
+        }), 
     }
     return {
         n = G.UIT.ROOT,
@@ -378,8 +377,16 @@ end
 
 local draw_ref = Card.draw
 function Card:draw(layer)
-    if self.config.center.rarity == 'garb_rainbow' and not self.deckedoutinswag then
-        self.children.back = Sprite(self.T.x, self.T.y, self.T.w, self.T.h, G.ASSET_ATLAS["garb_GarbDecks"], {x = 2, y = 1})
+    if self.config.center.rarity == 'garb_rainbow' and self.area.config.collection and not self.deckedoutinswag then
+        self.children.back = Sprite(self.T.x, self.T.y, self.T.w, self.T.h, G.ASSET_ATLAS["garb_GarbDecks"], {x = 0, y = 2})
+        self.children.back.states.hover = self.states.hover
+        self.children.back.states.click = self.states.click
+        self.children.back.states.drag = self.states.drag
+        self.children.back.states.collide.can = false
+        self.children.back:set_role({major = self, role_type = 'Glued', draw_major = self})
+        self.deckedoutinswag = true
+    elseif self.config.center.rarity == 'garb_rainbow' and self.area.config.collection and not self.deckedoutinswag then
+        self.children.back = Sprite(self.T.x, self.T.y, self.T.w, self.T.h, G.ASSET_ATLAS["garb_GarbDecks"], {x = 0, y = 2})
         self.children.back.states.hover = self.states.hover
         self.children.back.states.click = self.states.click
         self.children.back.states.drag = self.states.drag

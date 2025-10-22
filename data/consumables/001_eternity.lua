@@ -6,7 +6,7 @@ return {
     name = config.repainted and 'Flashback' or 'Eternity',
     text = {
       "Exchange selected Joker",
-      "for {E:1,C:legendary}-1 Ante"
+      "to go back to {E:1,C:legendary}Ante 1"
     }
   },
 
@@ -30,7 +30,7 @@ return {
       play_sound('timpani')
       _card = G.jokers.highlighted[1]
       _card:start_dissolve(nil, false)
-      ease_ante(-1)
+      ease_ante(-G.GAME.round_resets.ante+1)
       delay(0.6)
     end
 },

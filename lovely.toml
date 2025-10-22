@@ -297,7 +297,7 @@ target = "card.lua"
 pattern = "play_sound('explosion_release1')"
 position = "at"
 payload = '''
-if self.config.center and self.config.center.set and (self.config.center.set == "Joker" or self.config.center.set == "Enhanced" or self.config.center.consumeable) then
+if not (self.config.center and self.config.center.set and self.config.center.set == "Booster") then
     play_sound('garb_explosion')
 else
     play_sound('explosion_release1')   

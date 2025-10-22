@@ -190,6 +190,16 @@ return {
             return garb_funisinfinite and 100
         end
     }, 
+     SMODS.Sound {
+        key = "music_yababaina",
+        path = {["default"] = "music_yababaina.ogg"},
+        sync = false,
+        pitch = 1,
+        select_music_track = function()
+            return next(SMODS.find_card("j_garb_yababaina")) and 100 and
+                       config.fukkireta or false
+        end
+    }, 
     SMODS.Atlas({key = "fish", path = "fish.png", px = 71, py = 95}),
 
     SMODS.Shader {
