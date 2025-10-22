@@ -491,7 +491,9 @@ return {
                     "{C:inactive,S:1.5}(#1#){}",
                 },
                 unlock = {
-                    "{E:1,s:1.3}?????"
+                    "{E:1,s:1.3}?????",
+                    "{C:inactive,s:0.9,E:1}(Hint: The answer might be",
+                    "{C:inactive,s:0.9,E:1}waiting for you back home){}"
                 }
             },
             b_garb_kaleido_alt = {
