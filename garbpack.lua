@@ -480,7 +480,7 @@ function Card:dialogue_say_stuff(n, not_first, pitch)
         end
         play_sound('voice' .. math.random(1, 11),
                    pitch * (math.random() * 0.2 + 1), 0.5)
-        self:juice_up()
+        self:juice_up(0.4/G.SETTINGS.GAMESPEED, 0.4/G.SETTINGS.GAMESPEED)
         G.E_MANAGER:add_event(Event({
             trigger = "after",
             blockable = false,
@@ -512,7 +512,7 @@ function Card:add_dialogue(text_key, align, yap_amount, baba_pitch)
         major = self
     }
     self.children.speech_bubble.states.visible = false
-    local yap_amount = yap_amount or 5
+    local yap_amount = (yap_amount or 5)*G.SETTINGS.GAMESPEED/2
     local baba_pitch = baba_pitch or 1
     self:dialogue_say_stuff(yap_amount, nil, baba_pitch)
 end

@@ -4,14 +4,14 @@ return {
     loc_txt = {
       name = 'Snowball',
       text = {
-        "{C:chips}+#1#{} Chips",
+      "{C:chips}+#1#{} Chips",
       "Amount is {C:attention}doubled{} when",
       "a card is {C:attention}retriggered{}",
       "{C:inactive}(Amount resets each hand){}",
       "{C:inactive}(Last payout: {C:chips}+#2#{} {C:inactive}Chips){}"
       }
     },
-    config = { extra = { chips = 5, last_scored = 0 } },
+    config = { extra = { chips = 10, last_scored = 0 } },
     loc_vars = function(self, info_queue, card)
       return { vars = { card.ability.extra.chips } }
     end,
