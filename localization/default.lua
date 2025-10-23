@@ -530,10 +530,11 @@ return {
                 "{C:dark_edition,E:2}Omegaflowey18{} - Showoff, Zoroark",
                 "{C:dark_edition,E:2}Valoky{} - Obsession",
                 "{C:dark_edition,E:2}Astro{} - Kirby",
+                "{C:dark_edition,E:2}MrCr33ps{} - Sacred Heart",
                 " ",
                 "{s:1.5,C:attention,E:2}Also Try:",
                 "{C:dark_edition,E:1}Rofflatro, Victin's Collection, Aikoyori's Shenanigans{}",
-                "{C:dark_edition,E:1}Revo's Vault, Prism{}",
+                "{C:dark_edition,E:1}Revo's Vault, Prism, HotPot, Hollow Knight Silksong{}",
                 " ",
                 "{s:0.9}Special thanks to the {C:attention,s:0.9}Balatro Discord!{}"
             }
