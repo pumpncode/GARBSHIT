@@ -54,6 +54,7 @@ return {
         px = 71, -- width of one card
         py = 95 -- height of one card
     }, SMODS.Sound {key = "mirrorz", path = {["default"] = "mirror2.ogg"}},
+
     SMODS.Atlas{      
         key = 'GarbStickers', -- atlas key
         path = 'Stickers.png', -- atlas' path in (yourMod)/assets/1x or (yourMod)/assets/2x
@@ -128,6 +129,8 @@ return {
     SMODS.Sound {key = "click", path = {["default"] = "click.ogg"}},
     SMODS.Sound {key = "shiny", path = {["default"] = "shiny.ogg"}},
     SMODS.Sound {key = "secret", path = {["default"] = "secret.ogg"}},
+    SMODS.Sound {key = "shade1", path = {["default"] = "shade.ogg"}},
+    SMODS.Sound {key = "shade2", path = {["default"] = "shade2.ogg"}},
 
     SMODS.Sound {
         key = "music_stamps",

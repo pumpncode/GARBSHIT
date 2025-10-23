@@ -5,7 +5,7 @@ return {
             name = 'GARBSHIT 2',
             text = {
                 "I HAVE {C:attention,s:1.3}ADDED{} TOO MANY {C:red,s:1.3}EXPLOSIONS{}",
-                "{s:1.2}HELP ME", "{s:1.3}OH MY GOD", "{s:0.8,C:inactive}(MY INSURANCE ONLY COVERS {s:0.8,C:money}$#1#{} {s:0.8,C:inactive}ON CARD EXPLOSIONS!)"
+                "{s:1.2}HELP ME", "{s:1.3}OH MY GOD", "{s:0.8,C:inactive}(MY INSURANCE ONLY COVERS {s:0.8,C:money}$#1#{} {s:0.8,C:inactive}ON CARD EXPLOSIONS)"
             }
         },
         config = {

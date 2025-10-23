@@ -504,7 +504,7 @@ return {
                     "{C:inactive,S:1.5}(#1#){}",
                 },
                 unlock = {
-                    "Score {C:attention}250{} points or more in",
+                    "Score {C:attention}200{} points or more in",
                     "{E:1,C:attention}Shoot the Jimbo"
                 }
             },

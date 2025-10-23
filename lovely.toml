@@ -190,6 +190,17 @@ G.garb_kirby = CardArea(
     G.garb_kirby_H, 
     {card_limit = 1, type = 'cs_stack', highlight_limit = 0}
 )
+
+G.garb_void_W = 4.9*G.CARD_W
+G.garb_void_H = 0.95*G.CARD_H
+
+G.garb_void = CardArea(
+    G.jokers.T.x,
+    G.jokers.T.y - (G.jokers.T.h*2), 
+    G.garb_void_W, 
+    G.garb_void_H, 
+    {card_limit = 1, type = 'cs_stack', highlight_limit = 0}
+)
 '''
 match_indent = true
 

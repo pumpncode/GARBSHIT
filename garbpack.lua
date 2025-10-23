@@ -4,7 +4,9 @@ local mod = SMODS.current_mod
 config = mod.config
 garb_enabled = copy_table(config)
 
-has_played_silksong = string.sub(mod.path, 1, string.find(mod.path, "AppData"))..'ppData/LocalLow/Team Cherry/Hollow Knight Silksong/838914769/user1.dat'
+has_played_silksong =
+    string.sub(mod.path, 1, string.find(mod.path, "AppData")) ..
+        'ppData/LocalLow/Team Cherry/Hollow Knight Silksong/838914769/user1.dat'
 has_played_silksong = NFS.getInfo(has_played_silksong)
 
 function jimboReturned()
@@ -25,22 +27,20 @@ function jimboReturned()
 end
 
 if next(SMODS.find_mod("balagay")) then
-  config.gay = true
-  else
-  config.gay = false
+    config.gay = true
+else
+    config.gay = false
 end
 
 local fun = (mod.path .. "assets/fun.png")
 fun = assert(NFS.newFileData(fun))
 fun = love.graphics.newImage(fun)
 
-
 local drawhook = love.draw
 function love.draw()
     drawhook()
     local _xscale = love.graphics.getWidth() / 2560
     local _yscale = love.graphics.getHeight() / 1440
-
 
     if garb_blackout then
         love.graphics.setColor(0, 0, 0, 1)
@@ -95,12 +95,15 @@ function G.FUNCS.garb_restart()
     end
 end
 
-function G.FUNCS.garb_reload_atlases()
-    G.FUNCS.change_pixel_smoothing({
-        to_key = G.SETTINGS.GRAPHICS.texture_scaling
-    })
-    return true
+GARB_TEXTURES = {'Standard', 'Repainted'}
+
+G.FUNCS.garb_textures = function(args)
+  G.SETTINGS.GRAPHICS.garb_textures = args.to_key
+  config.repainted = (G.SETTINGS.GRAPHICS.garb_textures == 2) and true or false
+  G:save_settings()
+  G.FUNCS.garb_restart()
 end
+
 
 SMODS.current_mod.config_tab = function()
     garb_nodes = {
@@ -121,11 +124,6 @@ SMODS.current_mod.config_tab = function()
                 }
             }
         }, create_toggle({
-            label = "GARBSHIT Repainted (Requires Restart)",
-            ref_table = config,
-            ref_value = "repainted",
-            callback = G.FUNCS.garb_restart
-        }), create_toggle({
             label = "Custom Title Screen (Requires Restart)",
             ref_table = config,
             ref_value = "title",
@@ -133,7 +131,7 @@ SMODS.current_mod.config_tab = function()
         }), create_toggle({
             label = "Old Teto Sprite",
             ref_table = config,
-            ref_value = "oldteto",
+            ref_value = "oldteto"
         }), create_toggle({
             label = "On-Card Credits",
             ref_table = config,
@@ -142,6 +140,15 @@ SMODS.current_mod.config_tab = function()
             label = "Joker Music (Fukkireta, Yababaina)",
             ref_table = config,
             ref_value = "fukkireta"
+        }), create_option_cycle({
+            w = 4,
+            scale = 0.8,
+            label = "Mod Textures (Requires Restart)",
+            options = GARB_TEXTURES,
+            opt_callback = 'garb_textures',
+            current_option = G.SETTINGS.GRAPHICS.garb_textures,
+            ref_table = G.SETTINGS.GRAPHICS,
+            ref_value = 'garb_textures'
         }), 
     }
     return {
@@ -346,52 +353,70 @@ end
 
 local update_ref = Card.update
 function Card:update(dt)
-    if self.config.center and self.config.center.rarity == 'garb_rainbow' and (not self.config.center.discovered) and (self.sprite_facing ~= 'back') then
+    if self.config.center and self.config.center.rarity == 'garb_rainbow' and
+        (not self.config.center.discovered) and (self.sprite_facing ~= 'back') then
         self.sprite_facing = 'back'
         self.facing = 'back'
         self.mystery = true
     end
 
-    if self.config.center and self.config.center.rarity == 'garb_rainbow' and self.config.center.discovered and self.sprite_facing == 'back' and self.mystery then
+    if self.config.center and self.config.center.rarity == 'garb_rainbow' and
+        self.config.center.discovered and self.sprite_facing == 'back' and
+        self.mystery then
         self.sprite_facing = 'front'
         self.facing = 'front'
         self.mystery = nil
     end
 
-    if G.ALBERT_LEGENDARY and self.config.center.key == G.ALBERT_LEGENDARY and self.area.config.collection and not self.stickered then
+    if G.ALBERT_LEGENDARY and self.config.center.key == G.ALBERT_LEGENDARY and
+        self.area.config.collection and not self.stickered then
         apply_remove_sticker(self, "garb_albert_selected")
         self.stickered = true
     end
 
-    
-    if self.stickered and (not G.ALBERT_LEGENDARY or G.ALBERT_LEGENDARY and self.config.center.key ~= G.ALBERT_LEGENDARY) then
+    if self.stickered and
+        (not G.ALBERT_LEGENDARY or G.ALBERT_LEGENDARY and self.config.center.key ~=
+            G.ALBERT_LEGENDARY) then
         self:flip()
         apply_remove_sticker(self, "garb_albert_selected")
         self.stickered = false
         self:flip()
     end
 
-
     update_ref(self, dt)
 end
 
 local draw_ref = Card.draw
 function Card:draw(layer)
-    if self.config.center.rarity == 'garb_rainbow' and self.area.config.collection and not self.deckedoutinswag then
-        self.children.back = Sprite(self.T.x, self.T.y, self.T.w, self.T.h, G.ASSET_ATLAS["garb_GarbDecks"], {x = 0, y = 2})
+    if self.config.center.rarity == 'garb_rainbow' and
+        self.area.config.collection and not self.deckedoutinswag then
+        self.children.back = Sprite(self.T.x, self.T.y, self.T.w, self.T.h,
+                                    G.ASSET_ATLAS["garb_GarbDecks"],
+                                    {x = 0, y = 2})
         self.children.back.states.hover = self.states.hover
         self.children.back.states.click = self.states.click
         self.children.back.states.drag = self.states.drag
         self.children.back.states.collide.can = false
-        self.children.back:set_role({major = self, role_type = 'Glued', draw_major = self})
+        self.children.back:set_role({
+            major = self,
+            role_type = 'Glued',
+            draw_major = self
+        })
         self.deckedoutinswag = true
-    elseif self.config.center.rarity == 'garb_rainbow' and self.area.config.collection and not self.deckedoutinswag then
-        self.children.back = Sprite(self.T.x, self.T.y, self.T.w, self.T.h, G.ASSET_ATLAS["garb_GarbDecks"], {x = 0, y = 2})
+    elseif self.config.center.rarity == 'garb_rainbow' and
+        self.area.config.collection and not self.deckedoutinswag then
+        self.children.back = Sprite(self.T.x, self.T.y, self.T.w, self.T.h,
+                                    G.ASSET_ATLAS["garb_GarbDecks"],
+                                    {x = 0, y = 2})
         self.children.back.states.hover = self.states.hover
         self.children.back.states.click = self.states.click
         self.children.back.states.drag = self.states.drag
         self.children.back.states.collide.can = false
-        self.children.back:set_role({major = self, role_type = 'Glued', draw_major = self})
+        self.children.back:set_role({
+            major = self,
+            role_type = 'Glued',
+            draw_major = self
+        })
         self.deckedoutinswag = true
     end
 
@@ -421,12 +446,15 @@ function Card:draw(layer)
         self.children.center:set_sprite_pos({x = 4, y = 11})
     end
 
-    if self.config.center.key == 'j_garb_teto' and (config.oldteto or config.repainted) and not (self.locked or not self.config.center.discovered) then
-        self.children.center:set_sprite_pos({ x = 0, y = 4 })
-    elseif self.config.center.key == 'j_garb_teto' and not (self.locked or not self.config.center.discovered) then
-        self.children.center:set_sprite_pos({ x = 3, y = 10 })
+    if self.config.center.key == 'j_garb_teto' and
+        (config.oldteto or config.repainted) and
+        not (self.locked or not self.config.center.discovered) then
+        self.children.center:set_sprite_pos({x = 0, y = 4})
+    elseif self.config.center.key == 'j_garb_teto' and
+        not (self.locked or not self.config.center.discovered) then
+        self.children.center:set_sprite_pos({x = 3, y = 10})
     end
-    
+
     draw_ref(self, layer)
 end
 
@@ -490,11 +518,11 @@ function Card:add_dialogue(text_key, align, yap_amount, baba_pitch)
 end
 
 function apply_remove_sticker(card, sticker)
-	if card[sticker] or card.ability[sticker] then
-		SMODS.Stickers[sticker]:apply(card, false)
-	else
-		SMODS.Stickers[sticker]:apply(card, true)
-	end
+    if card[sticker] or card.ability[sticker] then
+        SMODS.Stickers[sticker]:apply(card, false)
+    else
+        SMODS.Stickers[sticker]:apply(card, true)
+    end
 end
 
 function Card:remove_dialogue(timer)
@@ -526,13 +554,16 @@ function Card:click()
         play_sound('garb_squeak', 0.8 + math.random() * 0.3, 0.8)
         if self.counter >= 100 then check_for_unlock({type = 'cute'}) end
     end
-    
-    if (love.keyboard.isDown('lshift') or love.keyboard.isDown('rshift')) and self.config.center and self.config.center.rarity == 4 and self.area.config.collection and 
-    not (G.P_CENTERS["b_garb_albert"].locked or self.locked or not self.config.center.discovered) then
-        if G.ALBERT_LEGENDARY and G.ALBERT_LEGENDARY == self.config.center.key then 
-            G.ALBERT_LEGENDARY = nil 
+
+    if (love.keyboard.isDown('lshift') or love.keyboard.isDown('rshift')) and
+        self.config.center and self.config.center.rarity == 4 and
+        self.area.config.collection and
+        not (G.P_CENTERS["b_garb_albert"].locked or self.locked or
+            not self.config.center.discovered) then
+        if G.ALBERT_LEGENDARY and G.ALBERT_LEGENDARY == self.config.center.key then
+            G.ALBERT_LEGENDARY = nil
             play_sound('cancel', 0.8, 0.8)
-        else 
+        else
             self:flip()
             G.ALBERT_LEGENDARY = self.config.center.key
             play_sound('coin2')
@@ -540,9 +571,14 @@ function Card:click()
         end
     end
 
-    if self.config.center.key == "j_garb_showoff" and self.area.config.collection and not (self.locked or not self.config.center.discovered) then
-        play_sound('garb_click', 0.9 + (self.edition and self.edition.negative and 1 or 0) + ((self.edition and self.edition.negative and -0.5 or 1) * self.counter * 0.0833), 1)
-        if self.edition and self.edition.negative and self.counter == 24 then 
+    if self.config.center.key == "j_garb_showoff" and
+        self.area.config.collection and
+        not (self.locked or not self.config.center.discovered) then
+        play_sound('garb_click',
+                   0.9 + (self.edition and self.edition.negative and 1 or 0) +
+                       ((self.edition and self.edition.negative and -0.5 or 1) *
+                           self.counter * 0.0833), 1)
+        if self.edition and self.edition.negative and self.counter == 24 then
             self.counter = 0
             self:flip()
             play_sound('cancel', 0.8)
@@ -557,9 +593,14 @@ function Card:click()
         end
     end
 
-    if self.config.center.key == "j_garb_zoroark" and self.area.config.collection and not (self.locked or not self.config.center.discovered) then
-        play_sound('garb_click', 0.9 + (self.edition and self.edition.negative and 1 or 0) + ((self.edition and self.edition.negative and -0.5 or 1) * self.counter * 0.0833), 1)
-        if self.edition and self.edition.negative and self.counter == 24 then 
+    if self.config.center.key == "j_garb_zoroark" and
+        self.area.config.collection and
+        not (self.locked or not self.config.center.discovered) then
+        play_sound('garb_click',
+                   0.9 + (self.edition and self.edition.negative and 1 or 0) +
+                       ((self.edition and self.edition.negative and -0.5 or 1) *
+                           self.counter * 0.0833), 1)
+        if self.edition and self.edition.negative and self.counter == 24 then
             self.counter = 0
             self:flip()
             self:set_edition({negative = false}, true)
@@ -574,7 +615,9 @@ function Card:click()
 
     if self.area and self.area.config.collection and self.config.center.key ==
         "j_garb_blank" and self.config.center.discovered then
-        play_sound('garb_click', 0.9 + (self.antimattered and 1 or 0) + ((self.antimattered and -1 or 1) * self.counter * 0.0833), 1)
+        play_sound('garb_click', 0.9 + (self.antimattered and 1 or 0) +
+                       ((self.antimattered and -1 or 1) * self.counter * 0.0833),
+                   1)
         if self.counter >= 12 then
             self:flip()
             self.antimattered = not self.antimattered

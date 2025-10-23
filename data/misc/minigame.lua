@@ -21,7 +21,7 @@ function Card:click()
         if G.MINIGAME.phase == 2 and not G.MINIGAME.phaseT[2] then
             ease_background_colour {
                 new_colour = G.C.BLIND["Big"],
-                special_colour = G.C.PURPLE,
+                special_colour = darken(G.C.BLACK, 0.4),
                 contrast = 1
             }
             play_sound('garb_jimboss_defeat', 0.9 + math.random() * 0.1, 1)
@@ -44,6 +44,7 @@ function Card:click()
             play_sound('garb_jimboss_defeat', 0.9 + math.random() * 0.1, 1)
             G.MINIGAME.phaseT[G.MINIGAME.phase] = true
         elseif G.MINIGAME.phase == 5 and not G.MINIGAME.phaseT[5] then
+            check_for_unlock({type = 'kaleido_deck'})
             ease_background_colour {
                 new_colour = G.C.GARB_T1,
                 special_colour = G.C.GARB_T2,
@@ -53,7 +54,6 @@ function Card:click()
             play_sound('garb_jimboss_defeat', 0.9 + math.random() * 0.1, 1)
             G.MINIGAME.phaseT[G.MINIGAME.phase] = true
         elseif G.MINIGAME.phase == 6 and not G.MINIGAME.phaseT[6] then
-            check_for_unlock({type = 'kaleido_deck'})
             ease_background_colour {
                 new_colour = darken(G.C.BLACK, 0.4),
                 special_colour = G.C.RAINBOW,
@@ -63,9 +63,9 @@ function Card:click()
             G.MINIGAME.phaseT[G.MINIGAME.phase] = true
         elseif G.MINIGAME.phase >= 7 and not G.MINIGAME.phaseT[G.MINIGAME.phase] then
             ease_background_colour {
-                new_colour = darken(G.C.SECONDARY_SET.Tarot, 0.4),
-                special_colour = G.C.BLUE,
-                tertiary_colour = G.C.GREEN,
+                new_colour = darken(G.C.BLACK, 0.4),
+                special_colour = G.C.RAINBOW,
+                tertiary_colour = darken(G.C.RAINBOW, 0.4),
                 contrast = 3
             }
             play_sound('garb_jimboss_defeat', 0.9 + math.random() * 0.1, 1)
@@ -606,15 +606,8 @@ function minigame()
                                  pseudoseed(
                                      "pos" .. math.random() .. G.TIMERS.REAL),
                                  -8, 32) / 4
-            local centercard = ((pseudorandom(
-                                   pseudoseed("baron" .. math.random() ..
-                                                  G.TIMERS.REAL)) < 0.02) and
-                                   G.P_CENTERS.j_baron) or
-                                   ((pseudorandom(
-                                       pseudoseed(
-                                           "gold" .. math.random() ..
-                                               G.TIMERS.REAL)) < 0.05) and
-                                       G.P_CENTERS.j_golden) or
+            local centercard = ((pseudorandom(pseudoseed("baron" .. math.random() .. G.TIMERS.REAL)) < 0.02) and G.P_CENTERS.j_baron) or
+                                   ((pseudorandom(pseudoseed("gold" .. math.random() .. G.TIMERS.REAL)) < 0.05) and G.P_CENTERS.j_golden) or
                                    G.P_CENTERS.j_joker
             centercard =
                 (pseudorandom("surge") * (1 + G.MINIGAME.score * 0.003) > 0.998) and
