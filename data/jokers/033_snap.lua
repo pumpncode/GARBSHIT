@@ -32,7 +32,7 @@ return {
       unlocked = true, 
       discovered = false, --whether or not it starts discovered
       blueprint_compat = true, --can it be blueprinted/brainstormed/other
-      eternal_compat = true, --can it be eternal
+      eternal_compat = false, --can it be eternal
       perishable_compat = true, --can it be perishable
       
       calculate = function(self, card, context)
