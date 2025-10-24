@@ -97,6 +97,8 @@ end
 
 GARB_TEXTURES = {'Standard', 'Repainted'}
 
+G.SETTINGS.GRAPHICS.garb_textures = config.repainted and 2 or 1
+
 G.FUNCS.garb_textures = function(args)
   G.SETTINGS.GRAPHICS.garb_textures = args.to_key
   config.repainted = (G.SETTINGS.GRAPHICS.garb_textures == 2) and true or false
