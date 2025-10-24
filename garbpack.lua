@@ -958,7 +958,7 @@ function scale_blind(amount)
                 G.HUD_blind:recalculate()
 
                 attention_text({
-                    text = '+' .. mod_text,
+                    text = ((amount<0) and '' or '+') .. mod_text,
                     scale = 0.8,
                     hold = 0.7,
                     cover = chips_UI.parent,
