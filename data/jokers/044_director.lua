@@ -2,7 +2,7 @@ return {
  SMODS.Joker {
     key = 'director',
     loc_txt = {
-      name = 'The Director',
+      name = config.repainted and 'The Painter' or 'The Director',
       text = {
         "Earn {C:money}$#1#{} for each",
         "{C:rare}Rare{} Joker owned",

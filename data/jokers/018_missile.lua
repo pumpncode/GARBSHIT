@@ -2,7 +2,7 @@ return {
  SMODS.Joker {
     key = 'missile',
     loc_txt = {
-      name = 'Magic Missile',
+      name = config.repainted and 'Gun' or'Magic Missile',
       text = {
         "{X:mult,C:white} X#1# {} Mult if",
         "played {C:attention}poker hand{}",

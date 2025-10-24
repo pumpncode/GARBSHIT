@@ -3,6 +3,158 @@ version = "2.0"
 dump_lua = true
 priority = 27
 
+# Objectively funnier returns (rerolling shop)
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''G.FUNCS.reroll_shop = function(e)'''
+position = "after"
+payload = '''
+jimboReturned()
+'''
+match_indent = true
+
+# Objectively funnier returns (using card)
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''  G.FUNCS.use_card = function(e, mute, nosave)'''
+position = "after"
+payload = '''
+jimboReturned()
+'''
+match_indent = true
+
+# Objectively funnier returns (selling joker)
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''card:sell_card()'''
+position = "before"
+payload = '''
+if card.config.center.set == 'Joker' then
+jimboReturned()
+end
+'''
+match_indent = true
+
+# Objectively funnier returns (buying joker)
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''local c1 = e.config.ref_table'''
+position = "after"
+payload = '''
+if c1.config.center.set == 'Joker' and pseudorandom('ohheyitsthegun') > 0.80 and G.GAME.objectivelysold then
+    card_transform(c1, "j_garb_objectively")
+end
+'''
+match_indent = true
+
+# Objectively funnier returns (starting blind)
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''G.FUNCS.select_blind = function(e)'''
+position = "after"
+payload = '''
+garb_funisinfinite = false
+if garb_funisinfinite then  
+    play_sound('cancel', 0.7, 0.8)
+    G.deck:remove()
+    G.STAGE = G.STAGES.SANDBOX
+    G:delete_run()
+end
+jimboReturned()
+'''
+match_indent = true
+
+# Objectively funnier returns (skipping booster)
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''G.FUNCS.skip_booster = function(e)'''
+position = "after"
+payload = '''
+jimboReturned()
+'''
+match_indent = true
+
+# Objectively funnier returns (skipping blind)
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''G.FUNCS.skip_blind = function(e)'''
+position = "after"
+payload = '''
+jimboReturned()
+'''
+match_indent = true
+
+
+# Zoroark Fade Disguise
+[[patches]]
+[patches.pattern]
+target = '''card.lua'''
+pattern = '''elseif context.end_of_round then'''
+position = "before"
+payload = '''
+elseif context.starting_shop then
+if self.ability.disguised and self.ability.disguised ~= self.config.center.key then 
+    card_transform(self, self.ability.disguised)
+    card_eval_status_text(self, 'extra', nil, nil, nil, { message = "Faded!" })
+end
+'''
+match_indent = true
+
+# Zoroark Fade Disguise on bought
+[[patches]]
+[patches.pattern]
+target = '''functions/button_callbacks.lua'''
+pattern = '''local c1 = e.config.ref_table'''
+position = "after"
+payload = '''
+if c1.ability.disguised then
+    card_transform(c1, c1.ability.disguised)
+    card_eval_status_text(c1, 'extra', nil, nil, nil, { message = "Faded!" })
+end
+'''
+match_indent = true
+
+# Giulis Score Debuffed Card
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/utils.lua"]'''
+pattern = '''            card_eval_status_text(card, 'debuff')'''
+position = "after"
+payload = '''
+if next(SMODS.find_card("j_garb_giulis")) then
+    SMODS.score_card(card, context)
+end
+'''
+match_indent = true
+
+# Jimmy Calculations
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = '''-- context.final_scoring_step calculations'''
+position = "before"
+payload = '''
+        if G.GAME.jimmies then
+            for i = 1, #G.GAME.jimmies do
+                local jimmy = G.GAME.jimmies[i]
+                local ret = jimmy:calculate_partner({full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, partner_main = true})
+                if ret then
+                    SMODS.trigger_effects({{individual = ret}}, jimmy)
+
+                end
+            end
+        end
+'''
+match_indent = false
+overwrite = false
+
 # Archives cardarea
 [[patches]]
 [patches.pattern]
@@ -19,6 +171,39 @@ G.garb_archived = CardArea(
   { type = "discard", card_limit = 1e100 }
 )
 '''
+
+# Add off-screen Stack area
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''G.SPLASH_BACK = Sprite(-30, -6, G.ROOM.T.w+60, G.ROOM.T.h+12, G.ASSET_ATLAS["ui_1"], {x = 2, y = 0})'''
+position = "before"
+payload = '''
+
+G.garb_kirby_W = 4.9*G.CARD_W
+G.garb_kirby_H = 0.95*G.CARD_H
+
+G.garb_kirby = CardArea(
+    G.jokers.T.x,
+    G.jokers.T.y - (G.jokers.T.h*2), 
+    G.garb_kirby_W, 
+    G.garb_kirby_H, 
+    {card_limit = 1, type = 'cs_stack', highlight_limit = 0}
+)
+
+G.garb_void_W = 4.9*G.CARD_W
+G.garb_void_H = 0.95*G.CARD_H
+
+G.garb_void = CardArea(
+    G.jokers.T.x,
+    G.jokers.T.y - (G.jokers.T.h*2), 
+    G.garb_void_W, 
+    G.garb_void_H, 
+    {card_limit = 1, type = 'cs_stack', highlight_limit = 0}
+)
+'''
+match_indent = true
+
 
 [[patches]]
 [patches.pattern]
@@ -42,46 +227,67 @@ position = "at"
 payload = '''local card = Card(0,0, 0.5*G.CARD_W, 0.5*G.CARD_H, G.P_CARDS[v[1]], G.P_CENTERS[v[3] or 'c_base'])'''
 match_indent = true
 
-# Flame On (Stolen from CardSauce)
+# garb_MINIGAME state
 [[patches]]
 [patches.pattern]
-target = "functions/button_callbacks.lua"
-pattern = "if G.ARGS.score_intensity.earned_score >= G.ARGS.score_intensity.required_score and G.ARGS.score_intensity.required_score > 0 then"
+target = "globals.lua"
+pattern = "SANDBOX = 3"
 position = "after"
 payload = '''
-if G.STATE == G.STATES.HAND_PLAYED and not G.GAME.FLAME_ON then
-    G.GAME.FLAME_ON = true
-end
+,garb_MINIGAME = 4
 '''
 match_indent = true
-overwrite = false
+times = 1
 
-# Flame On (FUCK TALISMAN)
 [[patches]]
 [patches.pattern]
-target = "functions/button_callbacks.lua"
-pattern = "if to_big(G.ARGS.score_intensity.earned_score) >= to_big(G.ARGS.score_intensity.required_score) and to_big(G.ARGS.score_intensity.required_score) > to_big(0) then"
-position = "after"
-payload = '''
-if G.STATE == G.STATES.HAND_PLAYED and not G.GAME.FLAME_ON then
-    G.GAME.FLAME_ON = true
-end
-'''
+target = '=[SMODS _ "src/ui.lua"]'
+pattern = 'gameMainMenuRef(self, change_context)'
+position = 'after'
+payload = """
+G.SMODS_VERSION_UI =
+"""
 match_indent = true
-overwrite = false
 
-# Flame Off
+
 [[patches]]
 [patches.pattern]
-target = "functions/button_callbacks.lua"
-pattern = "_F.intensity = 0"
+target = "game.lua"
+pattern = "--VERSION"
 position = "after"
 payload = '''
-G.GAME.FLAME_ON = false
+G.VERSION_UI =
 '''
 match_indent = true
-overwrite = false
+times = 1
+overwrite = true
 
+
+[[patches]]
+[patches.pattern]
+target = "globals.lua"
+pattern = "NEW_ROUND = 19,"
+position = "after"
+payload = '''
+garb_MINIGAME = 20,
+MINIGAME_TUTORIAL = 21,
+MINIGAME_OVER = 22,
+garb_SPECIAL_THANKS = 23
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "globals.lua"
+pattern = "{},{},{}"
+position = "at"
+payload = '''
+{},{},{},{}
+'''
+match_indent = true
+times = 1
+overwrite = true
 
 # Valoky Tags
 [[patches]]
@@ -96,78 +302,102 @@ match_indent = true
 times = 1
 overwrite = true
 
-# Jump Cards
+# eXPLOSION
 [[patches]]
 [patches.pattern]
-target = '=[SMODS _ "src/overrides.lua"]'
-pattern = 'local ranks = {}'
-position = "after"
-payload = 'local jumps = {}'
-match_indent = true
-[[patches]]
-[patches.pattern]
-target = '=[SMODS _ "src/overrides.lua"]'
-pattern = '''local id = card:get_id()'''
-position = "after"
+target = "card.lua"
+pattern = "play_sound('explosion_release1')"
+position = "at"
 payload = '''
-if SMODS.has_enhancement(card, 'm_garb_jump') then
-    id = 0
-    table.insert(jumps, card)
+if not (self.config.center and self.config.center.set and self.config.center.set == "Booster") then
+    play_sound('garb_explosion')
+else
+    play_sound('explosion_release1')   
 end
 '''
 match_indent = true
+times = 1
+overwrite = true
+
+# Fix Tags
 [[patches]]
 [patches.pattern]
-target = '=[SMODS _ "src/overrides.lua"]'
-pattern = 'if next(ranks[k]) then'
-position = "at"
-payload = 'if next(ranks[k]) or #jumps >= 1 then'
-match_indent = true
-[[patches]]
-[patches.pattern]
-target = '=[SMODS _ "src/overrides.lua"]'
-pattern = 'tuples[#tuples+1] = {k}'
-position = "after"
-payload = 'tuples[#tuples].jumps_remaining = #jumps - (next(ranks[k]) and 0 or 1)'
-match_indent = true
-[[patches]]
-[patches.pattern]
-target = '=[SMODS _ "src/overrides.lua"]'
-pattern = 'if i ~= #hand+1 then'
-position = "at"
-payload = 'if i + tuple.jumps_remaining ~= #hand+1 then'
-match_indent = true
-[[patches]]
-[patches.pattern]
-target = '=[SMODS _ "src/overrides.lua"]'
-pattern = 'if next(ranks[l]) then'
-position = "at"
-payload = 'if next(ranks[l]) or #jumps >= 1 then'
-match_indent = true
-[[patches]]
-[patches.pattern]
-target = '=[SMODS _ "src/overrides.lua"]'
-pattern = 'local new_tuple = {}'
-position = "after"
-payload = 'new_tuple.jumps_remaining = tuple.jumps_remaining - (next(ranks[l]) and 0 or 1)'
-match_indent = true
-[[patches]]
-[patches.pattern]
-target = '=[SMODS _ "src/overrides.lua"]'
-pattern = 'if i > min_length and not any_tuple then'
-position = "at"
-payload = 'if i + tuple.jumps_remaining > min_length and not any_tuple then'
-match_indent = true
-[[patches]]
-[patches.pattern]
-target = '=[SMODS _ "src/overrides.lua"]'
-pattern = 'ret[#ret+1] = straight'
+target = "functions/common_events.lua"
+pattern = "if G.FORCE_TAG then return G.FORCE_TAG end"
 position = "before"
 payload = '''
-for _, card in ipairs(jumps) do
-    straight[#straight+1] = card
-end'''
+G.FORCE_TAG = G.GAME.hivemind_stage and (G.GAME.hivemind_stage > 3) and "tag_standard" or nil
+'''
 match_indent = true
+times = 1
+
+# Fix the Hive
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "G.FUNCS.select_blind = function(e)"
+position = "after"
+payload = '''
+if G.SETTINGS.HIVE then
+
+    G.SETTINGS.HIVE = false
+    G.GAME.HIVE = true
+    G:save_progress()
+    G.FILE_HANDLER.force = true
+
+    for i = 1, 200 do
+        local xpos = G.play.T.x + pseudorandom("pos", -5, 20)
+        local ypos = G.play.T.y + pseudorandom("pos", -5, 20)
+        local _card = Card(xpos-G.CARD_W*0.6, ypos-G.CARD_H*1.6, G.CARD_W, G.CARD_H, G.P_CARDS.empty, G.P_CENTERS.j_garb_hiveSCARE)
+        _card:start_materialize()
+    end
+
+    play_sound('garb_honk', 1, 0.8)
+
+    play_sound('garb_infect', 0.4 + math.random()*0.1, 0.8)
+    play_sound('garb_infect', 0.4 + math.random()*0.1, 0.8)
+    play_sound('garb_infect', 0.4 + math.random()*0.1, 0.8)
+    play_sound('garb_infect', 0.4 + math.random()*0.1, 0.8)
+
+
+    G.E_MANAGER:add_event(Event({trigger = "after", delay = 5, func = function()
+        G.STATE = G.STATES.GAME_OVER; G.STATE_COMPLETE = false
+        love.event.quit()
+    return true end}))
+end
+'''
+match_indent = true
+times = 1
+
+
+# The Seat Apparition
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''G.FUNCS.reroll_shop = function(e)'''
+position = "after"
+payload = '''
+if pseudorandom('ohheyitstheseat') < 1/500 then
+    local new_card = SMODS.create_card{key = "j_garb_seat", no_edition = true}
+    new_card:add_to_deck()
+    G.jokers:emplace(new_card)
+    new_card:start_materialize()
+    play_sound('timpani')
+    card_eval_status_text(new_card, "extra", nil, nil, nil, {message = "???", colour = G.C.DARK_EDITION})
+end
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''badges[#badges + 1] = create_badge(((card.ability.name == 'Pluto' or card.ability.name == 'Ceres' or card.ability.name == 'Eris') and localize('k_dwarf_planet')) or (card.ability.name == 'Planet X' and localize('k_planet_q') or card_type),card_type_colour, nil, 1.2)'''
+position = "at"
+payload = '''
+badges[#badges + 1] = create_badge(((card.ability.name == 'Pluto' or card.ability.name == 'Ceres' or card.ability.name == 'Eris') and localize('k_dwarf_planet')) or (card.ability.name == 'Planet X' and localize('k_planet_q') or (card.config.center.key == 'j_garb_seat' and "???") or card_type),card_type_colour, nil, 1.2)
+'''
+match_indent = true
+
 
 
 # Golden Carrot

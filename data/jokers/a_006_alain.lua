@@ -4,10 +4,8 @@ return {
     loc_txt = {
       name = 'Alain',
       text = {
-        "When hand is played", 
-        "creates a {C:planet}Planet{} card",
-        "for played {C:attention}poker hand",
-        "and a {C:dark_edition}Negative{} of it",
+        "{C:attention}Sell{} a non-negative {C:planet}Planet{} card to",        
+        "create two {C:dark_edition}Negative{} copies of it",
       },
       unlock = {
         "{E:1,s:1.3}?????"
@@ -31,6 +29,7 @@ return {
     end,
 
     calculate = function(self, card, context)
+      --[[ OLD ALAIN
       if context.after and not context.debuffed_hand then
         G.E_MANAGER:add_event(Event({
           func = function()
@@ -56,6 +55,16 @@ return {
             colour = G.C.PLANET,
             card = card or context.blueprint_card
           }
+    end
+    ]]
+    for i = 1, 2 do
+      if context.selling_card and G.consumeables.highlighted[1].ability.set == "Planet" and (not G.consumeables.highlighted[1].edition or (G.consumeables.highlighted[1].edition.key ~= "e_negative")) then
+        local new_card = copy_card(G.consumeables.highlighted[1], nil, nil, nil, true)
+        new_card:set_edition('e_negative', true)
+        new_card:add_to_deck()
+        G.consumeables:emplace(new_card)
+        card:juice_up(0.3, 0.5)
+      end
     end
   end
 },

@@ -13,7 +13,7 @@ return {
         { 'H_K', true, "m_garb_jump" },
     },
     loc_txt = {
-            name = 'Straight Four',
+            name = config.gay and 'Gay Four' or 'Straight Four',
             description = {
               "4 of a Kind + Straight",
               "(Requires Jump Cards)"

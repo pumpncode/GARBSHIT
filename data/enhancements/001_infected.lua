@@ -43,6 +43,7 @@ return {
         if card.ability.extra.rounds == 0 then
           card.destroyme = true
           card_eval_status_text(G.deck, 'extra', nil, nil, nil, { message = "Destroyed!" })
+          SMODS.calculate_context({remove_playing_cards = true, removed = card, infected = true})
           card:start_dissolve(nil, _first_dissolve)
 				  _first_dissolve = true
         end

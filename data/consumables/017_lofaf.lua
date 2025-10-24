@@ -3,7 +3,7 @@ return {
     key = "lofaf",
 	  set = "Planet",
     loc_txt = {
-      name = 'LOFAF',
+      name = config.repainted and 'LOAF' or 'LOFAF',
       text = {
 					"{S:0.8}({S:0.8,V:1}lvl.#2#{S:0.8}){} Level up",
 					"{C:attention}#1#",

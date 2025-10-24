@@ -11,7 +11,7 @@ return {
     },
     config = { extra = {  } },
     loc_vars = function(self, info_queue, card)
-      if config.on_card_credits then
+      if config.on_card_credits and not config.repainted then
         info_queue[#info_queue+1] = {set = "Other", key = "credits", specific_vars = {"lamborghiniofficial"}} 
       end
       return { vars = {  } }

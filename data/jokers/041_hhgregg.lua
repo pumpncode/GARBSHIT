@@ -2,7 +2,7 @@ return {
  SMODS.Joker {
     key = 'hhgregg',
     loc_txt = {
-      name = 'hhgregg',
+      name = config.repainted and 'I am aware that there is no new texture, this is the joke' or 'hhgregg',
       text = {
         "All cards in the shop",
         "are {C:attention}discounted{} by {C:money}$#1#"

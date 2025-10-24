@@ -2,7 +2,7 @@ return {
  SMODS.Joker {
     key = 'snap',
     loc_txt = {
-      name = 'The Snap',
+      name = config.repainted and 'The Guy from Fortnite' or 'The Snap',
       text = {
         "Sell this card to",
         "halve the current",
@@ -32,48 +32,12 @@ return {
       unlocked = true, 
       discovered = false, --whether or not it starts discovered
       blueprint_compat = true, --can it be blueprinted/brainstormed/other
-      eternal_compat = true, --can it be eternal
+      eternal_compat = false, --can it be eternal
       perishable_compat = true, --can it be perishable
       
       calculate = function(self, card, context)
         if context.selling_self and G.STATE == G.STATES.SELECTING_HAND then
-            local create_champion_event = function()
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    delay = 0.8,
-                    func = function()
-                        if G.hand_text_area.blind_chips then
-                            local new_chips = math.floor(G.GAME.blind.chips * card.ability.extra.difficulty)
-                            local mod_text = number_format(
-                                math.floor(G.GAME.blind.chips * card.ability.extra.difficulty) - G.GAME.blind.chips
-                            )
-                            G.GAME.blind.chips = new_chips
-                            G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
-    
-                            local chips_UI = G.hand_text_area.blind_chips
-                            G.FUNCS.blind_chip_UI_scale(G.hand_text_area.blind_chips)
-                            G.HUD_blind:recalculate()
-    
-                            attention_text({
-                                text = mod_text,
-                                scale = 0.8,
-                                hold = 0.7,
-                                cover = chips_UI.parent,
-                                cover_colour = G.C.RED,
-                                align = 'cm'
-                            })
-    
-                            chips_UI:juice_up()
-    
-                            play_sound('chips2')
-                        else
-                        return false --create_champion_event()
-                        end
-                        return true
-                    end
-                }))
-            end
-            create_champion_event()
+            scale_blind(card.ability.extra.difficulty)
             play_sound('garb_snap', 1)
             return {
               message = "Snap!",

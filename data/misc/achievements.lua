@@ -132,4 +132,94 @@ SMODS.Achievement({
 		end
 	end
 }),
+
+SMODS.Achievement({
+	key = "beheading",
+	bypass_all_unlocked = true,
+	atlas = "garb_achievements",
+	pos = { x = 3, y = 0 },
+	-- reset_on_startup = true,
+	hidden_name = true,
+	hidden_text = true,
+	unlock_condition = function(self, args)
+		if args.type == "beheading" then
+			return true
+		end
+	end
+}),
+
+SMODS.Achievement({
+	key = "thehive",
+	bypass_all_unlocked = true,
+	atlas = "garb_achievements",
+	pos = { x = 3, y = 0 },
+	-- reset_on_startup = true,
+	hidden_name = true,
+	hidden_text = true,
+	unlock_condition = function(self, args)
+		if args.type == "thehive" then
+			return true
+		end
+	end
+}),
+
+SMODS.Achievement({
+	key = "funisinfinite",
+	bypass_all_unlocked = true,
+	atlas = "garb_achievements",
+	pos = { x = 3, y = 0 },
+	-- reset_on_startup = true,
+	hidden_name = true,
+	hidden_text = true,
+	unlock_condition = function(self, args)
+		if args.type == "funisinfinite" then
+			return true
+		end
+	end
+}),
+
+SMODS.Achievement({
+	key = "betterthangarb",
+	bypass_all_unlocked = true,
+	atlas = "garb_achievements",
+	pos = { x = 3, y = 0 },
+	-- reset_on_startup = true,
+	hidden_name = true,
+	hidden_text = true,
+	unlock_condition = function(self, args)
+		if args.type == "betterthangarb" then
+			return true
+		end
+	end
+}),
+
+SMODS.Achievement({
+	key = "cute",
+	bypass_all_unlocked = true,
+	atlas = "garb_achievements",
+	pos = { x = 2, y = 0 },
+	-- reset_on_startup = true,
+	hidden_name = true,
+	hidden_text = true,
+	unlock_condition = function(self, args)
+		if args.type == "cute" then
+			return true
+		end
+	end
+}),
+
+SMODS.Achievement({
+	key = "silksong",
+	bypass_all_unlocked = true,
+	atlas = "garb_achievements",
+	pos = { x = 3, y = 0 },
+	-- reset_on_startup = true,
+	hidden_name = true,
+	hidden_text = true,
+	unlock_condition = function(self, args)
+		if args.type == "silksong" then
+			return true
+		end
+	end
+}),
 }

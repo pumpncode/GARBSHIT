@@ -3,7 +3,7 @@ return {
     key = "skaia",
 	  set = "Planet",
     loc_txt = {
-      name = 'Skaia',
+      name = config.repainted and 'Sky' or 'Skaia',
       text = {
 					"{S:0.8}({S:0.8,V:1}lvl.#2#{S:0.8}){} Level up",
 					"{C:attention}#1#",

@@ -23,20 +23,28 @@ return {
       perishable_compat = true, --can it be perishable
       cost = 6,
       loc_vars = function(self, info_queue, card)
-      if config.on_card_credits then
-        info_queue[#info_queue+1] = {set = "Other", key = "credits", specific_vars = {"omegaflowey18"}} 
-      end
+        self.pos = {x = 6, y = 7}
+        if config.on_card_credits then
+          info_queue[#info_queue+1] = {set = "Other", key = "credits", specific_vars = {"omegaflowey18"}} 
+       end
+       if card.config.center.discovered then
+        if card.edition and card.edition.key == "e_negative" then
+          self.pos = {x = 1, y = 9}
+        end
+       end
         return { vars = { card.ability.extra.Xmult, card.ability.extra.Xmult_gain } }
     end,
       
       calculate = function(self, card, context)
-        if context.after and G.GAME.FLAME_ON then
+    if context.end_of_round and not card.debuff and not context.individual and not context.repetition and not context.blueprint then
+        if SMODS.last_hand_oneshot then
           card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_gain
           return {
               card = card,
               message = 'Upgraded!'
           }
         end
+    end
 
       if context.joker_main and card.ability.extra.Xmult > 1 then
         return {

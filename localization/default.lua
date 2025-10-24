@@ -25,10 +25,105 @@ return {
                 name = "Handshake",
 				text = {
 					"{C:attention}Click{} this partner to gain",
-                    "{C:money}#1#${} and add a {C:red}Debuffed{}",
+                    "{C:money}$#1#{} and add a {C:red}Debuffed{}",
                     "{C:attention}Stone{} Card to Deck",
                     "{C:inactive}(Max of {C:attention}#2#{C:inactive} each round)"
 			    },
+        },
+            pnr_garb_jimmy = {
+                name = "Jimmy",
+				text = {
+                    "{X:mult,C:white} X#3# {} Mult",
+					"{C:attention}Left-Click{} this partner to buy",
+                    "a {C:red}Jimmy{} for {C:money}$#1#{}",
+                    "{C:attention}Right-Click{} this partner to sell",
+                    "all {C:red}Jimmies{} for {C:money}$#2#{} each",
+			    },
+
+            },
+        },
+        Joker = {
+            j_garb_blank = {
+                name = "Blank Joker",
+                text = {
+                    "{C:inactive}Does nothing?"
+                },
+            },
+            j_garb_blank_alt = {
+                name = "Antimatter Joker",
+                text = {
+                    "{C:dark_edition}100{} Joker slots",
+                    "Blinds {C:attention}scale{} based",
+                    "on {C:attention}amount{} of Joker slots used",
+                },
+            },
+            j_garb_truehivemind_1 = {
+                name = "True Hivemind",
+                text = {
+                "{C:attention}Infected{} Cards give {X:mult,C:white} X#1# {} Mult when scored",
+                "Gains {X:mult,C:white} X#2# {} Mult every {C:attention}ante{}",
+                }
+            },
+
+            j_garb_truehivemind_2 = {
+                name = "True Hivemind",
+                text = {
+                "{C:attention}Infected{} Cards give {X:mult,C:white} X#1# {} Mult when scored",
+                "Gains {X:mult,C:white} X#2# {} Mult every {C:attention}ante{}",
+                "{C:attention}Standard{} Packs are {C:red}compromised"
+                }
+            },
+
+            j_garb_truehivemind_3 = {
+                name = "True Hivemind",
+                text = {
+                "{C:attention}Infected{} Cards give {X:mult,C:white} X#1# {} Mult when scored",
+                "Gains {X:mult,C:white} X#2# {} Mult every {C:attention}ante{}",
+                "{C:attention}Standard{} Packs are {C:red}compromised",
+                "{C:tarot}Tarot{} Packs are {C:red}compromised",
+                }
+            },
+
+            j_garb_truehivemind_4 = {
+                name = "True Hivemind",
+                text = {
+                "{C:attention}Infected{} Cards give {X:mult,C:white} X#1# {} Mult when scored",
+                "Gains {X:mult,C:white} X#2# {} Mult every {C:attention}ante{}",
+                "{C:attention}Standard{} Packs are {C:red}compromised",
+                "{C:tarot}Tarot{} Packs are {C:red}compromised",
+                "{C:attention}Skip Tags{} are {C:red}compromised",
+                }
+            },
+
+            j_garb_truehivemind_5 = {
+                name = "True Hivemind",
+                text = {
+                "{C:attention}Infected{} Cards give {X:mult,C:white} X#1# {} Mult when scored",
+                "Gains {X:mult,C:white} X#2# {} Mult every {C:attention}ante{}",
+                "{C:attention}Standard{} Packs are {C:red}compromised",
+                "{C:tarot}Tarot{} Packs are {C:red}compromised",
+                "{C:attention}Skip Tags{} are {C:red}compromised",
+                "{C:attention}The Deck{} is {C:red}compromised",
+                }
+            },
+
+            j_garb_truehivemind_6 = {
+                name = "True Hivemind",
+                text = {
+                "{C:attention}Infected{} Cards give {X:mult,C:white} X#1# {} Mult when scored",
+                "Gains {X:mult,C:white} X#2# {} Mult every {C:attention}ante{}",
+                "{C:attention}Standard{} Packs are {C:red}compromised",
+                "{C:tarot}Tarot{} Packs are {C:red}compromised",
+                "{C:attention}Skip Tags{} are {C:red}compromised",
+                "{C:attention}The Deck{} is {C:red}compromised",
+                "{C:attention}The Shop{} is {C:red}compromised",
+                }
+            },
+            j_garb_truehivemind_7 = {
+                name = "True Hivemind",
+                text = {
+                "{s:1.5,C:attention}The Game{} is {C:red}compromised",
+                }
             },
         },
         Enhanced = {
@@ -146,6 +241,13 @@ return {
         },
 
         Other = {
+            p_garb_rainbow_booster = {
+                name = "Kaleidoscope Deck",
+                text = {
+                    "Choose a Rainbow Joker"
+                },
+            },       
+
             p_garb_stamp_booster = {
                 name = "Postal Pack",
                 text = {
@@ -185,6 +287,15 @@ return {
                     "{E:1,C:attention}#1#"
                 }
             }, 
+
+            credits2 = {
+                name = "Credits",
+                text = {
+                    "Art by",
+                    "{E:1,C:attention}#1#"
+                }
+            }, 
+
 
             talisman_warning = {
                 name = "WARNING!",
@@ -322,6 +433,21 @@ return {
                     "Start run with a",
                     "{E:1,C:legendary}Legendary{} Joker",
                     "{C:red}X#1#{} base Blind size",
+                    "{C:inactive,s:0.8}(Click a Legendary Joker in the",
+                    "{C:inactive,s:0.7}collection while holding shift to select it!)"
+                },
+                unlock = {
+                    "Use a {C:stamp,T:c_garb_vintage}Vintage Stamp{} on",
+                    "a {E:1,C:legendary}Legendary{} Joker"
+                }
+            },
+            b_garb_albert_alt = {
+                name = "Albert's Deck",
+                text = {
+                    "Start run with a",
+                    "{E:1,C:legendary}Legendary{} Joker",
+                    "{C:red}X#1#{} base Blind size",
+                    "{C:inactive,s:0.8}(SELECTED: {C:dark_edition,s:0.8}#2#{C:inactive,s:0.8})"
                 },
                 unlock = {
                     "Use a {C:stamp,T:c_garb_vintage}Vintage Stamp{} on",
@@ -354,8 +480,33 @@ return {
                 text = {
                     "Start with {C:attention}1{} Joker slot",
                     "Gain {C:attention}+#1#{} Joker slot",
-                    "at the end of each Ante"
+                    "when buying any Voucher"
                 },
+            },
+            b_garb_kaleido = {
+                name = "Kaleidoscope Deck",
+                text = {
+                    "Start run with a",
+                    "{E:1,C:legendary}Rainbow{} Joker",
+                    "{C:inactive,S:1.5}(#1#){}",
+                },
+                unlock = {
+                    "{E:1,s:1.3}?????",
+                    "{C:inactive,s:0.9,E:1}(Hint: The answer might be",
+                    "{C:inactive,s:0.9,E:1}waiting for you back home){}"
+                }
+            },
+            b_garb_kaleido_alt = {
+                name = "Kaleidoscope Deck",
+                text = {
+                    "Start run with a",
+                    "{E:1,C:legendary}Rainbow{} Joker",
+                    "{C:inactive,S:1.5}(#1#){}",
+                },
+                unlock = {
+                    "Score {C:attention}200{} points or more in",
+                    "{E:1,C:attention}Shoot the Jimbo"
+                }
             },
         },
     
@@ -370,15 +521,20 @@ return {
                 "{s:1.5,C:attention,E:2}Credits:",
                 "{C:dark_edition,E:2}garb{} - Lead, Art, Code",
                 "{C:dark_edition,E:2}ejwu{} - Jump Cards implementation",
+                "{C:dark_edition,E:2}MrCr33ps{} - GARBSHIT Repainted",
                 " ",
                 "{s:1.25,C:attention,E:2}Joker Contributions:",
                 "{C:dark_edition,E:2}lamborghiniofficial{} - Backtrack",
                 "{C:dark_edition,E:2}64suns{} - Two of Cups",
+                "{C:dark_edition,E:2}Heaven{} - Teto!!!! (New Sprite)",
+                "{C:dark_edition,E:2}Omegaflowey18{} - Showoff, Zoroark",
                 "{C:dark_edition,E:2}Valoky{} - Obsession",
+                "{C:dark_edition,E:2}Astro{} - Kirby",
+                "{C:dark_edition,E:2}MrCr33ps{} - Sacred Heart",
                 " ",
                 "{s:1.5,C:attention,E:2}Also Try:",
                 "{C:dark_edition,E:1}Rofflatro, Victin's Collection, Aikoyori's Shenanigans{}",
-                "{C:dark_edition,E:1}Revo's Vault, Prism{}",
+                "{C:dark_edition,E:1}Revo's Vault, Prism, HotPot, Hollow Knight Silksong{}",
                 " ",
                 "{s:0.9}Special thanks to the {C:attention,s:0.9}Balatro Discord!{}"
             }
@@ -400,6 +556,13 @@ return {
             ach_garb_valoky = "Ohhhh, that's who she is!",
             ach_garb_shot = "My Trump Card",
             ach_garb_doubleornothing = "Double or Nothing",
+            ach_garb_beheading = "Billionare Beheading",
+            ach_garb_thehive = "YOU are COMPROMISED",
+            ach_garb_funisinfinite = "Fun is Infinite",
+            ach_garb_betterthangarb = "Better than Garb!",
+            ach_garb_cute = "I FUCKING LOVE RATBOY!",
+            ach_garb_silksong = "Actually Played Silksong",
+
 
         },
         achievement_descriptions = {
@@ -414,14 +577,24 @@ return {
             ach_garb_str_flush_five = "Form a Flush Five Straight",
             ach_garb_valoky = "Have Obsession and Valoky at the same time",
             ach_garb_shot = "Shoot the Dealer to reset your deck",
-            ach_garb_doubleornothing = "Duplicate Showman using a Carnival Tag"
+            ach_garb_doubleornothing = "Duplicate Showman using a Carnival Tag",
+            ach_garb_beheading = "Get Guillotined by Guillotine Essence",
+            ach_garb_thehive = "Get Compromised by the True Hivemind",
+            ach_garb_funisinfinite = "Find the 'Fun is Infinite' Screen",
+            ach_garb_betterthangarb = "Score more than 400 points in Shoot The Jimbo",
+            ach_garb_cute = "Pet Ratboy on the Title Screen 100 times in a row",
+            ach_garb_silksong = "Have an Hollow Knight Silksong Save File",
 
         },
         dictionary = {
             stamp_booster = "Postal Pack",
+            rainbow_booster = "Kaleidoscope Deck",
             ph_mr_bones = "Saved by a Joker's effect",
         },
         quips={
+            garb_hive_repelled={
+                "Hah, did I scare ya?"
+            },
             pnr_garb_minigarbo_1={
                 "Hiii!!!"
             },
@@ -459,6 +632,51 @@ return {
             },
             pnr_garb_pearto_6={
                 "kasane balateto"
+            },
+
+            minigame_tutorial_1={
+                "You knocked! that must mean..."
+            },
+            minigame_tutorial_2={
+                "You're here for the minigame!"
+            },
+            minigame_tutorial_3={
+                "Huh? What minigame?"
+            },
+            minigame_tutorial_4={
+                "But of course,",
+                "Shoot the Jimbo!"
+            },
+            minigame_tutorial_5={
+                "Oh, you don't know it?"
+            },
+            minigame_tutorial_6={
+                "The rules are simple:"
+            },
+            minigame_tutorial_7={
+                "Shoot Jimbo when you see him,",
+                "to gain points.",
+                "{C:inactive}(CLICK Jimbo to shoot him)"
+            },
+            minigame_tutorial_8={
+                "Avoid getting SURGED,",
+                "or your game ends.",
+                "{C:inactive}(CLICK THE SURGE to get SURGED)"
+            },
+            minigame_tutorial_9={
+                "And the most important rule,",
+                "remember to be yourself!"
+            },
+            minigame_tutorial_10={
+                "Seems simple, doesn't it?",
+                "That's because it is!"
+            },
+            minigame_tutorial_11={
+                "Now, that you know the rules,",
+                "I'll send you to the minigame, have fun!"
+            },
+            minigame_tutorial_12={
+                "Oh! One last thi-",
             },
         },
     },
