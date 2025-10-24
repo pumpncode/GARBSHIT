@@ -12,7 +12,9 @@ return {
       },
       config = { extra = { ante_scaling = 3, hands = 2, discards = 1, h_size = 3 } },
       loc_vars = function(self, info_queue, card)
-      info_queue[#info_queue+1] = {set = "Other", key = "credits", specific_vars = {"MrCr33ps"}} 
+      if config.on_card_credits and not config.repainted then
+        info_queue[#info_queue+1] = {set = "Other", key = "credits", specific_vars = {"MrCr33ps"}}
+      end 
         return { vars = { card.ability.extra.ante_scaling, card.ability.extra.hands, card.ability.extra.discards, card.ability.extra.h_size } }
       end,
       rarity = "garb_rainbow",

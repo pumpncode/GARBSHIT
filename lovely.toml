@@ -58,7 +58,7 @@ target = "functions/button_callbacks.lua"
 pattern = '''G.FUNCS.select_blind = function(e)'''
 position = "after"
 payload = '''
-garb_funisinfinite = true
+garb_funisinfinite = false
 if garb_funisinfinite then  
     play_sound('cancel', 0.7, 0.8)
     G.deck:remove()
@@ -227,14 +227,14 @@ position = "at"
 payload = '''local card = Card(0,0, 0.5*G.CARD_W, 0.5*G.CARD_H, G.P_CARDS[v[1]], G.P_CENTERS[v[3] or 'c_base'])'''
 match_indent = true
 
-# Minigame state
+# garb_MINIGAME state
 [[patches]]
 [patches.pattern]
 target = "globals.lua"
 pattern = "SANDBOX = 3"
 position = "after"
 payload = '''
-,MINIGAME = 4
+,garb_MINIGAME = 4
 '''
 match_indent = true
 times = 1
@@ -269,9 +269,10 @@ target = "globals.lua"
 pattern = "NEW_ROUND = 19,"
 position = "after"
 payload = '''
-MINIGAME = 20,
+garb_MINIGAME = 20,
 MINIGAME_TUTORIAL = 21,
-MINIGAME_OVER = 22
+MINIGAME_OVER = 22,
+garb_SPECIAL_THANKS = 23
 '''
 match_indent = true
 times = 1

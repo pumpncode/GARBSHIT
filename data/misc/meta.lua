@@ -149,7 +149,7 @@ return {
         volume = 0.4,
         sync = false,
         select_music_track = function()
-            return (G.STATE == 20 and G.MINIGAME and G.MINIGAME.score > 0)
+            return (G.STATE == 20 and G.garb_MINIGAME and G.garb_MINIGAME.score > 0)
         end
     }, SMODS.Sound {
         key = "music_minigametutorial",
@@ -203,6 +203,8 @@ return {
                        config.fukkireta or false
         end
     }, 
+    SMODS.Sound({key = "music_hall", path = 'music_hall.ogg', sync = false, pitch = 1, volume = 0.7, select_music_track = function() return (G.STATE == G.STATES.garb_SPECIAL_THANKS) end}),
+
     SMODS.Atlas({key = "fish", path = "fish.png", px = 71, py = 95}),
 
     SMODS.Shader {

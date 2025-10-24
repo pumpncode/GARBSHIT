@@ -1,40 +1,40 @@
 local click_ref = Card.click
 function Card:click()    
     click_ref(self)
-    if G.MINIGAME and G.MINIGAME.score then
-        if G.MINIGAME.score > 400 then
+    if G.garb_MINIGAME and G.garb_MINIGAME.score then
+        if G.garb_MINIGAME.score > 400 then
             check_for_unlock({type = 'betterthangarb'})
         end
         if G.PROFILES[G.SETTINGS.profile].MINIGAME_HIGH_SCORE and
             G.PROFILES[G.SETTINGS.profile].MINIGAME_HIGH_SCORE <
-            G.MINIGAME.score and not G.MINIGAME.highscore then
-            G.MINIGAME.highscore = true
+            G.garb_MINIGAME.score and not G.garb_MINIGAME.highscore then
+            G.garb_MINIGAME.highscore = true
             play_sound('garb_abadeus1', 0.9 + math.random() * 0.1, 0.8)
             card_eval_status_text(G.MINIGAME_UI, 'extra', nil, nil, nil, {
                 message = "New High Score!",
                 colour = G.C.MULT
             })
         end
-        if G.MINIGAME.phase <= G.MINIGAME.score / 50 then
-            G.MINIGAME.phase = G.MINIGAME.phase + 1
+        if G.garb_MINIGAME.phase <= G.garb_MINIGAME.score / 50 then
+            G.garb_MINIGAME.phase = G.garb_MINIGAME.phase + 1
         end
-        if G.MINIGAME.phase == 2 and not G.MINIGAME.phaseT[2] then
+        if G.garb_MINIGAME.phase == 2 and not G.garb_MINIGAME.phaseT[2] then
             ease_background_colour {
                 new_colour = G.C.BLIND["Big"],
                 special_colour = darken(G.C.BLACK, 0.4),
                 contrast = 1
             }
             play_sound('garb_jimboss_defeat', 0.9 + math.random() * 0.1, 1)
-            G.MINIGAME.phaseT[G.MINIGAME.phase] = true
-        elseif G.MINIGAME.phase == 3 and not G.MINIGAME.phaseT[3] then
+            G.garb_MINIGAME.phaseT[G.garb_MINIGAME.phase] = true
+        elseif G.garb_MINIGAME.phase == 3 and not G.garb_MINIGAME.phaseT[3] then
             ease_background_colour {
                 new_colour = G.C.MULT,
                 special_colour = darken(G.C.BLACK, 0.4),
                 contrast = 1
             }
             play_sound('garb_jimboss_defeat', 0.9 + math.random() * 0.1, 1)
-            G.MINIGAME.phaseT[G.MINIGAME.phase] = true
-        elseif G.MINIGAME.phase == 4 and not G.MINIGAME.phaseT[4] then
+            G.garb_MINIGAME.phaseT[G.garb_MINIGAME.phase] = true
+        elseif G.garb_MINIGAME.phase == 4 and not G.garb_MINIGAME.phaseT[4] then
             ease_background_colour {
                 new_colour = G.C.BLUE,
                 special_colour = G.C.RED,
@@ -42,8 +42,8 @@ function Card:click()
                 contrast = 3
             }
             play_sound('garb_jimboss_defeat', 0.9 + math.random() * 0.1, 1)
-            G.MINIGAME.phaseT[G.MINIGAME.phase] = true
-        elseif G.MINIGAME.phase == 5 and not G.MINIGAME.phaseT[5] then
+            G.garb_MINIGAME.phaseT[G.garb_MINIGAME.phase] = true
+        elseif G.garb_MINIGAME.phase == 5 and not G.garb_MINIGAME.phaseT[5] then
             check_for_unlock({type = 'kaleido_deck'})
             ease_background_colour {
                 new_colour = G.C.GARB_T1,
@@ -52,16 +52,16 @@ function Card:click()
                 contrast = 3
             }
             play_sound('garb_jimboss_defeat', 0.9 + math.random() * 0.1, 1)
-            G.MINIGAME.phaseT[G.MINIGAME.phase] = true
-        elseif G.MINIGAME.phase == 6 and not G.MINIGAME.phaseT[6] then
+            G.garb_MINIGAME.phaseT[G.garb_MINIGAME.phase] = true
+        elseif G.garb_MINIGAME.phase == 6 and not G.garb_MINIGAME.phaseT[6] then
             ease_background_colour {
                 new_colour = darken(G.C.BLACK, 0.4),
                 special_colour = G.C.RAINBOW,
                 contrast = 3
             }
             play_sound('garb_jimboss_defeat', 0.9 + math.random() * 0.1, 1)
-            G.MINIGAME.phaseT[G.MINIGAME.phase] = true
-        elseif G.MINIGAME.phase >= 7 and not G.MINIGAME.phaseT[G.MINIGAME.phase] then
+            G.garb_MINIGAME.phaseT[G.garb_MINIGAME.phase] = true
+        elseif G.garb_MINIGAME.phase >= 7 and not G.garb_MINIGAME.phaseT[G.garb_MINIGAME.phase] then
             ease_background_colour {
                 new_colour = darken(G.C.BLACK, 0.4),
                 special_colour = G.C.RAINBOW,
@@ -69,7 +69,7 @@ function Card:click()
                 contrast = 3
             }
             play_sound('garb_jimboss_defeat', 0.9 + math.random() * 0.1, 1)
-            G.MINIGAME.phaseT[G.MINIGAME.phase] = true
+            G.garb_MINIGAME.phaseT[G.garb_MINIGAME.phase] = true
         end
     end
 
@@ -86,17 +86,17 @@ function Card:click()
             G.SHOOTJIMBOTEXT:remove()
             G.HIGHSCORETEXT:remove()
         end
-        G.MINIGAME.lost = 0
+        G.garb_MINIGAME.lost = 0
         play_sound('garb_gunshot', 0.9 + math.random() * 0.1, 0.4)
-        G.MINIGAME.score = G.MINIGAME.score + 1
+        G.garb_MINIGAME.score = G.garb_MINIGAME.score + 1
         self.exploding = true
-        for k, v in pairs(G.MINIGAME.jimbos) do
-            if v == self then table.remove(G.MINIGAME.jimbos, k) end
+        for k, v in pairs(G.garb_MINIGAME.jimbos) do
+            if v == self then table.remove(G.garb_MINIGAME.jimbos, k) end
         end
         self:start_dissolve()
     end
     if self.config.center.key == "j_garb_shoot_the_dealer" and
-        (G.STATE == G.STATES.MINIGAME or G.STATE == G.STATES.MINIGAME_OVER) and
+        (G.STATE == G.STATES.garb_MINIGAME or G.STATE == G.STATES.MINIGAME_OVER) and
         not self.exploding and not (self.area and self.area.config.collection) then
         play_sound('garb_jimboss_defeat', 0.9 + math.random() * 0.1, 1)
         if G.EXITBUTTON and G.EXITBUTTON.states.visible then
@@ -110,7 +110,7 @@ function Card:click()
             G.SHOOTJIMBOTEXT:remove()
             G.HIGHSCORETEXT:remove()
         end
-        G.MINIGAME = {
+        G.garb_MINIGAME = {
             score = 0,
             jimbos = {},
             phase = 1,
@@ -120,23 +120,23 @@ function Card:click()
         }
         G.STATE = 20
         play_sound('garb_gunshot', 0.9 + math.random() * 0.1, 0.4)
-        G.MINIGAME.score = G.MINIGAME.score + 1
+        G.garb_MINIGAME.score = G.garb_MINIGAME.score + 1
         self.exploding = true
-        for k, v in pairs(G.MINIGAME.jimbos) do
-            if v == self then table.remove(G.MINIGAME.jimbos, k) end
+        for k, v in pairs(G.garb_MINIGAME.jimbos) do
+            if v == self then table.remove(G.garb_MINIGAME.jimbos, k) end
         end
         self:start_dissolve()
     end
 
     if self.config.center.key == "j_golden" and not (self.area and self.area.config.collection) and G.STATE == 20 and
         not (self.talking or self.exploding) then
-        G.MINIGAME.lost = 0
+        G.garb_MINIGAME.lost = 0
         play_sound('garb_gunshot', 0.9 + math.random() * 0.1, 0.4)
-        G.MINIGAME.score = G.MINIGAME.score + 3
+        G.garb_MINIGAME.score = G.garb_MINIGAME.score + 3
         self.exploding = true
-        for k, v in pairs(G.MINIGAME.jimbos) do
+        for k, v in pairs(G.garb_MINIGAME.jimbos) do
             if v == self then
-                table.remove(G.MINIGAME.jimbos, k)
+                table.remove(G.garb_MINIGAME.jimbos, k)
                 play_sound('multhit2', 0.95, 3)
                 card_eval_status_text(G.MINIGAME_UI, 'extra', nil, nil, nil,
                                       {message = "+3!"})
@@ -148,13 +148,13 @@ function Card:click()
 
     if self.config.center.key == "j_baron" and not (self.area and self.area.config.collection) and G.STATE == 20 and
         not (self.talking or self.exploding) then
-        G.MINIGAME.lost = 0
+        G.garb_MINIGAME.lost = 0
         play_sound('garb_gunshot', 0.9 + math.random() * 0.1, 0.4)
-        G.MINIGAME.score = G.MINIGAME.score + 5
+        G.garb_MINIGAME.score = G.garb_MINIGAME.score + 5
         self.exploding = true
-        for k, v in pairs(G.MINIGAME.jimbos) do
+        for k, v in pairs(G.garb_MINIGAME.jimbos) do
             if v == self then
-                table.remove(G.MINIGAME.jimbos, k)
+                table.remove(G.garb_MINIGAME.jimbos, k)
                 card_eval_status_text(G.MINIGAME_UI, 'extra', nil, nil, nil,
                                       {message = "+5!"})
                 play_sound('multhit2', 1.2, 3)
@@ -222,7 +222,7 @@ function Card:click()
             self:remove()
             G:save_progress()
             G.FILE_HANDLER.force = true
-            enterMinigame()
+            garb_enterMinigame()
             ease_background_colour {
                 new_colour = G.C.BLIND["Small"],
                 special_colour = G.C.RED,
@@ -231,18 +231,18 @@ function Card:click()
         end
     end
 
-    if self.config.center.key == "j_garb_garbTITLE" or self.config.center.key == "j_garb_shoot_the_dealer" and self.area and self.area.config.collection and G.STATE ~= G.STATES.MINIGAME then
+    if self.config.center.key == "j_garb_garbTITLE" or self.config.center.key == "j_garb_shoot_the_dealer" and self.area and self.area.config.collection and G.STATE ~= G.STATES.garb_MINIGAME then
         play_sound('garb_knock', 0.9 + math.random() * 0.1, 1)
         if (self.counter >= 10) then
             play_sound('garb_secret')
             self.counter = 0
-            enterMinigame()
+            garb_enterMinigame()
         end
     end
 end
 
-function enterMinigame()
-    G.MINIGAME = {
+function garb_enterMinigame()
+    G.garb_MINIGAME = {
         score = 0,
         jimbos = {},
         phase = 1,
@@ -260,13 +260,13 @@ function enterMinigame()
         blocking = false,
         func = function()
             G.FUNCS:exit_overlay_menu()
-            G:prep_stage(G.STAGES.RUN, G.STATES.MINIGAME)
+            G:prep_stage(G.STAGES.RUN, G.STATES.garb_MINIGAME)
             G.STATE_COMPLETE = false
 
             G.STAGE = G.STAGES.RUN
             G.STATE =
                 G.PROFILES[G.SETTINGS.profile].MINIGAME_TUTORIAL_COMPLETED and
-                    G.STATES.MINIGAME or G.STATES.MINIGAME_TUTORIAL
+                    G.STATES.garb_MINIGAME or G.STATES.MINIGAME_TUTORIAL
             G.ARGS.spin = {amount = 0, real = 0, eased = 0}
 
             G.SPLASH_BACK:define_draw_steps({
@@ -367,22 +367,22 @@ end
 local game_updateref = Game.update
 function Game:update(dt)
     game_updateref(self, dt)
-    if G.STATE == 20 and not G.SETTINGS.paused and G.MINIGAME.score > 0 then
-        minigame()
+    if G.STATE == 20 and not G.SETTINGS.paused and G.garb_MINIGAME.score > 0 then
+        garb_MINIGAME()
     end
 end
 
 G.FUNCS.minigame_scoreboard = function(e)
-    if G.CurScoreboardText ~= number_format(G.MINIGAME.score) then
-        G.CurScoreboardText = number_format(G.MINIGAME.score)
-        e.config.object.config.string = {number_format(G.MINIGAME.score)}
+    if G.CurScoreboardText ~= number_format(G.garb_MINIGAME.score) then
+        G.CurScoreboardText = number_format(G.garb_MINIGAME.score)
+        e.config.object.config.string = {number_format(G.garb_MINIGAME.score)}
         e.config.object:update_text(true)
         e.UIBox:recalculate()
     end
 end
 
 function create_UIBox_scoreboard()
-    G.CurScoreboardText = number_format(G.MINIGAME.score)
+    G.CurScoreboardText = number_format(G.garb_MINIGAME.score)
     local john_claire = {
         n = G.UIT.ROOT,
         config = {align = "cm", colour = G.C.CLEAR},
@@ -434,7 +434,7 @@ function create_UIBox_scoreboard()
                                         config = {
                                             object = DynaText({
                                                 string = number_format(
-                                                    G.MINIGAME.score)
+                                                    G.garb_MINIGAME.score)
                                             }),
                                             scale = 0.4,
                                             colour = G.C.UI.TEXT_LIGHT,
@@ -586,11 +586,11 @@ function minigameUI(from_death)
     G.MINIGAME_UI:align_to_major()
 end
 
-function minigame()
+function garb_MINIGAME()
     local random_delay = pseudorandom(pseudoseed(
                                           "pipis" .. math.random() ..
                                               G.TIMERS.REAL)) * 2.5 /
-                             (1 + G.MINIGAME.score * 0.025) * G.SETTINGS.GAMESPEED-- true randomness in MY balatro? unforgivable
+                             (1 + G.garb_MINIGAME.score * 0.025) * G.SETTINGS.GAMESPEED-- true randomness in MY balatro? unforgivable
     G.E_MANAGER:add_event(Event({
         trigger = 'after',
         delay = random_delay,
@@ -610,30 +610,30 @@ function minigame()
                                    ((pseudorandom(pseudoseed("gold" .. math.random() .. G.TIMERS.REAL)) < 0.05) and G.P_CENTERS.j_golden) or
                                    G.P_CENTERS.j_joker
             centercard =
-                (pseudorandom("surge") * (1 + G.MINIGAME.score * 0.003) > 0.998) and
+                (pseudorandom("surge") * (1 + G.garb_MINIGAME.score * 0.003) > 0.998) and
                     G.P_CENTERS.j_garb_SURGE or centercard
-            G.MINIGAME.jimbos[#G.MINIGAME.jimbos + 1] =
+            G.garb_MINIGAME.jimbos[#G.garb_MINIGAME.jimbos + 1] =
                 Card((xpos - G.CARD_W * 0.6), (ypos - G.CARD_H * 1.6), G.CARD_W,
                      G.CARD_H, G.P_CARDS.empty, centercard, {
                     bypass_discovery_center = true,
                     bypass_discovery_ui = true
                 })
-            G.MINIGAME.jimbos[#G.MINIGAME.jimbos].no_ui = true
-            G.MINIGAME.jimbos[#G.MINIGAME.jimbos]:juice_up()
-            G.MINIGAME.jimbos[#G.MINIGAME.jimbos].states.drag.can = false
-            G.MINIGAME.jimbos[#G.MINIGAME.jimbos].timer = math.floor(4 +
-                                                                         G.MINIGAME
+            G.garb_MINIGAME.jimbos[#G.garb_MINIGAME.jimbos].no_ui = true
+            G.garb_MINIGAME.jimbos[#G.garb_MINIGAME.jimbos]:juice_up()
+            G.garb_MINIGAME.jimbos[#G.garb_MINIGAME.jimbos].states.drag.can = false
+            G.garb_MINIGAME.jimbos[#G.garb_MINIGAME.jimbos].timer = math.floor(4 +
+                                                                         G.garb_MINIGAME
                                                                              .score *
                                                                          0.025)
-            for k, v in pairs(G.MINIGAME.jimbos) do
+            for k, v in pairs(G.garb_MINIGAME.jimbos) do
                 v.timer = v.timer - 1
                 if v.timer == 0 then
                     v.exploding = true
                     v:start_dissolve({G.C.RED})
                     play_sound('cancel')
-                    table.remove(G.MINIGAME.jimbos, k)
-                    G.MINIGAME.lost = G.MINIGAME.lost + 1
-                    if G.MINIGAME.lost == 10 * G.MINIGAME.score / 100 then
+                    table.remove(G.garb_MINIGAME.jimbos, k)
+                    G.garb_MINIGAME.lost = G.garb_MINIGAME.lost + 1
+                    if G.garb_MINIGAME.lost == 10 * G.garb_MINIGAME.score / 100 then
                         minigame_over(true)
                     end
                 end
@@ -647,8 +647,8 @@ function minigame_over(from_lost)
     INMINIGAME = false
     G.PROFILES[G.SETTINGS.profile].MINIGAME_HIGH_SCORE =
         G.PROFILES[G.SETTINGS.profile].MINIGAME_HIGH_SCORE or 0
-    if G.PROFILES[G.SETTINGS.profile].MINIGAME_HIGH_SCORE < G.MINIGAME.score then
-        G.PROFILES[G.SETTINGS.profile].MINIGAME_HIGH_SCORE = G.MINIGAME.score
+    if G.PROFILES[G.SETTINGS.profile].MINIGAME_HIGH_SCORE < G.garb_MINIGAME.score then
+        G.PROFILES[G.SETTINGS.profile].MINIGAME_HIGH_SCORE = G.garb_MINIGAME.score
         G:save_progress()
         G.FILE_HANDLER.force = true
     end
@@ -658,17 +658,17 @@ function minigame_over(from_lost)
             G.STATE = G.STATES.MINIGAME_OVER
             G.E_MANAGER:clear_queue('other')
             if from_lost then
-                for k, v in pairs(G.MINIGAME.jimbos) do
+                for k, v in pairs(G.garb_MINIGAME.jimbos) do
                     v:start_dissolve({G.C.RED})
                 end
             else
-                for k, v in pairs(G.MINIGAME.jimbos) do
+                for k, v in pairs(G.garb_MINIGAME.jimbos) do
                     v:explode()
                 end
             end
             play_sound('negative', 0.5, 1.4)
             play_sound('whoosh2', 0.9, 1.4)
-            G.MINIGAME.jimbos = {}
+            G.garb_MINIGAME.jimbos = {}
             ease_background_colour {
                 new_colour = G.C.RED,
                 special_colour = darken(G.C.BLACK, 0.4),

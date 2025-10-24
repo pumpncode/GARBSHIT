@@ -811,6 +811,7 @@ if config.title and not next(SMODS.find_mod("Cryptid")) and
     Game.main_menu = function(change_context)
         if has_played_silksong then check_for_unlock({type = 'silksong'}) end
         if config.repainted then check_for_unlock({type = 'micio'}) end
+        if GARB_SPECIAL_THANKS then GARB_SPECIAL_THANKS = false end
         local ret = main_menu_ref(change_context)
         add_card_to_title(G.HIVE and "j_garb_truehivemind" or "j_garb_garbTITLE")
         G.title_top.T.w = G.title_top.T.w * 1.7675 * 1.2
