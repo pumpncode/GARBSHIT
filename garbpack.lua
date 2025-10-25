@@ -370,7 +370,7 @@ function Card:update(dt)
         self.mystery = nil
     end
 
-    if G.ALBERT_LEGENDARY and self.config.center.key == G.ALBERT_LEGENDARY and
+    if G.ALBERT_LEGENDARY and self.config.center.key == G.ALBERT_LEGENDARY and self.area and
         self.area.config.collection and not self.stickered then
         apply_remove_sticker(self, "garb_albert_selected")
         self.stickered = true
@@ -391,7 +391,7 @@ end
 local draw_ref = Card.draw
 function Card:draw(layer)
     if self.config.center.rarity == 'garb_rainbow' and
-        self.area.config.collection and not self.deckedoutinswag then
+        self.area and self.area.config.collection and not self.deckedoutinswag then
         self.children.back = Sprite(self.T.x, self.T.y, self.T.w, self.T.h,
                                     G.ASSET_ATLAS["garb_GarbDecks"],
                                     {x = 0, y = 2})
@@ -405,7 +405,7 @@ function Card:draw(layer)
             draw_major = self
         })
         self.deckedoutinswag = true
-    elseif self.config.center.rarity == 'garb_rainbow' and
+    elseif self.config.center.rarity == 'garb_rainbow' and self.area and
         self.area.config.collection and not self.deckedoutinswag then
         self.children.back = Sprite(self.T.x, self.T.y, self.T.w, self.T.h,
                                     G.ASSET_ATLAS["garb_GarbDecks"],
@@ -558,7 +558,7 @@ function Card:click()
     end
 
     if (love.keyboard.isDown('lshift') or love.keyboard.isDown('rshift')) and
-        self.config.center and self.config.center.rarity == 4 and
+        self.config.center and self.config.center.rarity == 4 and self.area and
         self.area.config.collection and
         not (G.P_CENTERS["b_garb_albert"].locked or self.locked or
             not self.config.center.discovered) then
@@ -573,7 +573,7 @@ function Card:click()
         end
     end
 
-    if self.config.center.key == "j_garb_showoff" and
+    if self.config.center.key == "j_garb_showoff" and self.area and
         self.area.config.collection and
         not (self.locked or not self.config.center.discovered) then
         play_sound('garb_click',
@@ -595,7 +595,7 @@ function Card:click()
         end
     end
 
-    if self.config.center.key == "j_garb_zoroark" and
+    if self.config.center.key == "j_garb_zoroark" and self.area and
         self.area.config.collection and
         not (self.locked or not self.config.center.discovered) then
         play_sound('garb_click',
