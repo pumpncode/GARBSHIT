@@ -786,8 +786,7 @@ if config.title and not next(SMODS.find_mod("Cryptid")) and
     not next(SMODS.find_mod("balatrostuck")) then
     SMODS.Atlas({
         key = "balatro",
-        path = G.SETTINGS.HIVE and "Logo_HIVE.png" or
-            (config.repainted and "repainted/" or "") .. "Logo.png",
+        path = (config.repainted and "repainted/" or "") .. (G.SETTINGS.HIVE and "Logo_HIVE.png" or "Logo.png"),
         px = 333,
         py = 216,
         prefix_config = {key = false}
