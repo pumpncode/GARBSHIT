@@ -226,14 +226,14 @@ return {
                 text = {
                     "Start with {C:attention}1{} Joker slot",
                     "Gain {C:attention}+#1#{} Joker slot",
-                    "at the end of each Ante"
+                    "when buying any Voucher"
                 },
             },
 			sleeve_garb_byss_alt = {
 				name = "Byss Sleeve",
                 text = {
                     "Gain {C:attention}+#1#{} hand size",
-                    "at the end of each Ante"
+                    "when buying any Voucher"
                 },
 			},
 
