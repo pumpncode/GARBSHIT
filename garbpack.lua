@@ -846,7 +846,7 @@ SMODS.current_mod.description_loc_vars = function()
 end
 
 SMODS.ConsumableType {
-    key = 'Stamp',
+    key = 'garb_Stamp',
     primary_colour = HEX("73A557"),
     secondary_colour = HEX("73A557"),
     loc_txt = {

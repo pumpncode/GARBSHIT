@@ -3,7 +3,7 @@ return {
     -- META STUFF
 
     SMODS.UndiscoveredSprite {
-        key = 'Stamp',
+        key = 'garb_Stamp',
         atlas = 'Stamps',
         pos = {x = 0, y = 0}
     },
@@ -140,7 +140,7 @@ return {
         select_music_track = function()
             return
                 G.pack_cards and G.pack_cards.cards and G.pack_cards.cards[1] and
-                    G.pack_cards.cards[1].ability.set == "Stamp"
+                    G.pack_cards.cards[1].ability.set == "garb_Stamp"
         end
     }, SMODS.Sound {
         key = "music_minigame",
